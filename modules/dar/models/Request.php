@@ -48,6 +48,7 @@ class Request extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['request_category_id','department_id','request_name','title','public_date','document_age'], 'required'],
             [['rev'], 'number'],
             [['request_type_id', 'request_category_id', 'department_id', 'created_by', 'updated_by', 'document_age', 'request_status_id'], 'integer'],
             [['created_at', 'updated_at', 'public_date'], 'safe'],
@@ -70,18 +71,18 @@ class Request extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'document_code' => Yii::t('app', 'เลขที่เอกสาร'),
             'rev' => Yii::t('app', 'Rev'),
-            'request_type_id' => Yii::t('app', 'Request Type ID'),
-            'request_category_id' => Yii::t('app', 'Request Category ID'),
-            'department_id' => Yii::t('app', 'Department ID'),
+            'request_type_id' => Yii::t('app', 'ประเภทการร้องขอ'),
+            'request_category_id' => Yii::t('app', 'กลุ่มเอกสาร'),
+            'department_id' => Yii::t('app', 'แผนก'),
             'request_name' => Yii::t('app', 'ผู้ร้องขอ'),
             'created_at' => Yii::t('app', 'สร้างเมื่อ'),
             'updated_at' => Yii::t('app', 'แก้ไขเมื่อ'),
             'created_by' => Yii::t('app', 'สร้างโดย'),
             'updated_by' => Yii::t('app', 'แก้ไขโดย'),
-            'title' => Yii::t('app', 'Title'),
-            'detail' => Yii::t('app', 'Detail'),
-            'document_age' => Yii::t('app', 'อายุการจัดเก็บ'),
-            'public_date' => Yii::t('app', 'วันที่'),
+            'title' => Yii::t('app', 'หัวข้อ'),
+            'detail' => Yii::t('app', 'รายละเอียด'),
+            'document_age' => Yii::t('app', 'อายุการจัดเก็บ(ปี)'),
+            'public_date' => Yii::t('app', 'วันที่ประกาศใช้'),
             'request_status_id' => Yii::t('app', 'สถานะ'),
         ];
     }

@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Department;
+use app\models\User;
 use app\modules\dar\models\Request;
 use app\modules\dar\models\RequestCategory;
 use app\modules\dar\models\RequestType;
@@ -25,34 +26,48 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-12">
-                   
+                <div class="col-md-4">
+
                     <?= $form->field($model, 'request_category_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(RequestCategory::find()->all(), 'id', 'name'),
+                        'data' => ArrayHelper::map(RequestCategory::find()->where(['active' => 1])->all(), 'id', 'name'),
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
                     ]);
                     ?>
+                </div>
 
+                <div class="col-md-4">
                     <?= $form->field($model, 'department_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(Department::find()->all(), 'id', 'name'),
+                        'data' => ArrayHelper::map(Department::find()->where(['active' => 1])->all(), 'id', 'name'),
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
                     ]);
                     ?>
+                </div>
 
-                    <?= $form->field($model, 'request_name')->textInput(['maxlength' => true]) ?>
+                <div class="col-md-4">
+                    <?= $form->field($model, 'request_name')->widget(Select2::class, [
+                        'data' => ArrayHelper::map(User::find()->where(['status' => User::STATUS_ACTIVE])->all(), 'id', 'thai_name'), // Get User Status = Active
+                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
 
+                <div class="col-md-6">
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-                    <?= $form->field($model, 'detail')->textarea(['rows' => 6]) ?>
-
+                </div>
+                <div class="col-md-2">
                     <?= $form->field($model, 'document_age')->textInput() ?>
+                </div>
 
+                <div class="col-md-3">
                     <?= $form->field($model, 'public_date')->widget(
                         DatePicker::class,
                         [
@@ -64,9 +79,12 @@ use yii\widgets\ActiveForm;
                             ]
                         ]
                     ); ?>
-
-
                 </div>
+
+                <div class="col-md-12">
+                    <?= $form->field($model, 'detail')->textarea(['rows' => 3]) ?>
+                </div>
+
             </div>
         </div>
 

@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
 
                    
                     <?= $form->field($model, 'request_type_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(RequestType::find()->all(), 'id', 'name'),
+                        'data' => ArrayHelper::map(RequestType::find()->where(['active' => 1])->all(), 'id', 'name'), // เลือกเฉพาะสถานะ = 1
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true
@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
                     ?>
 
                      <?= $form->field($model, 'document_code')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(Request::find()->all(), 'id', 'document_code'),
+                        'data' => ArrayHelper::map(Request::find()->where(['request_status_id' => 3])->all(), 'id', 'document_code'), // เลือกเฉพาะสถานะ อนุมัติแล้ว
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true

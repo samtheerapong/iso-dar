@@ -79,7 +79,7 @@ class RequestController extends Controller
             $model->loadDefaultValues();
         }
 
-        return $this->render('create-new', [
+        return $this->render('create', [
             'model' => $model,
         ]);
     }
@@ -89,20 +89,22 @@ class RequestController extends Controller
     public function actionCreateNew()
     {
         $model = new Request();
-        $newUpload = new RequestUpload();
+        // $newUpload = new RequestUpload();
 
+        // Default values
         $model->request_type_id = 1;
         $model->request_status_id = 1;
+        $model->rev = 0;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
                 // Auto Number Generation
-                $docName = $model->requestCategory->code . '-' . $model->department->code;
-                $model->document_code = AutoNumber::generate($docName . '-???');
+                $docCode = $model->requestCategory->code . '-' . $model->department->code;
+                $model->document_code = AutoNumber::generate($docCode . '-???');
 
                 // Upload file for model RequestUpload
-                $newUpload->name = $model->upload($model, 'files');
+                // $newUpload->name = $model->upload($model, 'files');
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -110,9 +112,9 @@ class RequestController extends Controller
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
+        return $this->render('create-new', [
             'model' => $model,
-            'newUpload' => $newUpload,
+            // 'newUpload' => $newUpload,
         ]);
     }
 
