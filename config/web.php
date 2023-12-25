@@ -21,11 +21,11 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
+        'dar' => [
+            'class' => 'app\modules\dar\Module',
+        ],
         'nfc' => [
             'class' => 'app\modules\nfc\Module',
-        ],
-        'shop' => [
-            'class' => 'app\modules\shop\Module',
         ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module',
