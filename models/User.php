@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\modules\nfc\models\Department;
+use app\models\Department;
 use app\models\UserRoles;
 use app\models\UserRules;
 use Yii;
@@ -247,7 +247,7 @@ class User extends ActiveRecord implements IdentityInterface
     // เชื่อมตาราง
     public function getDepartment()
     {
-        return $this->hasOne(Department::class, ['department_id' => 'department_id']);
+        return $this->hasOne(Department::class, ['id' => 'department_id']);
     }
 
     public function getRole0()
