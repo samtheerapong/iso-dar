@@ -72,8 +72,29 @@ class RequestController extends Controller
         $model = new Request();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $documentCode = $model->document_code;
+
+                // Fetch the record based on document_code and highest 'rev'
+                $findFromCode = Request::find()
+                    ->where(['document_code' => $documentCode])
+                    ->orderBy(['rev' => SORT_DESC]) // ต้องใส่  'id' => SORT_DESC, ที่ model search ด้วย
+                    ->one();
+
+                if ($findFromCode !== null) {
+                    if ($model->request_type_id == 2) {
+                        $model->rev = $findFromCode->rev + 1;
+                    } else {
+                        $model->rev = $findFromCode->rev;
+                    }
+
+                    $model->request_category_id = $findFromCode->request_category_id;
+                    $model->department_id = $findFromCode->department_id;
+                }
+
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -83,6 +104,7 @@ class RequestController extends Controller
             'model' => $model,
         ]);
     }
+
 
 
 
@@ -118,7 +140,7 @@ class RequestController extends Controller
         ]);
     }
 
-    
+
 
 
     /**

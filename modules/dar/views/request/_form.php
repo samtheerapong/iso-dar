@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'document_code')->widget(Select2::class, [
                         'data' => ArrayHelper::map(
                             Request::find()->where(['request_status_id' => 3])->all(),
-                            'id',
+                            'document_code',
                             function ($dataValue, $defaultValue) {
                                 return
                                     $dataValue->document_code

@@ -2,6 +2,7 @@
 
 namespace app\modules\dar\models;
 
+use app\models\User;
 use Yii;
 
 /**
@@ -48,7 +49,7 @@ class Request extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['request_category_id','department_id','request_name','title','public_date','document_age'], 'required'],
+            [['request_name','title','public_date','document_age'], 'required'],
             [['rev'], 'number'],
             [['request_type_id', 'request_category_id', 'department_id', 'created_by', 'updated_by', 'document_age', 'request_status_id'], 'integer'],
             [['created_at', 'updated_at', 'public_date'], 'safe'],
@@ -70,7 +71,7 @@ class Request extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'document_code' => Yii::t('app', 'เลขที่เอกสาร'),
-            'rev' => Yii::t('app', 'Rev'),
+            'rev' => Yii::t('app', 'ริวิชั่น'),
             'request_type_id' => Yii::t('app', 'ประเภทการร้องขอ'),
             'request_category_id' => Yii::t('app', 'กลุ่มเอกสาร'),
             'department_id' => Yii::t('app', 'แผนก'),
@@ -155,5 +156,10 @@ class Request extends \yii\db\ActiveRecord
     public function getReviews()
     {
         return $this->hasMany(Review::class, ['request_id' => 'id']);
+    }
+
+    public function getRequestName()
+    {
+        return $this->hasOne(User::class, ['id' => 'request_name']);
     }
 }

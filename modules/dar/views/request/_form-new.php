@@ -34,8 +34,8 @@ use yii\widgets\ActiveForm;
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);
-                    ?>
+                    // ])->hint(Yii::t('app', 'Please select')); 
+                ]); ?>
                 </div>
 
                 <div class="col-md-4">
@@ -45,8 +45,8 @@ use yii\widgets\ActiveForm;
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);
-                    ?>
+                    // ])->hint(Yii::t('app', 'Please select')); 
+                    ]); ?>
                 </div>
 
                 <div class="col-md-4">
@@ -60,7 +60,7 @@ use yii\widgets\ActiveForm;
                     ?>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-2">
