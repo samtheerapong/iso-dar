@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Department;
+use app\models\User;
 use app\modules\dar\models\Request;
 use app\modules\dar\models\RequestCategory;
 use app\modules\dar\models\RequestType;
@@ -25,9 +26,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-12">
-
-                   
+                <div class="col-md-3">
                     <?= $form->field($model, 'request_type_id')->widget(Select2::class, [
                         'data' => ArrayHelper::map(RequestType::find()->where(['active' => 1])->all(), 'id', 'name'), // เลือกเฉพาะสถานะ = 1
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
@@ -36,43 +35,49 @@ use yii\widgets\ActiveForm;
                         ],
                     ]);
                     ?>
+                </div>
 
-                     <?= $form->field($model, 'document_code')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(Request::find()->where(['request_status_id' => 3])->all(), 'id', 'document_code'), // เลือกเฉพาะสถานะ อนุมัติแล้ว
+                <div class="col-md-6">
+                    <?= $form->field($model, 'document_code')->widget(Select2::class, [
+                        'data' => ArrayHelper::map(
+                            Request::find()->where(['request_status_id' => 3])->all(),
+                            'id',
+                            function ($dataValue, $defaultValue) {
+                                return
+                                    $dataValue->document_code
+                                    . ' Rev. ' . $dataValue->rev
+                                    . '  ' . $dataValue->title;
+                            }
+                        ), // เลือกเฉพาะสถานะ อนุมัติแล้ว
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
                     ]);
                     ?>
+                </div>
 
+                <div class="col-md-3">
 
-                    <?= $form->field($model, 'request_category_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(RequestCategory::find()->all(), 'id', 'name'),
+                    <?= $form->field($model, 'request_name')->widget(Select2::class, [
+                        'data' => ArrayHelper::map(User::find()->where(['status' => User::STATUS_ACTIVE])->all(), 'id', 'thai_name'), // Get User Status = Active
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
                     ]);
                     ?>
+                </div>
 
-                    <?= $form->field($model, 'department_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(Department::find()->all(), 'id', 'name'),
-                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                    ?>
-
-                    <?= $form->field($model, 'request_name')->textInput(['maxlength' => true]) ?>
-
+                <div class="col-md-7">
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                </div>
 
-                    <?= $form->field($model, 'detail')->textarea(['rows' => 6]) ?>
-
+                <div class="col-md-2">
                     <?= $form->field($model, 'document_age')->textInput() ?>
+                </div>
 
+                <div class="col-md-3">
                     <?= $form->field($model, 'public_date')->widget(
                         DatePicker::class,
                         [
@@ -84,9 +89,11 @@ use yii\widgets\ActiveForm;
                             ]
                         ]
                     ); ?>
-
-
                 </div>
+                <div class="col-md-12">
+                    <?= $form->field($model, 'detail')->textarea(['rows' => 3]) ?>
+                </div>
+                
             </div>
         </div>
 
