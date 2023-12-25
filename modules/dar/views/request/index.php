@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="request-index">
     <div style="display: flex; justify-content: space-between;">
         <p>
-            <?= Html::a('<i class="fa fa-circle-plus"></i> ' . Yii::t('app', 'New Document'), ['create-new'], ['class' => 'btn btn-success']) ?>
-            <?= Html::a('<i class="fa fa-circle-plus"></i> ' . Yii::t('app', 'Document Request '), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<i class="fa fa-circle-plus text-yellow"></i> ' . Yii::t('app', 'New Document'), ['create-new'], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('<i class="fa fa-circle-plus text-red"></i> ' . Yii::t('app', 'Document Request'), ['create'], ['class' => 'btn btn-warning']) ?>
         </p>
 
         <p style="text-align: right;">

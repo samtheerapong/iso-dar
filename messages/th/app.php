@@ -30,6 +30,11 @@ return [
         'Data Files' => 'แฟ้มข้อมูล',
         'Select...' => 'เลือก...',
 
+        //DAR
+        'Requests' => 'DOCUMENT ACTION REQUEST (DAR)',
+        'Document Request' => 'ร้องขอจัดการเอกสาร',
+        'New Document' => 'เพิ่มเอกสารใหม่',
+
         // Request
         'Rps' => 'ระบบแจ้งซ่อม',
         'Create Rp' => 'ใบแจ้งซ่อม',

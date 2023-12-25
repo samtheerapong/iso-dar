@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\modules\dar\models\Request $model */
 
-$this->title = Yii::t('app', 'Create Request');
+$this->title = Yii::t('app', 'Document Request');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Requests'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
