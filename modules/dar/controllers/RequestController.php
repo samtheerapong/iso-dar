@@ -3,7 +3,9 @@
 namespace app\modules\dar\controllers;
 
 use app\modules\dar\models\Request;
+use app\modules\dar\models\RequestUpload;
 use app\modules\dar\models\search\Request as RequestSearch;
+use mdm\autonumber\AutoNumber;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -82,12 +84,26 @@ class RequestController extends Controller
         ]);
     }
 
+
+
     public function actionCreateNew()
     {
         $model = new Request();
+        $newUpload = new RequestUpload();
+
+        $model->request_type_id = 1;
+        $model->request_status_id = 1;
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+
+                // Auto Number Generation
+                $docName = $model->requestCategory->code . '-' . $model->department->code;
+                $model->document_code = AutoNumber::generate($docName . '-???');
+
+                // Upload file for model RequestUpload
+                $newUpload->name = $model->upload($model, 'files');
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -96,6 +112,7 @@ class RequestController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'newUpload' => $newUpload,
         ]);
     }
 

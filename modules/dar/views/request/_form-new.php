@@ -27,15 +27,6 @@ use yii\widgets\ActiveForm;
             <div class="row">
                 <div class="col-md-12">
                    
-                    <?= $form->field($model, 'request_type_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(RequestType::find()->all(), 'id', 'name'),
-                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                    ?>
-
                     <?= $form->field($model, 'request_category_id')->widget(Select2::class, [
                         'data' => ArrayHelper::map(RequestCategory::find()->all(), 'id', 'name'),
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
