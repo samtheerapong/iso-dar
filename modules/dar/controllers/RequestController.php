@@ -77,10 +77,30 @@ class RequestController extends Controller
             $model->loadDefaultValues();
         }
 
+        return $this->render('create-new', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCreateNew()
+    {
+        $model = new Request();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+
+    
+
 
     /**
      * Updates an existing Request model.
