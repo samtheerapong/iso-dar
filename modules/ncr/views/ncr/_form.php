@@ -172,28 +172,6 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'troubleshooting')->textarea(['rows' => 1]) ?>
                 </div>
 
-                <div class="col-md-12">
-                    <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
-                        'options' => [
-                            'multiple' => true
-                        ],
-                        'pluginOptions' => [
-                            // 'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
-                            // 'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
-                            'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods'],
-                            'showPreview' => true,
-                            'showCaption' => true,
-                            'showRemove' => true,
-                            'showUpload' => false,
-                            'overwriteInitial' => false,
-                        ],
-                    ]); ?>
-
-
-                    <?= $form->field($model, 'ncr_number')->hiddenInput()->label(false) ?>
-                    <?= $form->field($model, 'ncr_status_id')->hiddenInput()->label(false) ?>
-                    <?= $form->field($model, 'ref')->hiddenInput()->label(false) ?>
-                </div>
             </div>
         </div>
 

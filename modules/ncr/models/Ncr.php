@@ -123,9 +123,9 @@ class Ncr extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDepartmentIssue()
+    public function getToDepartment()
     {
-        return $this->hasOne(NcrDepartment::class, ['id' => 'department_issue']);
+        return $this->hasOne(NcrDepartment::class, ['id' => 'department']);
     }
 
     /**

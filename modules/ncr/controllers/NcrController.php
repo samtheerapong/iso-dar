@@ -4,6 +4,7 @@ namespace app\modules\ncr\controllers;
 
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\search\NcrSearch;
+use mdm\autonumber\AutoNumber;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -70,7 +71,10 @@ class NcrController extends Controller
         $model = new Ncr();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                // $model->ncr_number = AutoNumber::generate('NCR-' . (date('y') + 43) . date('m') . '-????'); // Auto Number
+                $model->ncr_number = AutoNumber::generate((date('y') + 43) . date('m') . '/????'); // Auto Number
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

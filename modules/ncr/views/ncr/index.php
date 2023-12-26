@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\bootstrap5\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var app\modules\ncr\models\search\NcrSearch $searchModel */
@@ -32,8 +33,21 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
+                'pager' => [
+                    'class' => LinkPager::class,
+                    'options' => ['class' => 'pagination justify-content-center m-1'],
+                    'maxButtonCount' => 5,
+                    'firstPageLabel' => Yii::t('app', 'First'),
+                    'lastPageLabel' => Yii::t('app', 'Last'),
+                    'options' => ['class' => 'pagination justify-content-center'],
+                    'linkContainerOptions' => ['class' => 'page-item'],
+                    'linkOptions' => ['class' => 'page-link'],
+                ],
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'class' => 'yii\grid\SerialColumn',
+                        'contentOptions' => ['style' => 'width:40px;'],
+                    ],
 
                     [
                         'attribute' => 'ncr_number',
@@ -55,15 +69,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'department',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center','style' => 'width:120px;'],
+                        'contentOptions' => ['class' => 'text-center', 'style' => 'width:120px;'],
                         'value' => function ($model) {
-                            return $model->department ? $model->department : 'N/A';
+                            return $model->department ? $model->toDepartment->department_code : 'N/A';
                         },
                     ],
                     [
                         'attribute' => 'ncr_process_id',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center','style' => 'width:120px;'],
+                        'contentOptions' => ['class' => 'text-center', 'style' => 'width:120px;'],
                         'value' => function ($model) {
                             return $model->ncr_process_id ? '<span class="text" style="color:' . $model->ncrProcess->color . ';">' . $model->ncrProcess->process_name . '</span>' : 'N/A';
                         },
@@ -95,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'ncr_status_id',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center','style' => 'width:120px;'],
+                        'contentOptions' => ['class' => 'text-center', 'style' => 'width:120px;'],
                         'value' => function ($model) {
                             return $model->ncr_status_id ? '<span class="text" style="color:' . $model->ncrStatus->color . ';">' . $model->ncrStatus->status_name . '</span>' : 'N/A';
                         },

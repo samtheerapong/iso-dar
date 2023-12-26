@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 26, 2023 at 10:02 AM
+-- Generation Time: Dec 26, 2023 at 04:54 PM
 -- Server version: 5.7.39
--- PHP Version: 7.4.9
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,8 +54,11 @@ CREATE TABLE `auto_number` (
 --
 
 INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) VALUES
+('2312/????', 1, 1, 1703608951),
+('6612/????', 2, 1, 1703609014),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
+('NCR-2312-????', 2, 1, 1703608881),
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
@@ -171,6 +174,7 @@ CREATE TABLE `ncr` (
   `ncr_number` varchar(100) DEFAULT NULL COMMENT 'เลขที่ NCR',
   `created_date` date DEFAULT NULL COMMENT 'วันที่',
   `month` int(11) DEFAULT NULL COMMENT 'เดือน',
+  `year` int(11) DEFAULT NULL COMMENT 'ปี',
   `department` int(11) DEFAULT NULL COMMENT 'ถึงแผนก',
   `ncr_process_id` int(11) DEFAULT NULL COMMENT 'กระบวนการ',
   `lot` varchar(255) DEFAULT NULL COMMENT 'หมายเลขล็อต',
@@ -185,8 +189,21 @@ CREATE TABLE `ncr` (
   `troubleshooting` text COMMENT 'การดำเนินการ',
   `docs` text COMMENT 'ไฟล์แนบ',
   `ncr_status_id` int(11) DEFAULT NULL COMMENT 'สถานะ',
-  `ref` varchar(45) DEFAULT NULL COMMENT 'อ้างอิง'
+  `ref` varchar(45) DEFAULT NULL COMMENT 'อ้างอิง',
+  `created_at` date DEFAULT NULL COMMENT 'สร้างเมื่อ',
+  `created_by` int(11) DEFAULT NULL COMMENT 'สร้างโดย',
+  `updated_at` date DEFAULT NULL COMMENT 'ล่าสุดเมื่อ',
+  `updated_by` int(11) DEFAULT NULL COMMENT 'ล่าสุดโดย'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ncr`
+--
+
+INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `ncr_process_id`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `troubleshooting`, `docs`, `ncr_status_id`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(2, '2312/0001', '2023-12-26', 3, 1, 4, 3, '', '2023-12-26', 'ทดสอบ', '', NULL, NULL, '', NULL, NULL, '', NULL, 1, NULL, NULL, NULL, NULL, NULL),
+(3, '6612/0001', '2023-12-21', 3, 1, 6, 2, '', '2023-12-21', 'Hoisin Sauce', '', NULL, NULL, '', NULL, NULL, '', NULL, 2, NULL, NULL, NULL, NULL, NULL),
+(4, '6612/0002', '2023-12-22', 1, 2, 5, 1, '', '2023-12-13', 'organic FT soy Sauce 200 ml.', '', NULL, NULL, '', NULL, NULL, '', NULL, 3, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -198,14 +215,14 @@ CREATE TABLE `ncr_category` (
   `id` int(11) NOT NULL,
   `category_name` varchar(255) DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
-  `avtive` int(11) DEFAULT '1'
+  `active` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ncr_category`
 --
 
-INSERT INTO `ncr_category` (`id`, `category_name`, `color`, `avtive`) VALUES
+INSERT INTO `ncr_category` (`id`, `category_name`, `color`, `active`) VALUES
 (1, 'Physical', '#11009E', 1),
 (2, 'Chemical', '#FF9800', 1),
 (3, 'Micro', '#4CB9E7', 1),
@@ -256,6 +273,37 @@ INSERT INTO `ncr_department` (`id`, `department_code`, `department_name`, `color
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ncr_month`
+--
+
+CREATE TABLE `ncr_month` (
+  `id` int(11) NOT NULL,
+  `month` varchar(255) DEFAULT NULL COMMENT 'เดือน',
+  `color` varchar(45) DEFAULT NULL COMMENT 'สี',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ncr_month`
+--
+
+INSERT INTO `ncr_month` (`id`, `month`, `color`, `active`) VALUES
+(1, 'มกราคม', NULL, 1),
+(2, 'กุมภาพันธ์', NULL, 1),
+(3, 'มีนาคม', NULL, 1),
+(4, 'เมษายน', NULL, 1),
+(5, 'พฤษภาคม', NULL, 1),
+(6, 'มิถุนายน', NULL, 1),
+(7, 'กรกฎาคม', NULL, 1),
+(8, 'สิงหาคม', NULL, 1),
+(9, 'กันยายน', NULL, 1),
+(10, 'ตุลาคม', NULL, 1),
+(11, 'พฤศจิกายน', NULL, 1),
+(12, 'ธันวาคม', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ncr_process`
 --
 
@@ -263,7 +311,7 @@ CREATE TABLE `ncr_process` (
   `id` int(11) NOT NULL,
   `process_name` varchar(255) DEFAULT NULL COMMENT 'กระบวนการ',
   `color` varchar(45) DEFAULT NULL COMMENT 'สี',
-  `active` int(11) DEFAULT NULL COMMENT 'สถานะ'
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -271,11 +319,11 @@ CREATE TABLE `ncr_process` (
 --
 
 INSERT INTO `ncr_process` (`id`, `process_name`, `color`, `active`) VALUES
-(1, 'Incoming', '#527853', NULL),
-(2, 'Inprocess', '#EE7214', NULL),
-(3, 'Finish goods', '#3559E0', NULL),
-(4, 'Claim', '#E36414', NULL),
-(5, 'Infections', '#B31312', NULL);
+(1, 'Incoming', '#527853', 1),
+(2, 'Inprocess', '#EE7214', 1),
+(3, 'Finish goods', '#3559E0', 1),
+(4, 'Claim', '#E36414', 1),
+(5, 'Infections', '#B31312', 1);
 
 -- --------------------------------------------------------
 
@@ -343,7 +391,7 @@ CREATE TABLE `ncr_status` (
 
 INSERT INTO `ncr_status` (`id`, `status_name`, `color`, `avtive`) VALUES
 (1, 'Open', '#B31312', 1),
-(2, 'In progress', '#EE7214', 1),
+(2, 'Work', '#EE7214', 1),
 (3, 'Close', '#1B4242', 1);
 
 -- --------------------------------------------------------
@@ -356,17 +404,39 @@ CREATE TABLE `ncr_sub_category` (
   `id` int(11) NOT NULL,
   `category_name` varchar(255) DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
-  `avtive` int(11) DEFAULT '1'
+  `active` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ncr_sub_category`
 --
 
-INSERT INTO `ncr_sub_category` (`id`, `category_name`, `color`, `avtive`) VALUES
+INSERT INTO `ncr_sub_category` (`id`, `category_name`, `color`, `active`) VALUES
 (1, 'YM', '#711DB0', 1),
 (2, 'BA', '#C21292', 1),
 (3, 'SA', '#EF4040', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ncr_year`
+--
+
+CREATE TABLE `ncr_year` (
+  `id` int(11) NOT NULL,
+  `year` varchar(255) DEFAULT NULL COMMENT 'ปี',
+  `color` varchar(45) DEFAULT NULL COMMENT 'สี',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ncr_year`
+--
+
+INSERT INTO `ncr_year` (`id`, `year`, `color`, `active`) VALUES
+(1, '2023', NULL, 1),
+(2, '2024', NULL, 1),
+(3, '2025', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -797,7 +867,9 @@ ALTER TABLE `ncr`
   ADD KEY `fk_ncr_ncr_status1_idx` (`ncr_status_id`),
   ADD KEY `fk_ncr_ncr_department1_idx` (`department_issue`),
   ADD KEY `fk_ncr_ncr_category1_idx` (`category_id`),
-  ADD KEY `fk_ncr_ncr_sub_category1_idx` (`sub_category_id`);
+  ADD KEY `fk_ncr_ncr_sub_category1_idx` (`sub_category_id`),
+  ADD KEY `fk_ncr_ncr_month1_idx` (`month`),
+  ADD KEY `fk_ncr_ncr_year1_idx` (`year`);
 
 --
 -- Indexes for table `ncr_category`
@@ -815,6 +887,12 @@ ALTER TABLE `ncr_concession`
 -- Indexes for table `ncr_department`
 --
 ALTER TABLE `ncr_department`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ncr_month`
+--
+ALTER TABLE `ncr_month`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -855,6 +933,12 @@ ALTER TABLE `ncr_status`
 -- Indexes for table `ncr_sub_category`
 --
 ALTER TABLE `ncr_sub_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ncr_year`
+--
+ALTER TABLE `ncr_year`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -968,7 +1052,7 @@ ALTER TABLE `document_rule`
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ncr_category`
@@ -987,6 +1071,12 @@ ALTER TABLE `ncr_concession`
 --
 ALTER TABLE `ncr_department`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `ncr_month`
+--
+ALTER TABLE `ncr_month`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ncr_process`
@@ -1022,6 +1112,12 @@ ALTER TABLE `ncr_status`
 -- AUTO_INCREMENT for table `ncr_sub_category`
 --
 ALTER TABLE `ncr_sub_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `ncr_year`
+--
+ALTER TABLE `ncr_year`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -1108,9 +1204,11 @@ ALTER TABLE `ncr`
   ADD CONSTRAINT `fk_ncr_ncr_category1` FOREIGN KEY (`category_id`) REFERENCES `ncr_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ncr_ncr_department1` FOREIGN KEY (`department_issue`) REFERENCES `ncr_department` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ncr_ncr_department2` FOREIGN KEY (`department_issue`) REFERENCES `ncr_department` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ncr_ncr_month1` FOREIGN KEY (`month`) REFERENCES `ncr_month` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_ncr_ncr_process1` FOREIGN KEY (`ncr_process_id`) REFERENCES `ncr_process` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ncr_ncr_status1` FOREIGN KEY (`ncr_status_id`) REFERENCES `ncr_status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_ncr_ncr_sub_category1` FOREIGN KEY (`sub_category_id`) REFERENCES `ncr_sub_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_ncr_ncr_sub_category1` FOREIGN KEY (`sub_category_id`) REFERENCES `ncr_sub_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ncr_ncr_year1` FOREIGN KEY (`year`) REFERENCES `ncr_year` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `ncr_protection`
