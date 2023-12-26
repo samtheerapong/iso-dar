@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 26, 2023 at 09:21 AM
+-- Generation Time: Dec 26, 2023 at 10:02 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.9
 
@@ -216,6 +216,19 @@ INSERT INTO `ncr_category` (`id`, `category_name`, `color`, `avtive`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ncr_concession`
+--
+
+CREATE TABLE `ncr_concession` (
+  `id` int(11) NOT NULL,
+  `concession_name` varchar(100) DEFAULT NULL COMMENT 'การยอมรับ',
+  `color` varchar(45) DEFAULT NULL COMMENT 'สี',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ncr_department`
 --
 
@@ -226,6 +239,19 @@ CREATE TABLE `ncr_department` (
   `color` varchar(45) DEFAULT NULL COMMENT 'สี',
   `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ncr_department`
+--
+
+INSERT INTO `ncr_department` (`id`, `department_code`, `department_name`, `color`, `active`) VALUES
+(1, 'PD', 'Production', NULL, 1),
+(2, 'QC', NULL, NULL, 1),
+(3, 'SL', 'Sale', NULL, 1),
+(4, 'PN', 'Planning', NULL, 1),
+(5, 'PC', 'Purchase', NULL, 1),
+(6, 'RD', 'แผนกวิจัยและพัฒนาผลิตภัณฑ์', NULL, 1),
+(7, 'GM', 'ผู้จัดการทั่วไป', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -270,7 +296,32 @@ CREATE TABLE `ncr_protection` (
 
 CREATE TABLE `ncr_solving` (
   `id` int(11) NOT NULL,
-  `ncr_id` int(11) DEFAULT NULL
+  `ncr_id` int(11) DEFAULT NULL COMMENT 'เลขที่ NCR',
+  `solving_type_id` int(11) DEFAULT NULL COMMENT 'ประเภทการดำเนินการ',
+  `quantity` int(11) DEFAULT NULL COMMENT 'จำนวน',
+  `unit` varchar(45) DEFAULT NULL COMMENT 'หน่วย',
+  `proceed` text COMMENT 'วิธีการ',
+  `operation_date` date DEFAULT NULL COMMENT 'วันที่ดำเนินการ',
+  `operation_name` int(11) DEFAULT NULL COMMENT 'ผู้ดำเนินการ',
+  `ncr_concession_id` int(11) DEFAULT NULL COMMENT 'ยอมรับเป็นกรณีพิเศษ',
+  `customer_name` int(11) DEFAULT NULL COMMENT 'ชื่อลูกค้า',
+  `process` varchar(255) DEFAULT NULL COMMENT 'วิธีการ',
+  `cause` varchar(255) DEFAULT NULL COMMENT 'เหตุผล',
+  `approve_name` int(11) DEFAULT NULL COMMENT 'ผู้อนุมัติ',
+  `approve_date` date DEFAULT NULL COMMENT 'วันที่อนุมัติ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ncr_solving_type`
+--
+
+CREATE TABLE `ncr_solving_type` (
+  `id` int(11) NOT NULL,
+  `type_name` varchar(100) DEFAULT NULL COMMENT 'ประเภท',
+  `color` varchar(45) DEFAULT NULL COMMENT 'สี',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -755,6 +806,12 @@ ALTER TABLE `ncr_category`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ncr_concession`
+--
+ALTER TABLE `ncr_concession`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ncr_department`
 --
 ALTER TABLE `ncr_department`
@@ -778,7 +835,15 @@ ALTER TABLE `ncr_protection`
 --
 ALTER TABLE `ncr_solving`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_ncr_solving_ncr1_idx` (`ncr_id`);
+  ADD KEY `fk_ncr_solving_ncr1_idx` (`ncr_id`),
+  ADD KEY `fk_ncr_solving_ncr_solving_type1_idx` (`solving_type_id`),
+  ADD KEY `fk_ncr_solving_ncr_concession1_idx` (`ncr_concession_id`);
+
+--
+-- Indexes for table `ncr_solving_type`
+--
+ALTER TABLE `ncr_solving_type`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ncr_status`
@@ -912,10 +977,16 @@ ALTER TABLE `ncr_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `ncr_concession`
+--
+ALTER TABLE `ncr_concession`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `ncr_department`
 --
 ALTER TABLE `ncr_department`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `ncr_process`
@@ -933,6 +1004,12 @@ ALTER TABLE `ncr_protection`
 -- AUTO_INCREMENT for table `ncr_solving`
 --
 ALTER TABLE `ncr_solving`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ncr_solving_type`
+--
+ALTER TABLE `ncr_solving_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1045,7 +1122,9 @@ ALTER TABLE `ncr_protection`
 -- Constraints for table `ncr_solving`
 --
 ALTER TABLE `ncr_solving`
-  ADD CONSTRAINT `fk_ncr_solving_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_ncr_solving_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ncr_solving_ncr_concession1` FOREIGN KEY (`ncr_concession_id`) REFERENCES `ncr_concession` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ncr_solving_ncr_solving_type1` FOREIGN KEY (`solving_type_id`) REFERENCES `ncr_solving_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `request`
