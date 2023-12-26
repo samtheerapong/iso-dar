@@ -86,7 +86,7 @@ use yii\widgets\ActiveForm;
                 <div class="col-md-4">
                     <?= $form->field($model, 'request_by')->widget(Select2::class, [
                         'language' => 'th',
-                        'data' => ArrayHelper::map(User::find()->all(), 'id', 'thai_name'),
+                        'data' => ArrayHelper::map(User::find()->where(['status' => 10])->all(), 'id', 'thai_name'),
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true

@@ -24,6 +24,10 @@ use yii\helpers\Url;
             <a href="<?= Url::toRoute('/dar/request') ?>" class="nav-link"> <?= Yii::t('app', 'DAR') ?></a>
         </li>
 
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="<?= Url::toRoute('/ncr/ncr/index') ?>" class="nav-link"> <?= Yii::t('app', 'NCR') ?></a>
+        </li>
+
        
       
     </ul>

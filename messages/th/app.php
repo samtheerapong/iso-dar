@@ -1,5 +1,5 @@
 <?php
-return [
+  return [
         'Home' => 'หน้าหลัก',
         'Go Back' => 'ย้อนกลับ',
         'Configs' => 'การตั้งค่า',
@@ -29,7 +29,11 @@ return [
         'Users' => 'ผู้ใช้',
         'Data Files' => 'แฟ้มข้อมูล',
         'Select...' => 'เลือก...',
+        
+        //NCR
+        'Ncrs' => 'NCR',
 
+        
         //DAR
         'Requests' => 'REQUEST (DAR)',
         'Document Request' => 'ร้องขอจัดการเอกสาร',
