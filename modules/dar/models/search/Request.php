@@ -18,7 +18,7 @@ class Request extends RequestModel
     {
         return [
             [['id', 'request_type_id', 'request_category_id', 'department_id', 'created_by', 'updated_by', 'document_age', 'request_status_id'], 'integer'],
-            [['document_code', 'request_name', 'created_at', 'updated_at', 'title', 'detail', 'public_date'], 'safe'],
+            [['document_code', 'request_name', 'created_at', 'updated_at', 'title', 'detail', 'public_date', 'docs', 'ref'], 'safe'],
             [['rev'], 'number'],
         ];
     }
@@ -81,6 +81,8 @@ class Request extends RequestModel
         $query->andFilterWhere(['like', 'document_code', $this->document_code])
             ->andFilterWhere(['like', 'request_name', $this->request_name])
             ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'docs', $this->docs])
+            ->andFilterWhere(['like', 'ref', $this->ref])
             ->andFilterWhere(['like', 'detail', $this->detail]);
 
         return $dataProvider;

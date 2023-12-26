@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div style="display: flex; justify-content: space-between;">
         <p>
             <?= Html::a('<i class="fa fa-circle-plus text-yellow"></i> ' . Yii::t('app', 'New Document'), ['create-new'], ['class' => 'btn btn-danger']) ?>
-            <?= Html::a('<i class="fa fa-circle-plus text-red"></i> ' . Yii::t('app', 'Document Request'), ['create'], ['class' => 'btn btn-warning']) ?>
+            <?= Html::a('<i class="fa fa-circle-plus text-yellow"></i> ' . Yii::t('app', 'Document Request'), ['create'], ['class' => 'btn btn-primary']) ?>
         </p>
 
         <p style="text-align: right;">
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'html',
                         'contentOptions' => ['style' => 'width:150px;'],
                         'value' => function ($model) {
-                            return Html::a($model->document_code, ['view', 'id' => $model->id]);
+                            return $model->document_code ? Html::a($model->document_code, ['view', 'id' => $model->id]) : 'N/A';
                         },
                     ],
                     // 'rev',
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'html',
                         'contentOptions' => ['class' => 'text-center','style' => 'width:180px;'],
                         'value' => function ($model) {
-                            return '<span class="text" style="color:' . $model->requestType->color . ';">' . $model->requestType->name . '</span>';
+                            return $model->request_type_id ? '<span class="text" style="color:' . $model->requestType->color . ';">' . $model->requestType->name . '</span>' : 'N/A';
                         },
                     ],
                     // 'request_category_id',
@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'html',
                         'contentOptions' => ['class' => 'text-center','style' => 'width:120px;'],
                         'value' => function ($model) {
-                            return '<span class="text" style="color:' . $model->requestStatus->color . ';">' . $model->requestStatus->name . '</span>';
+                            return $model->request_status_id ? '<span class="text" style="color:' . $model->requestStatus->color . ';">' . $model->requestStatus->name . '</span>' : 'N/A';
                         },
                     ],
                     [

@@ -5,6 +5,7 @@ use app\models\User;
 use app\modules\dar\models\Request;
 use app\modules\dar\models\RequestCategory;
 use app\modules\dar\models\RequestType;
+use kartik\file\FileInput;
 use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
@@ -82,7 +83,26 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <div class="col-md-12">
-                    <?= $form->field($model, 'detail')->textarea(['rows' => 3]) ?>
+                    <?= $form->field($model, 'detail')->textarea(['rows' => 2]) ?>
+                </div>
+
+                <div class="col-md-12">
+                    <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
+                        'options' => [
+                            'multiple' => true
+                        ],
+                        'pluginOptions' => [
+                            // 'initialPreview' => $model->listDownloadFiles('docs'),
+                            'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
+                            'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
+                            'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods'],
+                            'showPreview' => true,
+                            'showCaption' => true,
+                            'showRemove' => true,
+                            'showUpload' => false,
+                            'overwriteInitial' => false,
+                        ],
+                    ]); ?>
                 </div>
 
             </div>

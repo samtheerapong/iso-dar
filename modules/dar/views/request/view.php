@@ -45,6 +45,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'document_age',
             'public_date',
             'request_status_id',
+            [
+                'attribute' => 'docs',
+                'format' => 'html',
+                'value' => $model->listDownloadFiles('docs')
+            ],
         ],
     ]) ?>
 

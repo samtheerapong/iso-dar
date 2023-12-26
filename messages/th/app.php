@@ -31,9 +31,9 @@ return [
         'Select...' => 'เลือก...',
 
         //DAR
-        'Requests' => 'DOCUMENT ACTION REQUEST (DAR)',
+        'Requests' => 'REQUEST (DAR)',
         'Document Request' => 'ร้องขอจัดการเอกสาร',
-        'New Document' => 'เพิ่มเอกสารใหม่',
+        'New Document' => 'ขอขึ้นทะเบียนเอกสารใหม่',
 
         // Request
         'Rps' => 'ระบบแจ้งซ่อม',

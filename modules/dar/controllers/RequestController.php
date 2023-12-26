@@ -5,10 +5,17 @@ namespace app\modules\dar\controllers;
 use app\modules\dar\models\Request;
 use app\modules\dar\models\RequestUpload;
 use app\modules\dar\models\search\Request as RequestSearch;
+use Exception;
 use mdm\autonumber\AutoNumber;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\BaseFileHelper;
+use yii\helpers\Json;
+use yii\web\UploadedFile;
 
 /**
  * RequestController implements the CRUD actions for Request model.
@@ -90,6 +97,7 @@ class RequestController extends Controller
 
                     $model->request_category_id = $findFromCode->request_category_id;
                     $model->department_id = $findFromCode->department_id;
+
                 }
 
                 if ($model->save()) {
@@ -125,8 +133,10 @@ class RequestController extends Controller
                 $docCode = $model->requestCategory->code . '-' . $model->department->code;
                 $model->document_code = AutoNumber::generate($docCode . '-???');
 
-                // Upload file for model RequestUpload
-                // $newUpload->name = $model->upload($model, 'files');
+                
+                $this->CreateDir($model->ref);
+                $model->docs = $this->uploadMultipleFile($model);
+
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -192,4 +202,95 @@ class RequestController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
+
+    /***************** action Deletefile ******************/
+    public function actionDeletefile($id, $field, $fileName)
+    {
+        $status = ['success' => false];
+        if (in_array($field, ['docs'])) {
+            $model = $this->findModel($id);
+            $files =  Json::decode($model->{$field});
+            if (array_key_exists($fileName, $files)) {
+                if ($this->deleteFile('file', $model->id, $fileName)) {
+                    $status = ['success' => true];
+                    unset($files[$fileName]);
+                    $model->{$field} = Json::encode($files);
+                    $model->save();
+                }
+            }
+        }
+        echo json_encode($status);
+    }
+
+    private function deleteFile($type = 'file', $id, $fileName)
+    {
+        if (in_array($type, ['file', 'thumbnail'])) {
+            if ($type === 'file') {
+                $filePath = Request::getUploadPath() . $id . '/' . $fileName;
+            } else {
+                $filePath = Request::getUploadPath() . $id . '/thumbnail/' . $fileName;
+            }
+            @unlink($filePath);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /***************** upload MultipleFile ******************/
+    private function uploadMultipleFile($model, $tempFile = null)
+    {
+        $files = [];
+        $json = '';
+        $tempFile = Json::decode($tempFile);
+        $UploadedFiles = UploadedFile::getInstances($model, 'docs');
+        if ($UploadedFiles !== null) {
+            foreach ($UploadedFiles as $file) {
+                try {
+                    $oldFileName = $file->basename . '.' . $file->extension;
+                    $newFileName = md5($file->basename . time()) . '.' . $file->extension;
+                    $file->saveAs(Request::UPLOAD_FOLDER . '/' . $model->ref . '/' . $newFileName);
+                    $files[$newFileName] = $oldFileName;
+                } catch (Exception $e) {
+                }
+            }
+            $json = json::encode(ArrayHelper::merge($tempFile, $files));
+        } else {
+            $json = $tempFile;
+        }
+        return $json;
+    }
+
+    /***************** Create Dir ******************/
+    private function CreateDir($folderName)
+    {
+        if ($folderName != NULL) {
+            $basePath = Request::getUploadPath();
+            if (BaseFileHelper::createDirectory($basePath . $folderName, 0777)) {
+                BaseFileHelper::createDirectory($basePath . $folderName . '/thumbnail', 0777);
+            }
+        }
+        return;
+    }
+
+    /***************** Remove Upload Dir ******************/
+    private function removeUploadDir($dir)
+    {
+        BaseFileHelper::removeDirectory(Request::getUploadPath() . $dir);
+    }
+
+
+
+    /***************** Download ******************/
+    public function actionDownload($id, $file, $fullname)
+    {
+        $model = $this->findModel($id);
+        if (!empty($model->ref) && !empty($model->docs)) {
+            Yii::$app->response->sendFile($model->getUploadPath() . '/' . $model->ref . '/' . $file, $fullname);
+        } else {
+            $this->redirect(['/dar/request/view', 'id' => $id]);
+        }
+    }
+
 }
