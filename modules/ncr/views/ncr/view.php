@@ -18,16 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
-            <?= Html::a('<i class="fas fa-edit"></i> ' . Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
-
-            <?= Html::a('<i class="fas fa-trash"></i> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                    'method' => 'post',
-                ],
-            ]) ?>
-
+            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Respond'), ['respond', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
         </p>
     </div>
     <div class="row">

@@ -136,6 +136,27 @@ class NcrController extends Controller
         ]);
     }
 
+    public function actionRespond($id)
+    {
+        $model = $this->findModel($id);
+        $tempDocs = $model->docs;
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $this->CreateDir($model->ref);
+            $model->docs = $this->uploadMultipleFile($model, $tempDocs);
+
+            if ($model->save()) {
+                $this->LineNotify($model);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
+
+        return $this->render('respond', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionSettingMenu()
     {
         $searchModel = new NcrSearch();

@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string|null $status_name
  * @property string|null $color
- * @property int|null $avtive
+ * @property int|null $active
  *
  * @property Ncr[] $ncrs
  */
@@ -30,7 +30,7 @@ class NcrStatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['avtive'], 'integer'],
+            [['active'], 'integer'],
             [['status_name'], 'string', 'max' => 100],
             [['color'], 'string', 'max' => 45],
         ];
@@ -45,7 +45,7 @@ class NcrStatus extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'status_name' => Yii::t('app', 'Status Name'),
             'color' => Yii::t('app', 'Color'),
-            'avtive' => Yii::t('app', 'Avtive'),
+            'active' => Yii::t('app', 'active'),
         ];
     }
 
