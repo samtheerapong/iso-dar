@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 26, 2023 at 04:54 PM
+-- Generation Time: Dec 27, 2023 at 02:27 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.33
 
@@ -55,6 +55,7 @@ CREATE TABLE `auto_number` (
 
 INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) VALUES
 ('2312/????', 1, 1, 1703608951),
+('6612-????', 1, 1, 1703687003),
 ('6612/????', 2, 1, 1703609014),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
@@ -201,9 +202,7 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `ncr_process_id`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `troubleshooting`, `docs`, `ncr_status_id`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(2, '2312/0001', '2023-12-26', 3, 1, 4, 3, '', '2023-12-26', 'ทดสอบ', '', NULL, NULL, '', NULL, NULL, '', NULL, 1, NULL, NULL, NULL, NULL, NULL),
-(3, '6612/0001', '2023-12-21', 3, 1, 6, 2, '', '2023-12-21', 'Hoisin Sauce', '', NULL, NULL, '', NULL, NULL, '', NULL, 2, NULL, NULL, NULL, NULL, NULL),
-(4, '6612/0002', '2023-12-22', 1, 2, 5, 1, '', '2023-12-13', 'organic FT soy Sauce 200 ml.', '', NULL, NULL, '', NULL, NULL, '', NULL, 3, NULL, NULL, NULL, NULL, NULL);
+(5, '6612-0001', '2024-01-01', 1, 2, 1, 1, '', '2023-12-27', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 1, '', 2, 3, '', '{\"69fe67c9313a143084de153a864c367c.png\":\"image012-4.png\",\"19d81bdff763046bad6b0d793dad1c21.pdf\":\"prH.pdf\"}', 2, 'ocsQVO1m96BF5ou3GEXVSX', '2023-12-27', 12, '2023-12-27', 12);
 
 -- --------------------------------------------------------
 
@@ -382,17 +381,17 @@ CREATE TABLE `ncr_status` (
   `id` int(11) NOT NULL,
   `status_name` varchar(100) DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
-  `avtive` int(11) DEFAULT '1'
+  `active` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ncr_status`
 --
 
-INSERT INTO `ncr_status` (`id`, `status_name`, `color`, `avtive`) VALUES
+INSERT INTO `ncr_status` (`id`, `status_name`, `color`, `active`) VALUES
 (1, 'Open', '#B31312', 1),
 (2, 'Work', '#EE7214', 1),
-(3, 'Close', '#1B4242', 1);
+(3, 'Close', '#65B741', 1);
 
 -- --------------------------------------------------------
 
@@ -1052,7 +1051,7 @@ ALTER TABLE `document_rule`
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_category`
