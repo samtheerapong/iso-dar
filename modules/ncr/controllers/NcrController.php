@@ -81,7 +81,7 @@ class NcrController extends Controller
     public function actionCreate()
     {
         $model = new Ncr();
-        $status = 1;
+        // $status = 1;
         $ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
 
         if ($this->request->isPost) {
@@ -94,9 +94,9 @@ class NcrController extends Controller
 
                 $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller
 
-                $model->LineNotify();
+                $this->LineNotify($model);
 
-                $model->ncr_status_id = $status;
+                // $model->ncr_status_id = $status;
 
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -127,7 +127,7 @@ class NcrController extends Controller
             $this->CreateDir($model->ref);
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
-            $model->LineNotify();
+            $this->LineNotify($model);
 
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
@@ -269,65 +269,45 @@ class NcrController extends Controller
         }
     }
 
-    /***************** View PDF ******************/
-    public function actionViewPdf($id)
-    {
-        $model = $this->findModel($id);
-
-        $content = $this->renderPartial('pdfTemplate', ['model' => $model]); // Create a view file 'pdfTemplate.php'
-        $pdf = new Pdf([
-            'mode' => Pdf::MODE_UTF8,
-            'format' => Pdf::FORMAT_A4,
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            'destination' => Pdf::DEST_BROWSER,
-            'content' => $content,
-            'cssInline' => 'body{font-family:chakrapetch;font-size:14px;}',
-            // 'cssInline' => 'body{font-family:sarabun;font-size:20px;}',
-            // 'cssFile' => '@backend/web/css/bootstrap.css',
-            'methods' => [],
-            // 'marginLeft' => 10,
-            // 'marginRight' => 10,
-            // 'marginTop' => 10,
-            // 'marginBottom' => 10,
-            // 'marginFooter' => 5,
-            'methods' => [
-                'SetHeader' => ['Export : ' . date('d-m-Y')],
-                'SetFooter' => ['{PAGENO}']
-            ],
-            'options' => [],
-
-        ]);
-
-        $defaultConfig = (new ConfigVariables())->getDefaults();
-        $fontDirs = $defaultConfig['fontDir'];
-        $defaultFontConfig = (new FontVariables())->getDefaults();
-        $fontData = $defaultFontConfig['fontdata'];
-
-        $pdf->options['fontDir'] = array_merge($fontDirs, [
-            Yii::getAlias('@webroot') . '/fonts'
-        ]);
-
-        $pdf->options['fontdata'] = $fontData + [
-            'sarabun' => [
-                'R' => 'THSarabunNew.ttf',
-                'I' => 'THSarabunNew-Italic.ttf',
-                'B' => 'THSarabunNew-Bold.ttf',
-                'BI' => 'THSarabunNew-BoldItalic.ttf',
-            ],
-        ];
-
-        $pdf->options['fontdata'] = $fontData + [
-            'chakrapetch' => [
-                'R' => 'ChakraPetch-Regular.ttf',
-                'I' => 'ChakraPetch-Italic.ttf',
-                'B' => 'ChakraPetch-Bold.ttf',
-                'BI' => 'ChakraPetch-BoldItalic.ttf',
-            ],
-            'default_font' => 'chakrapetch',
-        ];
-
-        return $pdf->render();
-    }
-
     
+    //**********  ฟังก์ชันส่ง Line
+    public function LineNotify($model)
+    {
+        // Line Tokens
+        $lineapi = "Eon0aRHg9A3Y8j4RH1F1hYvdgGYhhnyiTBfNAKQrDmX";
+
+        //ข้อคว่าม
+        $massage =
+            Yii::t('app', 'เลขที่ NCR') . " : " . $model->ncr_number . "\n" .
+            Yii::t('app', 'วันที่') . " : " .  Yii::$app->formatter->asDate($model->created_date) . "\n" .
+            Yii::t('app', 'ถึงแผนก') . " : " . $model->toDepartment->department_code . "\n" .
+            Yii::t('app', 'กระบวนการ') . " : " . $model->ncrProcess->process_name . "\n" .
+            Yii::t('app', 'ชื่อสินค้า') . " : " . $model->product_name . "\n" .
+            Yii::t('app', 'สถานะ') . " : " . $model->ncrStatus->status_name . "\n" .
+            Yii::t('app', 'Link') . " : " . Url::to(['view', 'id' => $model->id], true);
+
+        $mms = trim($massage);
+
+        //การทำงานของระบบ
+        date_default_timezone_set("Asia/Bangkok");
+        $chOne = curl_init();
+        curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+        curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($chOne, CURLOPT_POST, 1);
+        curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$mms");
+        curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $lineapi . '',);
+        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($chOne);
+        if (curl_error($chOne)) {
+            echo 'error:' . curl_error($chOne);
+        } else {
+            $result_ = json_decode($result, true);
+            echo "status : " . $result_['status'];
+            echo "message : " . $result_['message'];
+        }
+        curl_close($chOne);
+    }
 }

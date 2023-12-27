@@ -10,6 +10,8 @@ use app\modules\ncr\models\NcrYear;
 use kartik\widgets\DatePicker;
 use kartik\widgets\FileInput;
 use kartik\widgets\Select2;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
+use PhpParser\Node\Stmt\Label;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -22,12 +24,13 @@ use yii\widgets\ActiveForm;
 <div class="ncr-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
+    
     <div class="card border-secondary">
         <div class="card-header text-white bg-secondary">
             <?= Html::encode($this->title) ?>
         </div>
         <div class="card-body">
+
             <div class="row">
                 <div class="col-md-4">
                     <?= $form->field($model, 'created_date')->widget(
@@ -190,7 +193,7 @@ use yii\widgets\ActiveForm;
                         ],
                     ]); ?>
                 </div>
-
+                <?= $form->field($model, 'ncr_status_id')->hiddenInput(['value' => 1])->label(false) ?>
             </div>
         </div>
 

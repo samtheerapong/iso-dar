@@ -229,44 +229,5 @@ class Ncr extends \yii\db\ActiveRecord
         return $initial;
     }
 
-    //**********  ฟังก์ชันส่ง Line
-    public function LineNotify()
-    {
-        // Line Tokens
-        $lineapi = "Eon0aRHg9A3Y8j4RH1F1hYvdgGYhhnyiTBfNAKQrDmX";
-
-        //ข้อคว่าม
-        $massage =
-            Yii::t('app', 'เลขที่ NCR') . " : " . $this->ncr_number . "\n" .
-            Yii::t('app', 'วันที่') . " : " .  Yii::$app->formatter->asDate($this->created_date) . "\n" .
-            Yii::t('app', 'ถึงแผนก') . " : " . $this->toDepartment->department_code . "\n" .
-            Yii::t('app', 'กระบวนการ') . " : " . $this->ncrProcess->process_name . "\n" .
-            Yii::t('app', 'ชื่อสินค้า') . " : " . $this->product_name . "\n" .
-            // Yii::t('app', 'สถานะ') . " : " . $this->ncrStatus->status_name . "\n" .
-            Yii::t('app', 'Link') . " : " . Url::to(['view', 'id' => $this->id], true);
-
-        $mms = trim($massage);
-
-        //การทำงานของระบบ
-        date_default_timezone_set("Asia/Bangkok");
-        $chOne = curl_init();
-        curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-        curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($chOne, CURLOPT_POST, 1);
-        curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$mms");
-        curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
-        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $lineapi . '',);
-        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
-        $result = curl_exec($chOne);
-        if (curl_error($chOne)) {
-            echo 'error:' . curl_error($chOne);
-        } else {
-            $result_ = json_decode($result, true);
-            echo "status : " . $result_['status'];
-            echo "message : " . $result_['message'];
-        }
-        curl_close($chOne);
-    }
+   
 }
