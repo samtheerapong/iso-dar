@@ -87,19 +87,17 @@ class NcrController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $model->ncr_number = AutoNumber::generate((date('y') + 43) . date('m') . '/????'); // Auto Number EX 6612/0001
+                $model->ncr_number = AutoNumber::generate((date('y') + 43) . date('m') . '-????'); // Auto Number EX 6612/0001
 
                 $model->ref =  $ref;
                 $this->CreateDir($model->ref); // create Directory 6701-12
 
                 $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller
 
-                $this->LineNotify($model);
-
-                // $model->ncr_status_id = $status;
-
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id]);
+                if ($model->save()) {
+                    $this->LineNotify($model);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -127,10 +125,10 @@ class NcrController extends Controller
             $this->CreateDir($model->ref);
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
-            $this->LineNotify($model);
-
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save()) {
+                $this->LineNotify($model);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -269,7 +267,7 @@ class NcrController extends Controller
         }
     }
 
-    
+
     //**********  ฟังก์ชันส่ง Line
     public function LineNotify($model)
     {
