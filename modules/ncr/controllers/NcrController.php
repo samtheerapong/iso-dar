@@ -4,10 +4,22 @@ namespace app\modules\ncr\controllers;
 
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\search\NcrSearch;
+use Exception;
 use mdm\autonumber\AutoNumber;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\BaseFileHelper;
+use yii\helpers\Json;
+use yii\web\UploadedFile;
+
+//
+use kartik\mpdf\Pdf;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
+use yii\helpers\Url;
 
 /**
  * NcrController implements the CRUD actions for Ncr model.
@@ -23,7 +35,7 @@ class NcrController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -69,11 +81,23 @@ class NcrController extends Controller
     public function actionCreate()
     {
         $model = new Ncr();
+        $status = 1;
+        $ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                // $model->ncr_number = AutoNumber::generate('NCR-' . (date('y') + 43) . date('m') . '-????'); // Auto Number
-                $model->ncr_number = AutoNumber::generate((date('y') + 43) . date('m') . '/????'); // Auto Number
+
+                $model->ncr_number = AutoNumber::generate((date('y') + 43) . date('m') . '/????'); // Auto Number EX 6612/0001
+
+                $model->ref =  $ref;
+                $this->CreateDir($model->ref); // create Directory 6701-12
+
+                $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller
+
+                $model->LineNotify();
+
+                $model->ncr_status_id = $status;
+
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -96,8 +120,16 @@ class NcrController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $tempDocs = $model->docs;
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $this->CreateDir($model->ref);
+            $model->docs = $this->uploadMultipleFile($model, $tempDocs);
+
+            $model->LineNotify();
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -126,8 +158,9 @@ class NcrController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $this->removeUploadDir($model->ref);
+        $model->delete();
         return $this->redirect(['index']);
     }
 
@@ -146,4 +179,155 @@ class NcrController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
+    /***************** action Deletefile ******************/
+    public function actionDeletefile($id, $field, $fileName)
+    {
+        $status = ['success' => false];
+        if (in_array($field, ['docs'])) {
+            $model = $this->findModel($id);
+            $files =  Json::decode($model->{$field});
+            if (array_key_exists($fileName, $files)) {
+                if ($this->deleteFile('file', $model->ref, $fileName)) {
+                    $status = ['success' => true];
+                    unset($files[$fileName]);
+                    $model->{$field} = Json::encode($files);
+                    $model->save();
+                }
+            }
+        }
+        echo json_encode($status);
+    }
+
+    /***************** deleteFile ******************/
+    private function deleteFile($type = 'file', $ref, $fileName)
+    {
+        if (in_array($type, ['file', 'thumbnail'])) {
+            if ($type === 'file') {
+                $filePath = Ncr::getUploadPath() . $ref . '/' . $fileName;
+            } else {
+                $filePath = Ncr::getUploadPath() . $ref . '/thumbnail/' . $fileName;
+            }
+            @unlink($filePath);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /***************** upload MultipleFile ******************/
+    private function uploadMultipleFile($model, $tempFile = null)
+    {
+        $files = [];
+        $json = '';
+        $tempFile = Json::decode($tempFile);
+        $UploadedFiles = UploadedFile::getInstances($model, 'docs');
+        if ($UploadedFiles !== null) {
+            foreach ($UploadedFiles as $file) {
+                try {
+                    $oldFileName = $file->basename . '.' . $file->extension;
+                    $newFileName = md5($file->basename . time()) . '.' . $file->extension;
+                    $file->saveAs(Ncr::UPLOAD_FOLDER . '/' . $model->ref . '/' . $newFileName);
+                    $files[$newFileName] = $oldFileName;
+                } catch (Exception $e) {
+                }
+            }
+            $json = json::encode(ArrayHelper::merge($tempFile, $files));
+        } else {
+            $json = $tempFile;
+        }
+        return $json;
+    }
+
+    /***************** Create Dir ******************/
+    private function CreateDir($folderName)
+    {
+        if ($folderName != NULL) {
+            $basePath = Ncr::getUploadPath();
+            if (BaseFileHelper::createDirectory($basePath . $folderName, 0777)) {
+                BaseFileHelper::createDirectory($basePath . $folderName . '/thumbnail', 0777);
+            }
+        }
+        return;
+    }
+
+    /***************** Remove Upload Dir ******************/
+    private function removeUploadDir($dir)
+    {
+        BaseFileHelper::removeDirectory(Ncr::getUploadPath() . $dir);
+    }
+
+
+    /***************** Download ******************/
+    public function actionDownload($id, $file, $fullname)
+    {
+        $model = $this->findModel($id);
+        if (!empty($model->ref) && !empty($model->docs)) {
+            Yii::$app->response->sendFile($model->getUploadPath() . '/' . $model->ref . '/' . $file, $fullname);
+        } else {
+            $this->redirect(['/ncr/ncr/view', 'id' => $id]);
+        }
+    }
+
+    /***************** View PDF ******************/
+    public function actionViewPdf($id)
+    {
+        $model = $this->findModel($id);
+
+        $content = $this->renderPartial('pdfTemplate', ['model' => $model]); // Create a view file 'pdfTemplate.php'
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8,
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+            'content' => $content,
+            'cssInline' => 'body{font-family:chakrapetch;font-size:14px;}',
+            // 'cssInline' => 'body{font-family:sarabun;font-size:20px;}',
+            // 'cssFile' => '@backend/web/css/bootstrap.css',
+            'methods' => [],
+            // 'marginLeft' => 10,
+            // 'marginRight' => 10,
+            // 'marginTop' => 10,
+            // 'marginBottom' => 10,
+            // 'marginFooter' => 5,
+            'methods' => [
+                'SetHeader' => ['Export : ' . date('d-m-Y')],
+                'SetFooter' => ['{PAGENO}']
+            ],
+            'options' => [],
+
+        ]);
+
+        $defaultConfig = (new ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
+        $defaultFontConfig = (new FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
+
+        $pdf->options['fontDir'] = array_merge($fontDirs, [
+            Yii::getAlias('@webroot') . '/fonts'
+        ]);
+
+        $pdf->options['fontdata'] = $fontData + [
+            'sarabun' => [
+                'R' => 'THSarabunNew.ttf',
+                'I' => 'THSarabunNew-Italic.ttf',
+                'B' => 'THSarabunNew-Bold.ttf',
+                'BI' => 'THSarabunNew-BoldItalic.ttf',
+            ],
+        ];
+
+        $pdf->options['fontdata'] = $fontData + [
+            'chakrapetch' => [
+                'R' => 'ChakraPetch-Regular.ttf',
+                'I' => 'ChakraPetch-Italic.ttf',
+                'B' => 'ChakraPetch-Bold.ttf',
+                'BI' => 'ChakraPetch-BoldItalic.ttf',
+            ],
+            'default_font' => 'chakrapetch',
+        ];
+
+        return $pdf->render();
+    }
+
+    
 }
