@@ -3,14 +3,13 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var app\modules\ncr\models\Ncr $model */
+/** @var app\modules\ncr\models\NcrSolving $model */
 
-$this->title = Yii::t('app', 'Create Ncr');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncrs'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Corrective action');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncr Solvings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ncr-create">
-
+<div class="ncr-solving-create">
     <p>
         <?= Html::a('<i class="fas fa-circle-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
     </p>

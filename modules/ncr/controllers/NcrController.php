@@ -3,6 +3,7 @@
 namespace app\modules\ncr\controllers;
 
 use app\modules\ncr\models\Ncr;
+use app\modules\ncr\models\NcrSolving;
 use app\modules\ncr\models\search\NcrSearch;
 use Exception;
 use mdm\autonumber\AutoNumber;
@@ -136,9 +137,12 @@ class NcrController extends Controller
         ]);
     }
 
-    public function actionRespond($id)
+    public function actionSolvings($id)
     {
         $model = $this->findModel($id);
+        $solvingModel = new NcrSolving();
+
+    
         $tempDocs = $model->docs;
 
         if ($this->request->isPost && $model->load($this->request->post())) {
@@ -146,14 +150,20 @@ class NcrController extends Controller
             $this->CreateDir($model->ref);
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
+            $postSolving = Yii::$app->request->post('NcrSolving');
+            $solvingModel->load($postSolving);
+            $solvingModel->ncr_id = $model->id;
+            $solvingModel->save();
+
             if ($model->save()) {
                 $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        return $this->render('respond', [
+        return $this->render('solvings', [
             'model' => $model,
+            'solvingModel' => $solvingModel,
         ]);
     }
 

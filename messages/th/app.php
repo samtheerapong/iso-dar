@@ -30,10 +30,15 @@
         'Data Files' => 'แฟ้มข้อมูล',
         'Select...' => 'เลือก...',
         'N/A' => 'ไม่ระบุ',
-        'Respond' => 'ดำเนินการตอบกลับ',
+        'Solvings' => 'ดำเนินการตอบกลับ',
+        'Solvings : {name}' => 'ตอบกลับ : {name}',
         
         //NCR
         'Ncrs' => 'NCR',
+        'Ncr Solvings' => 'การตอบกลับ',
+        'Corrective action' => 'การดำเนินการแก้ไข',
+        'Special acceptance' => 'การยอมรับเป็นกรณีพิเศษ',
+        'Attach files' => 'แนบไฟล์/รูปภาพ',
 
         
         //DAR

@@ -21,6 +21,8 @@ use Yii;
  * @property string|null $cause เหตุผล
  * @property int|null $approve_name ผู้อนุมัติ
  * @property string|null $approve_date วันที่อนุมัติ
+ * @property string|null $docs แนบไฟล์
+ * @property string|null $ref Ref
  *
  * @property Ncr $ncr
  * @property NcrConcession $ncrConcession
@@ -43,14 +45,15 @@ class NcrSolving extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ncr_id', 'solving_type_id', 'quantity', 'operation_name', 'ncr_concession_id', 'customer_name', 'approve_name'], 'integer'],
+            [['ncr_id', 'solving_type_id', 'quantity', 'operation_name', 'ncr_concession_id', 'approve_name'], 'integer'],
             [['proceed'], 'string'],
             [['operation_date', 'approve_date'], 'safe'],
             [['unit'], 'string', 'max' => 45],
-            [['process', 'cause'], 'string', 'max' => 255],
+            [['process', 'cause', 'ref', 'customer_name'], 'string', 'max' => 255],
             [['ncr_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ncr::class, 'targetAttribute' => ['ncr_id' => 'id']],
             [['ncr_concession_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrConcession::class, 'targetAttribute' => ['ncr_concession_id' => 'id']],
             [['solving_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrSolvingType::class, 'targetAttribute' => ['solving_type_id' => 'id']],
+            [['docs'], 'file', 'maxFiles' => 10, 'skipOnEmpty' => true]
         ];
     }
 
@@ -74,6 +77,8 @@ class NcrSolving extends \yii\db\ActiveRecord
             'cause' => Yii::t('app', 'เหตุผล'),
             'approve_name' => Yii::t('app', 'ผู้อนุมัติ'),
             'approve_date' => Yii::t('app', 'วันที่อนุมัติ'),
+            'docs' => Yii::t('app', 'แนบไฟล์'),
+            'ref' => Yii::t('app', 'Ref'),
         ];
     }
 

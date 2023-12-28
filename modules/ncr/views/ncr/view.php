@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
-            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Respond'), ['respond', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
+            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Solvings'), ['solvings', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
         </p>
     </div>
     <div class="row">
