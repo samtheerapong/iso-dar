@@ -3,7 +3,7 @@
 namespace app\modules\ncr\controllers;
 
 use app\modules\ncr\models\NcrSolving;
-use app\modules\ncr\models\search\NcrSolving as NcrSolvingSearch;
+use app\modules\ncr\models\search\NcrSolvingSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

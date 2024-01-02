@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\modules\ncr\models\search\NcrSolving $model */
+/** @var app\modules\ncr\models\search\NcrSolvingSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
@@ -42,10 +42,6 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'approve_name') ?>
 
     <?php // echo $form->field($model, 'approve_date') ?>
-
-    <?php // echo $form->field($model, 'docs') ?>
-
-    <?php // echo $form->field($model, 'ref') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

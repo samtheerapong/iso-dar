@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     <p>
         <?= Html::a('<i class="fas fa-circle-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
     </p>
-
+    
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

@@ -137,31 +137,29 @@ class NcrController extends Controller
         ]);
     }
 
-    public function actionSolvings($id)
+    public function actionSolving($id)
     {
         $model = $this->findModel($id);
         $solvingModel = new NcrSolving();
 
-    
-        $tempDocs = $model->docs;
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $solvingModel->load(Yii::$app->request->post());
 
-        if ($this->request->isPost && $model->load($this->request->post())) {
+            if ($model->validate() && $solvingModel->validate()) {
+                $model->save(false);
 
-            $this->CreateDir($model->ref);
-            $model->docs = $this->uploadMultipleFile($model, $tempDocs);
-
-            $postSolving = Yii::$app->request->post('NcrSolving');
-            $solvingModel->load($postSolving);
-            $solvingModel->ncr_id = $model->id;
-            $solvingModel->save();
-
-            if ($model->save()) {
-                $this->LineNotify($model);
-                return $this->redirect(['view', 'id' => $model->id]);
+                $solvingModel->ncr_id = $model->id;
+                if ($solvingModel->save()) {
+                    Yii::$app->session->setFlash('success', 'Successfully');
+                    return $this->redirect(['/ncr/ncr-solving/view', 'id' => $solvingModel->id]); // Redirect to view page or any other page
+                } else {
+                    Yii::$app->session->setFlash('error', 'Error saving solving information.');
+                }
             }
         }
 
-        return $this->render('solvings', [
+        return $this->render('solving', [
             'model' => $model,
             'solvingModel' => $solvingModel,
         ]);

@@ -43,8 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'cause',
             'approve_name',
             'approve_date',
-            'docs:ntext',
-            'ref',
         ],
     ]) ?>
 
