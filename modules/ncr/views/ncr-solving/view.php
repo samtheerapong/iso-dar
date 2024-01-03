@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-6">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'NCR Detail') ?>
+                    <?= Yii::t('app', 'NCR Details') ?>
                 </div>
                 <div class="card-body">
                     <?= DetailView::widget([
@@ -60,21 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->ncr->created_date ? Yii::$app->formatter->asDate($model->ncr->created_date) : Yii::t('app', 'N/A');
                                 },
                             ],
-                            // [
-                            //     'attribute' => 'ncr.month',
-                            //     'format' => 'html',
-                            //     'value' => function ($model) {
-                            //         return $model->ncr->month ? $model->ncr->month0->month : Yii::t('app', 'N/A');
-                            //     },
-                            // ],
-
-                            // [
-                            //     'attribute' => 'ncr.year',
-                            //     'format' => 'html',
-                            //     'value' => function ($model) {
-                            //         return $model->ncr->year ? $model->ncr->year0->year : Yii::t('app', 'N/A');
-                            //     },
-                            // ],
 
                             [
                                 'attribute' => 'ncr.department',
@@ -164,14 +149,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'NCR Report') ?>
+                    <?= Yii::t('app', 'NCR Reported') ?>
                 </div>
                 <div class="card-body">
                     <?= DetailView::widget([
                         'model' => $model,
                         'template' => '<tr><th style="width: 250px;">{label}</th><td> {value}</td></tr>',
                         'attributes' => [
-
 
                             [
                                 'attribute' => 'ncr.report_by',
@@ -205,7 +189,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-6">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'NCR Respond') ?>
+                    <?= Yii::t('app', 'NCR Response') ?>
                 </div>
                 <div class="card-body">
                     <?= DetailView::widget([
@@ -269,7 +253,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'NCR Approv') ?>
+                    <?= Yii::t('app', 'NCR Approved') ?>
                 </div>
                 <div class="card-body">
                     <?= DetailView::widget([
