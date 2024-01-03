@@ -4,6 +4,7 @@ namespace app\modules\ncr\controllers;
 
 use app\modules\ncr\models\NcrSolving;
 use app\modules\ncr\models\search\NcrSolvingSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

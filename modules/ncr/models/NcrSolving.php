@@ -2,6 +2,7 @@
 
 namespace app\modules\ncr\models;
 
+use app\models\User;
 use Yii;
 
 /**
@@ -120,5 +121,15 @@ class NcrSolving extends \yii\db\ActiveRecord
     public function getSolvingType()
     {
         return $this->hasOne(NcrSolvingType::class, ['id' => 'solving_type_id']);
+    }
+
+    public function getOperationBy()
+    {
+        return $this->hasOne(User::class, ['id' => 'operation_name']);
+    }
+
+    public function getApproveBy()
+    {
+        return $this->hasOne(User::class, ['id' => 'approve_name']);
     }
 }

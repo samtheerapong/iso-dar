@@ -34,7 +34,7 @@
         'Solvings : {name}' => 'ตอบกลับ : {name}',
         
         //NCR
-        'Ncrs' => 'NCR',
+        'Ncrs' => 'Nonconformance Report',
         'Ncr Solvings' => 'การตอบกลับ',
         'Corrective action' => 'การดำเนินการแก้ไข',
         'Special acceptance' => 'การยอมรับเป็นกรณีพิเศษ',
