@@ -21,6 +21,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
+        'itms' => [
+            'class' => 'app\modules\itms\Module',
+        ],
         'ncr' => [
             'class' => 'app\modules\ncr\Module',
         ],

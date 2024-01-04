@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 },
                             ],
                             
-                            [
+                             [
                                 'attribute' => 'created_date',
                                 'format' => 'html',
                                 'value' => function ($model) {
