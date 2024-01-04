@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 03, 2024 at 03:50 AM
+-- Generation Time: Jan 04, 2024 at 09:03 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.9
 
@@ -63,6 +63,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
+('TD-6701-????', 4, 1, 1704353542),
 ('WI-PC\n-???', 1, 1, 1703576022),
 ('WI-QC\n-???', 1, 1, 1703576262);
 
@@ -163,6 +164,105 @@ INSERT INTO `document_rule` (`id`, `code`, `name`, `color`, `active`) VALUES
 (2, 'Uncontrolled', 'ไม่ควบคุม', '#1B6B93', 1),
 (3, 'Controlled', 'ควบคุม', '#EE7214', 1),
 (4, 'Canceled', 'ยกเลิก', '#434343', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_todo`
+--
+
+CREATE TABLE `it_todo` (
+  `id` int(11) NOT NULL,
+  `code` varchar(45) DEFAULT NULL COMMENT 'รหัส',
+  `todo_date` date DEFAULT NULL COMMENT 'วันที่แจ้ง',
+  `title` varchar(255) DEFAULT NULL COMMENT 'หัวข้อ',
+  `description` text COMMENT 'รายละเอียด',
+  `request_name` int(11) DEFAULT NULL COMMENT 'ผู้แจ้ง',
+  `photo` text COMMENT 'รูปภาพ',
+  `status_id` int(11) DEFAULT NULL COMMENT 'สถานะ',
+  `created_at` date DEFAULT NULL COMMENT 'วันที่บันทึก',
+  `created_by` int(11) DEFAULT NULL COMMENT 'บันทึกโดย',
+  `updated_at` date DEFAULT NULL COMMENT 'วันที่ปรับปรุง',
+  `updated_by` int(11) DEFAULT NULL COMMENT 'ปรับปรุงโดย'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `it_todo`
+--
+
+INSERT INTO `it_todo` (`id`, `code`, `todo_date`, `title`, `description`, `request_name`, `photo`, `status_id`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(2, 'TD-6701-0001', '2024-01-04', 'ทดสอบหัวข้อ', 'รายละเอียดรายละเอียดรายละเอียดรายละเอียด', 5, 'a294431de2417b8cefa5065a79a73bdd.jpg', 1, NULL, NULL, '2024-01-04', 1),
+(3, 'TD-6701-0002', '2024-01-05', 'ทดสอบ', '', 3, '1213f759602f47838534a57ba0bef649.jpg', 1, '2024-01-04', 1, NULL, 1),
+(4, 'TD-6701-0004', '2024-01-04', 'asdasdad', '', 6, '', 1, '2024-01-04', 1, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_todo_hardware`
+--
+
+CREATE TABLE `it_todo_hardware` (
+  `id` int(11) NOT NULL,
+  `code` varchar(45) DEFAULT NULL COMMENT 'รหัส',
+  `name` varchar(255) DEFAULT NULL COMMENT 'ชื่อ',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_todo_list`
+--
+
+CREATE TABLE `it_todo_list` (
+  `id` int(11) NOT NULL,
+  `todo_id` int(11) DEFAULT NULL COMMENT 'TO DO',
+  `todo_type_id` int(11) DEFAULT NULL COMMENT 'ประเภท',
+  `hardware_id` int(11) DEFAULT NULL COMMENT 'ฮาร์ดแวร์',
+  `start_date` date DEFAULT NULL COMMENT 'วันที่เริ่ม',
+  `end_date` date DEFAULT NULL COMMENT 'วันที่เสร็จ',
+  `activity` text COMMENT 'กิจกรรม',
+  `operator_name` int(11) DEFAULT NULL COMMENT 'ผู้ปฏิบัติงาน',
+  `cost` decimal(10,2) DEFAULT '0.00' COMMENT 'ค่าใช้จ่าย',
+  `note` text COMMENT 'บันทึก',
+  `docs` text COMMENT 'เอกสาร'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_todo_status`
+--
+
+CREATE TABLE `it_todo_status` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT 'ชื่อ',
+  `color` varchar(45) DEFAULT NULL COMMENT 'สี',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `it_todo_status`
+--
+
+INSERT INTO `it_todo_status` (`id`, `name`, `color`, `active`) VALUES
+(1, 'Open', '#FF004D', 1),
+(2, 'In Progress', '#E3651D', 1),
+(3, 'Close', '#304D30', 1),
+(4, 'Cancel', '#2D3250', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_todo_type`
+--
+
+CREATE TABLE `it_todo_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT 'ชื่อ',
+  `color` varchar(45) DEFAULT NULL COMMENT 'สี',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -898,6 +998,43 @@ ALTER TABLE `document_rule`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `it_todo`
+--
+ALTER TABLE `it_todo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_it_todo_it_todo_status1_idx` (`status_id`),
+  ADD KEY `fk_it_todo_user1_idx` (`created_by`),
+  ADD KEY `fk_it_todo_user2_idx` (`updated_by`);
+
+--
+-- Indexes for table `it_todo_hardware`
+--
+ALTER TABLE `it_todo_hardware`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `it_todo_list`
+--
+ALTER TABLE `it_todo_list`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_it_todo_list_it_todo1_idx` (`todo_id`),
+  ADD KEY `fk_it_todo_list_it_hardware1_idx` (`hardware_id`),
+  ADD KEY `fk_it_todo_list_it_todo_type1_idx` (`todo_type_id`),
+  ADD KEY `fk_it_todo_list_user1_idx` (`operator_name`);
+
+--
+-- Indexes for table `it_todo_status`
+--
+ALTER TABLE `it_todo_status`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `it_todo_type`
+--
+ALTER TABLE `it_todo_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ncr`
 --
 ALTER TABLE `ncr`
@@ -1088,6 +1225,36 @@ ALTER TABLE `document_rule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `it_todo`
+--
+ALTER TABLE `it_todo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `it_todo_hardware`
+--
+ALTER TABLE `it_todo_hardware`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `it_todo_list`
+--
+ALTER TABLE `it_todo_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `it_todo_status`
+--
+ALTER TABLE `it_todo_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `it_todo_type`
+--
+ALTER TABLE `it_todo_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
@@ -1235,6 +1402,24 @@ ALTER TABLE `user_rules`
 ALTER TABLE `approve`
   ADD CONSTRAINT `fk_review_copy1_request_status1` FOREIGN KEY (`request_status_id`) REFERENCES `request_status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_review_copy1_review1` FOREIGN KEY (`review_id`) REFERENCES `review` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `it_todo`
+--
+ALTER TABLE `it_todo`
+  ADD CONSTRAINT `fk_it_todo_it_todo_status1` FOREIGN KEY (`status_id`) REFERENCES `it_todo_status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_it_todo_user1` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_it_todo_user2` FOREIGN KEY (`updated_by`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `it_todo_list`
+--
+ALTER TABLE `it_todo_list`
+  ADD CONSTRAINT `fk_it_todo_list_it_hardware1` FOREIGN KEY (`hardware_id`) REFERENCES `it_todo_hardware` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_it_todo_list_it_todo1` FOREIGN KEY (`todo_id`) REFERENCES `it_todo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_it_todo_list_it_todo_type1` FOREIGN KEY (`todo_type_id`) REFERENCES `it_todo_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_it_todo_list_user1` FOREIGN KEY (`operator_name`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_it_todo_list_user2` FOREIGN KEY (`operator_name`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ncr`
