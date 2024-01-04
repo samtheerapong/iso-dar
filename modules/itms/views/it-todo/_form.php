@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <?= $form->field($model, 'todo_date')->widget(
                         DatePicker::class,
                         [
@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
                     ); ?>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-6">
 
                     <?= $form->field($model, 'request_name')->widget(Select2::class, [
                         'data' => ArrayHelper::map(User::find()->where(['status' => 10])->all(), 'id', 'thai_name'),
@@ -53,15 +53,15 @@ use yii\widgets\ActiveForm;
                     ?>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true]) ?>
                 </div>
 
-                <div class="col-md-6">
-                    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+                <div class="col-md-12">
+                    <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?= $form->field($model, 'photo')->widget(FileInput::class, [
                         'options' => ['accept' => 'image/*'],
                         'pluginOptions' => [
