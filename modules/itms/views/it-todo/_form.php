@@ -53,12 +53,12 @@ use yii\widgets\ActiveForm;
                     ?>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true]) ?>
                 </div>
 
-                <div class="col-md-12">
-                    <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
+                <div class="col-md-8">
+                    <?= $form->field($model, 'description')->textarea(['rows' => 1]) ?>
                 </div>
 
                 <div class="col-md-12">
