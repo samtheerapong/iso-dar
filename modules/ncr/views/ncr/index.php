@@ -162,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:250px;'],
                         'contentOptions' => ['class' => 'text-center'],
                         'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                        'template' => '<div class="btn-group btn-group-xs" role="group">{view} {solving}</div>',
+                        'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {solving}</div>',
                         'buttons' => [
                             'solving' => function ($url, $model, $key) {
                                 return Html::a('<i class="fa-solid fa-right-left"></i>', ['solving', 'id' => $model->id], [

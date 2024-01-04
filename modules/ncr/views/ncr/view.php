@@ -18,7 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
-            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Solvings'), ['solvings', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
+            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Solving'), ['solving', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('<i class="fa-solid fa-pen"></i> ' . Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
         </p>
     </div>
     <div class="row">
@@ -182,8 +183,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'attribute' => 'docs',
                                 'format' => 'html',
-                                'value' => $model->listDownloadFiles('docs')
+                                'value' => function ($model) {
+                                    return  $model->listDownloadFiles('docs');
+                                },
                             ],
+                            
                         ],
                     ]) ?>
                 </div>

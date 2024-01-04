@@ -166,7 +166,7 @@ class Ncr extends \yii\db\ActiveRecord
         return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/';
     }
 
-    //********** List Downloads */
+    // ********** List Downloads */
     public function listDownloadFiles($type)
     {
         $docs_file = '';
@@ -190,20 +190,57 @@ class Ncr extends \yii\db\ActiveRecord
         return $docs_file;
     }
 
-    //********** initialPreview */    
     public function isImage($filePath)
     {
         return @is_array(getimagesize($filePath)) ? true : false;
     }
+
+    // public function listDownloadFiles($type)
+    // {
+    //     $docs_file = '';
+    //     if ($type === 'docs') {
+    //         $data = $this->docs;
+    //         $files = Json::decode($data);
+    //         if (is_array($files)) {
+    //             $docs_file .= '<ul>';
+    //             foreach ($files as $key => $value) {
+    //                 $docs_file .= '<li>';
+    //                 if ($this->isImageFile($value)) {
+    //                     $thumbnail = Html::img(['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'img-thumbnail', 'alt' => 'Image', 'style' => 'width: 150px']);
+    //                     $fullSize = Html::a($thumbnail, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['target' => '_blank']);
+    //                     $docs_file .= $fullSize;
+    //                 } else {
+    //                     $docs_file .= Html::a($value, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value]);
+    //                 }
+    //                 $docs_file .= '</li>';
+    //             }
+    //             $docs_file .= '</ul>';
+    //         }
+    //     }
+    //     return $docs_file;
+    // }
+
+    // private function isImageFile($filename)
+    // {
+    //     $imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+    //     $lowercaseFilename = strtolower($filename);
+    //     foreach ($imageExtensions as $extension) {
+    //         if (strpos($lowercaseFilename, $extension) !== false) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
 
     public function initialPreview($data, $field, $type = 'file')
     {
         $initial = [];
         $files = Json::decode($data);
         if (is_array($files)) {
-            foreach ($files as $key => $value) {
-                $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
-                $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
+            foreach ($files as $key => $file) {
+                $filePath = self::getUploadUrl() . $this->ref . '/' . $file;
+                $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $file;
 
                 $isImage = $this->isImage($filePath);
 
@@ -211,9 +248,9 @@ class Ncr extends \yii\db\ActiveRecord
                     $initial[] = "<div class='file-preview-other'><h2><i class='glyphicon glyphicon-file'></i></h2></div>";
                 } elseif ($type == 'config') {
                     $initial[] = [
-                        'caption' => $value,
+                        'caption' => $file,
                         'width'  => '120px',
-                        'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
+                        'url'    => Url::to(['deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
                         'key'    => $key
                     ];
                 } else {
@@ -228,6 +265,4 @@ class Ncr extends \yii\db\ActiveRecord
         }
         return $initial;
     }
-
-   
 }
