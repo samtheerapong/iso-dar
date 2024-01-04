@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 04, 2024 at 09:03 AM
+-- Generation Time: Jan 04, 2024 at 03:43 PM
 -- Server version: 5.7.39
--- PHP Version: 7.4.9
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -63,7 +63,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
-('TD-6701-????', 4, 1, 1704353542),
+('TD-6701-????', 9, 1, 1704381625),
 ('WI-PC\n-???', 1, 1, 1703576022),
 ('WI-QC\n-???', 1, 1, 1703576262);
 
@@ -183,17 +183,18 @@ CREATE TABLE `it_todo` (
   `created_at` date DEFAULT NULL COMMENT 'วันที่บันทึก',
   `created_by` int(11) DEFAULT NULL COMMENT 'บันทึกโดย',
   `updated_at` date DEFAULT NULL COMMENT 'วันที่ปรับปรุง',
-  `updated_by` int(11) DEFAULT NULL COMMENT 'ปรับปรุงโดย'
+  `updated_by` int(11) DEFAULT NULL COMMENT 'ปรับปรุงโดย',
+  `ref` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `it_todo`
 --
 
-INSERT INTO `it_todo` (`id`, `code`, `todo_date`, `title`, `description`, `request_name`, `photo`, `status_id`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(2, 'TD-6701-0001', '2024-01-04', 'ทดสอบหัวข้อ', 'รายละเอียดรายละเอียดรายละเอียดรายละเอียด', 5, 'a294431de2417b8cefa5065a79a73bdd.jpg', 1, NULL, NULL, '2024-01-04', 1),
-(3, 'TD-6701-0002', '2024-01-05', 'ทดสอบ', '', 3, '1213f759602f47838534a57ba0bef649.jpg', 1, '2024-01-04', 1, NULL, 1),
-(4, 'TD-6701-0004', '2024-01-04', 'asdasdad', '', 6, '', 1, '2024-01-04', 1, NULL, 1);
+INSERT INTO `it_todo` (`id`, `code`, `todo_date`, `title`, `description`, `request_name`, `photo`, `status_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `ref`) VALUES
+(2, 'TD-6701-0001', '2024-01-04', 'ทดสอบหัวข้อ', 'รายละเอียดรายละเอียดรายละเอียดรายละเอียด', 5, 'a294431de2417b8cefa5065a79a73bdd.jpg', 3, NULL, NULL, '2024-01-04', 1, NULL),
+(3, 'TD-6701-0002', '2024-01-05', 'ทดสอบ', '', 3, '1213f759602f47838534a57ba0bef649.jpg', 2, '2024-01-04', 1, NULL, 1, NULL),
+(4, 'TD-6701-0004', '2024-01-04', 'asdasdad', '', 6, '797f36f21eb06110c8e2057c3e509d61.webp', 1, '2024-01-04', 1, '2024-01-04', 12, NULL);
 
 -- --------------------------------------------------------
 
@@ -226,6 +227,18 @@ CREATE TABLE `it_todo_list` (
   `cost` decimal(10,2) DEFAULT '0.00' COMMENT 'ค่าใช้จ่าย',
   `note` text COMMENT 'บันทึก',
   `docs` text COMMENT 'เอกสาร'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_todo_photos`
+--
+
+CREATE TABLE `it_todo_photos` (
+  `id` int(11) NOT NULL,
+  `todo_id` int(11) DEFAULT NULL,
+  `photo_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -303,7 +316,7 @@ CREATE TABLE `ncr` (
 
 INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `ncr_process_id`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `troubleshooting`, `docs`, `ncr_status_id`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
 (5, '6612-0001', '2024-01-01', 1, 2, 1, 1, '', '2023-12-27', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 1, '', 2, 3, '', '{\"66c4b3cf29ecb9828ca85a9a093f9870.jpg\":\"IMG_2125.jpg\",\"7c8730b85c5a40a3c44df4d7656915da.jpg\":\"IMG_7524.jpg\"}', 2, 'ocsQVO1m96BF5ou3GEXVSX', '2023-12-27', 12, '2024-01-03', 1),
-(6, '6701-0001', '2024-01-03', 1, 2, 1, 1, '071/23', '2023-12-22', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 2, 1, '', 1, 19, 'ทดสอบเบื้องต้น', '{\"a8bc835c231cd416042577c1effe636e.jpg\":\"IMG_2125.jpg\"}', 2, 'Vp1De5dQtllWbHV40Bnvcn', '2024-01-03', 1, '2024-01-03', 1);
+(6, '6701-0001', '2024-01-03', 1, 2, 1, 1, '071/23', '2023-12-22', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 2, 1, '', 1, 19, 'ทดสอบเบื้องต้น', '{\"d365181cec46f044e48a2c891b7c91d9.jpg\":\"LINE_ALBUM_1012567_๒๔๐๑๐๒_1.jpg\"}', 1, 'Vp1De5dQtllWbHV40Bnvcn', '2024-01-03', 1, '2024-01-04', NULL);
 
 -- --------------------------------------------------------
 
@@ -479,7 +492,8 @@ INSERT INTO `ncr_solving` (`id`, `ncr_id`, `solving_type_id`, `quantity`, `unit`
 (2, 5, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (3, 5, 1, 1, 'pcs', '', '2024-01-17', 29, 1, 'John Doe', 'ทดสอบ', '', 4, '2024-01-18', NULL, NULL),
 (4, 5, 1, 5, 'กล่อง', '', '2024-01-04', 3, 1, 'John Doe', '', '', 4, '2024-01-11', NULL, NULL),
-(5, 6, 3, 4, 'กล่อง', 'แก้ไขใหม่', '2024-01-04', 29, 2, 'ทดสอบ', 'ทดสอบ', 'ไม่มี', 4, '2024-01-05', NULL, NULL);
+(5, 6, 3, 4, 'กล่อง', 'แก้ไขใหม่', '2024-01-04', 29, 2, 'ทดสอบ', 'ทดสอบ', 'ไม่มี', 4, '2024-01-05', NULL, NULL),
+(6, 6, 1, 1, 'กล่อง', 'dddddddddd', '2024-01-17', 4, 2, 'ทดสอบ', 'ทดสอบ', 'ddddddddd', 1, '2024-01-06', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -756,6 +770,21 @@ CREATE TABLE `review_upload` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `uploads`
+--
+
+CREATE TABLE `uploads` (
+  `upload_id` int(11) NOT NULL,
+  `ref` varchar(50) DEFAULT NULL,
+  `file_name` varchar(150) DEFAULT NULL COMMENT 'ชื่อไฟล์',
+  `real_filename` varchar(150) DEFAULT NULL COMMENT 'ชื่อไฟล์จริง',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` int(11) DEFAULT NULL COMMENT 'ประเภท'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -1023,6 +1052,13 @@ ALTER TABLE `it_todo_list`
   ADD KEY `fk_it_todo_list_user1_idx` (`operator_name`);
 
 --
+-- Indexes for table `it_todo_photos`
+--
+ALTER TABLE `it_todo_photos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `todo_id` (`todo_id`);
+
+--
 -- Indexes for table `it_todo_status`
 --
 ALTER TABLE `it_todo_status`
@@ -1176,6 +1212,12 @@ ALTER TABLE `review_upload`
   ADD KEY `fk_review_upload_review1_idx` (`review_id`);
 
 --
+-- Indexes for table `uploads`
+--
+ALTER TABLE `uploads`
+  ADD PRIMARY KEY (`upload_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -1243,6 +1285,12 @@ ALTER TABLE `it_todo_list`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `it_todo_photos`
+--
+ALTER TABLE `it_todo_photos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `it_todo_status`
 --
 ALTER TABLE `it_todo_status`
@@ -1300,7 +1348,7 @@ ALTER TABLE `ncr_protection`
 -- AUTO_INCREMENT for table `ncr_solving`
 --
 ALTER TABLE `ncr_solving`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ncr_solving_type`
@@ -1375,6 +1423,12 @@ ALTER TABLE `review_upload`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `uploads`
+--
+ALTER TABLE `uploads`
+  MODIFY `upload_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -1420,6 +1474,12 @@ ALTER TABLE `it_todo_list`
   ADD CONSTRAINT `fk_it_todo_list_it_todo_type1` FOREIGN KEY (`todo_type_id`) REFERENCES `it_todo_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_it_todo_list_user1` FOREIGN KEY (`operator_name`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_it_todo_list_user2` FOREIGN KEY (`operator_name`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `it_todo_photos`
+--
+ALTER TABLE `it_todo_photos`
+  ADD CONSTRAINT `it_todo_photos_ibfk_1` FOREIGN KEY (`todo_id`) REFERENCES `it_todo` (`id`);
 
 --
 -- Constraints for table `ncr`
