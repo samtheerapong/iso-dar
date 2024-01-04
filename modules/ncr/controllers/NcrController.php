@@ -152,9 +152,10 @@ class NcrController extends Controller
                 $solvingModel->ncr_id = $model->id;
                 if ($solvingModel->save()) {
                     Yii::$app->session->setFlash('success', 'Successfully');
-                    return $this->redirect(['/ncr/ncr-solving/view', 'id' => $solvingModel->id]); // Redirect to view page or any other page
+                    return $this->redirect(['/ncr/ncr-solving/view', 'id' => $solvingModel->id]);
                 } else {
                     Yii::$app->session->setFlash('error', 'Error saving solving information.');
+                    return $this->redirect(['/ncr/ncr/index']);
                 }
             }
         }
