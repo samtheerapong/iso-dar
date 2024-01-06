@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 04, 2024 at 03:43 PM
+-- Generation Time: Jan 06, 2024 at 10:02 AM
 -- Server version: 5.7.39
--- PHP Version: 7.4.33
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,6 +58,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('6612-????', 2, 1, 1703816855),
 ('6612/????', 2, 1, 1703609014),
 ('6701-????', 1, 1, 1704247569),
+('J2401-???', 4, 1, 1704535296),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
 ('PM-GR-???', 1, 1, 1703496816),
@@ -276,6 +277,155 @@ CREATE TABLE `it_todo_type` (
   `color` varchar(45) DEFAULT NULL COMMENT 'สี',
   `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` int(11) NOT NULL,
+  `number` varchar(45) DEFAULT NULL,
+  `request_date` date DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `request_by` int(11) DEFAULT NULL,
+  `job_department` int(11) DEFAULT NULL,
+  `location` int(11) DEFAULT NULL,
+  `equipment` varchar(255) DEFAULT NULL,
+  `job_type` int(11) DEFAULT NULL,
+  `urgency` int(11) DEFAULT NULL,
+  `job_status` int(11) DEFAULT NULL,
+  `remask` text,
+  `docs` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `number`, `request_date`, `title`, `description`, `request_by`, `job_department`, `location`, `equipment`, `job_type`, `urgency`, `job_status`, `remask`, `docs`) VALUES
+(1, 'J2401-004', '2024-01-10', 'asdasd', 'asdasda', 3, 3, 2, 'คอมพิวเตอร์', 1, 1, 1, '', '{\"2066ec85967fa670ffd82e248b34cb70.png\":\"asset-image-7-K4qaDN2efK.png\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_status`
+--
+
+CREATE TABLE `job_status` (
+  `id` int(11) NOT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `color` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `job_status`
+--
+
+INSERT INTO `job_status` (`id`, `code`, `name`, `color`) VALUES
+(1, 'New Request', 'แจ้งงาน', '#df2e39'),
+(2, 'In Progress', 'ดำเนินการ', '#ff00ff'),
+(3, 'Finished', 'เสร็จสิ้น', '#1A5D1A'),
+(4, 'Canceled', 'ยกเลิก', '#454545');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_type`
+--
+
+CREATE TABLE `job_type` (
+  `id` int(11) NOT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `color` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `job_type`
+--
+
+INSERT INTO `job_type` (`id`, `code`, `name`, `color`) VALUES
+(1, 'Service', 'Support & Service', '#11468F'),
+(2, 'Server', 'Server & Network', '#F58840'),
+(3, 'Supply', 'Supply', '#DA1212'),
+(4, 'Devalop', 'Devaloper and Coding', '#125C13'),
+(5, 'CCTV', 'CCTV', '#3d85c6'),
+(6, 'Meeting', 'Meeting', '#9900ff'),
+(7, 'PM', 'PM', '#002B5B'),
+(8, 'Backup', 'Backup', '#19A7CE'),
+(9, 'Other', 'Other', '#9A9483');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_urgency`
+--
+
+CREATE TABLE `job_urgency` (
+  `id` int(11) NOT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `color` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `job_urgency`
+--
+
+INSERT INTO `job_urgency` (`id`, `code`, `name`, `color`) VALUES
+(1, 'Medium', 'ปกติ', '#279EFF'),
+(2, 'High', 'ด่วน', '#ff0000'),
+(3, 'Low', 'ต่ำ', '#6aa84f');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `location`
+--
+
+CREATE TABLE `location` (
+  `id` int(11) NOT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `color` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `location`
+--
+
+INSERT INTO `location` (`id`, `code`, `name`, `color`) VALUES
+(1, 'B1', 'อาคารสำนักงาน (Office)', '#1C6758'),
+(2, 'QC', 'ห้องควบคุมคุณภาพ (Quality Control)', '#1C6758'),
+(3, 'PU', 'ห้องจัดซื้อ (Purchasing )', '#1C6758'),
+(4, 'HR', 'ห้องบุคคล (Human Resources)', '#1C6758'),
+(5, 'PD', 'ห้องผลิต (Production)', '#1C6758'),
+(6, 'IT', 'ห้องคอมพิวเตอร์ (Information Technology)', '#1C6758'),
+(7, 'WH', 'คลังเก็บสินค้า (Warehouse)', '#1C6758'),
+(8, 'RE', 'ห้องน้ำ (Restroom)', '#1C6758'),
+(9, 'BF', 'ห้องนมแม่ (Breast Feeding Room)', '#1C6758'),
+(10, 'KC', 'ห้องครัว (Kitchen )', '#1C6758'),
+(11, 'MT', 'ห้องประชุม (Meeting)', '#1C6758'),
+(12, 'AC', 'ห้องบัญชี (Accounting)', '#1C6758'),
+(13, 'CT', 'ห้องรับประทานอาหาร (Canteen)', '#1C6758'),
+(14, 'GM', 'ห้องผู้จัดการทั่วไป (General Manager)', '#1C6758'),
+(15, '2K', 'อาคารB2 (Koji)', '#EC7272'),
+(16, '3M', 'อาคารB3 (Moromi)', '#F7A76C'),
+(17, '4P', 'อาคารB4 ส่วนคั้น (Pressing)', '#2B7A0B'),
+(18, '4F', 'อาคารB4 ส่วนกรอง (Filter)', '#2B7A0B'),
+(19, '4G', 'อาคารB4 ส่วนบรรจุ (Packing)', '#2B7A0B'),
+(20, '5V', 'อาคารB5 ส่วนน้ำส้ม (Rice Vinegar)', '#876445'),
+(21, '5R', 'อาคารB5 ส่วนล้างวัตถุดิบ (Raw Material)', '#876445'),
+(22, 'EN', 'อาคารวิศวกรรม (Engineering)', '#FF9F29'),
+(23, 'BO', 'อาคารบอยเลอร์ (Boiler)', '#FF9F29'),
+(24, 'RD', 'ห้องวิจัยและพัฒนา (Research & Development )', '#1C6758'),
+(25, 'GU', 'ป้อมยาม (Guardhouse)', '#990000'),
+(26, 'GB', 'โรงเก็บขยะ (Garbage Shed)', '#990000'),
+(27, 'WS', 'บ่อบำบัดน้ำเสีย (Wastewater Stabilization Pon', '#990000');
 
 -- --------------------------------------------------------
 
@@ -590,6 +740,41 @@ INSERT INTO `ncr_year` (`id`, `year`, `color`, `active`) VALUES
 (6, '2028', NULL, 1),
 (7, '2029', NULL, 1),
 (8, '2030', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `operations`
+--
+
+CREATE TABLE `operations` (
+  `id` int(11) NOT NULL,
+  `job_id` int(11) DEFAULT NULL,
+  `operator_by` int(11) DEFAULT NULL,
+  `details` text,
+  `sparepart_list` text,
+  `cost` decimal(10,2) DEFAULT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `remask` text,
+  `docs` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `operations`
+--
+
+INSERT INTO `operations` (`id`, `job_id`, `operator_by`, `details`, `sparepart_list`, `cost`, `start_date`, `end_date`, `remask`, `docs`) VALUES
+(1, 1, 1, '', '', '30650.00', '2023-09-05 08:00:00', '2023-09-05 12:00:00', 'http://192.168.2.4/glpi/front/computer.form.php?id=46', '{\"01893b333ae0c002e9526b8b8aa6726a.jpg\":\"qa02.jpg\"}'),
+(2, 2, 1, '', '', '0.00', '2023-09-06 08:00:00', '2023-09-06 12:00:00', '', 'null'),
+(3, 3, 1, '', '', '0.00', '2023-09-09 09:00:00', '2023-09-09 12:00:00', '', 'null'),
+(4, 4, 1, '', '', '0.00', '2023-09-11 13:00:00', '2023-09-11 15:00:00', 'ไม่สามารถติดตั้งเครื่องคุณยศได้', '{\"181247fcfa64c8257cbf830fa774b6f8.xlsx\":\"งานจันโอนโรงงาน (1).xlsx\"}'),
+(5, 5, 1, 'ติดตั้งตรงเสาทางซ้าย ตรงทางเข้า', 'เครื่องสแแกนนิ้ว, กล้อง IP Camera, ระบบNetwork', '0.00', '2023-09-11 10:00:00', '2023-09-11 11:30:00', '', '{\"06b0aa4675ddd9ba019235a15f8b135a.jpg\":\"293657.jpg\"}'),
+(6, 6, 1, '', '', '3400.00', '2023-09-12 13:00:00', '2023-09-12 14:00:00', '', '{\"8fbe636eba15466c68312d924c3278c5.jpg\":\"293658_0.jpg\",\"193fd4903fe913fc1fe90222869260a1.jpg\":\"293659_0.jpg\"}'),
+(7, 7, 1, '', '', '0.00', '2023-09-14 10:00:00', '2023-09-14 12:00:00', '', '{\"fa5da34151cbdbef071ad6f4110c5d50.jpg\":\"13-9-2566 16-31-09.jpg\"}'),
+(8, 8, 1, '', '', '3580.00', '2023-09-13 14:00:00', '2023-09-13 15:00:00', '', '{\"189c8f6df934b71c8fc9befab66c7da4.jpg\":\"13-9-2566 16-25-52.jpg\"}'),
+(9, 9, 1, 'จัดทำ LAYOUT CCTV', '', '0.00', '2024-01-06 09:00:00', '2024-01-06 10:00:00', '', '{\"c099fc6fab91433c8c4215b210ec3e8c.png\":\"cctv-layout-20240106.png\",\"15865987a54c66d661ce3697ac7aff10.pdf\":\"รายชื่อกล้องวงจรปิด - 2024 - ALL.pdf\"}'),
+(10, 1, NULL, NULL, NULL, '0.00', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1071,6 +1256,41 @@ ALTER TABLE `it_todo_type`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_jobs_job_type1_idx` (`job_type`),
+  ADD KEY `fk_jobs_job_urgency1_idx` (`urgency`),
+  ADD KEY `fk_jobs_job_status1_idx` (`job_status`),
+  ADD KEY `fk_jobs_location1_idx` (`location`),
+  ADD KEY `fk_jobs_department1_idx` (`job_department`);
+
+--
+-- Indexes for table `job_status`
+--
+ALTER TABLE `job_status`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `job_type`
+--
+ALTER TABLE `job_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `job_urgency`
+--
+ALTER TABLE `job_urgency`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `location`
+--
+ALTER TABLE `location`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ncr`
 --
 ALTER TABLE `ncr`
@@ -1152,6 +1372,13 @@ ALTER TABLE `ncr_sub_category`
 --
 ALTER TABLE `ncr_year`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `operations`
+--
+ALTER TABLE `operations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_operations_jobs1_idx` (`job_id`);
 
 --
 -- Indexes for table `request`
@@ -1303,6 +1530,36 @@ ALTER TABLE `it_todo_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `job_status`
+--
+ALTER TABLE `job_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `job_type`
+--
+ALTER TABLE `job_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `job_urgency`
+--
+ALTER TABLE `job_urgency`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `location`
+--
+ALTER TABLE `location`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
@@ -1373,6 +1630,12 @@ ALTER TABLE `ncr_sub_category`
 --
 ALTER TABLE `ncr_year`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `operations`
+--
+ALTER TABLE `operations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `request`
