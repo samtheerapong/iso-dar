@@ -1,8 +1,8 @@
 <?php
 
+use dominus77\sweetalert2\Alert;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii2mod\alert\Alert;
 
 /** @var yii\web\View $this */
 /** @var app\modules\jobs\models\Operations $model */

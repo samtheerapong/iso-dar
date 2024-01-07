@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'number',
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width: 150px;'],
+                        'headerOptions' => ['style' => 'width: 120px;'],
                         'value' => function ($model) {
                             return  Html::a(
                                 $model->number,

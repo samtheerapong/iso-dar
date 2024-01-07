@@ -2,8 +2,7 @@
 
 namespace app\modules\jobs\models;
 
-use app\modules\system\models\Operators;
-use app\modules\system\models\User;
+use app\models\User;
 use Yii;
 use yii\bootstrap4\Html;
 use yii\helpers\Json;
@@ -89,7 +88,7 @@ class Operations extends \yii\db\ActiveRecord
     // กำหนดความสัมพันธ์ของตาราง operator_by
     public function getActorBy()
     {
-        return $this->hasOne(Operators::class, ['id' => 'operator_by']);
+        return $this->hasOne(User::class, ['id' => 'operator_by']);
     }
 
 

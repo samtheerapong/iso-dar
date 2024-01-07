@@ -81,7 +81,7 @@ class JobsController extends Controller
         $modelOperations = new Operations();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->number = AutoNumber::generate('J' . date('ym') . '-???');
+            $model->number = AutoNumber::generate('RP-' . (date('y') + 43) . date('m') . '-????');
             $this->CreateDir($model->number);
             $model->docs = $this->uploadMultipleFile($model);
             if ($model->save()) {
@@ -126,7 +126,7 @@ class JobsController extends Controller
                     ]
                 ]);
                 // Yii::$app->session->setFlash('success', Yii::t('app', 'Updated Successfully'));
-                
+
             }
         }
 

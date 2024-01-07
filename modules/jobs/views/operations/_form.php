@@ -2,7 +2,7 @@
 
 use app\modules\jobs\models\JobStatus;
 use app\modules\system\models\Operators;
-use app\modules\system\models\User;
+use app\models\User;
 use kartik\widgets\DatePicker;
 use kartik\widgets\DateTimePicker;
 use kartik\widgets\FileInput;
@@ -171,7 +171,7 @@ use yii\widgets\DetailView;
                         <div class="col-md-8">
                             <?= $form->field($model, 'operator_by')->widget(Select2::class, [
                                 'language' => 'th',
-                                'data' => ArrayHelper::map(Operators::find()->all(), 'id', 'thai_name'),
+                                'data' => ArrayHelper::map(User::find()->all(), 'id', 'thai_name'),
                                 'options' => [
                                     'placeholder' => '',
                                 ],

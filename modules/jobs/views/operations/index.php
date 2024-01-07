@@ -2,10 +2,9 @@
 
 use app\modules\jobs\models\Jobs;
 use app\modules\jobs\models\JobStatus;
-use app\modules\system\models\Department;
-use app\modules\system\models\User;
+use app\models\Department;
+use app\models\User;
 use app\modules\system\models\Operators;
-use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -40,18 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="mb-3" style="text-align: right;">
 
-            <?php
-            echo ExportMenu::widget([
-                'exportConfig' => [
-                    ExportMenu::FORMAT_TEXT => false,
-                    ExportMenu::FORMAT_PDF => false,
-                    ExportMenu::FORMAT_HTML => false,
-                    ExportMenu::FORMAT_EXCEL => false,
-                    ExportMenu::FORMAT_EXCEL_X => false,
-                ],
-                'dataProvider' => $dataProvider,
-                'columns' => [],
-            ]) ?>
+           
         </div>
     </div>
 
@@ -97,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     [
                         'attribute' => 'title',
-                        'options' => ['style' => 'width:200px;'],
+                        'headerOptions' => ['style' => 'width:200px;'],
                         'format' => 'html',
                         'value' => function ($model) {
                             return $model->generateTitleLink();
@@ -174,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Select2::widget([
                             'model' => $searchModel,
                             'attribute' => 'operator_by',
-                            'data' => ArrayHelper::map(Operators::find()->all(), 'id', 'thai_name'),
+                            'data' => ArrayHelper::map(User::find()->all(), 'id', 'thai_name'),
                             'options' => ['placeholder' => Yii::t('app', 'Select...')],
                             'language' => 'th',
                             'pluginOptions' => [
