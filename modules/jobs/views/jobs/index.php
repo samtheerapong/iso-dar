@@ -5,6 +5,7 @@ use app\modules\jobs\models\Jobs;
 use app\modules\jobs\models\JobType;
 use app\modules\jobs\models\JobUrgency;
 use app\models\User;
+use app\modules\jobs\models\JobStatus;
 use kartik\export\ExportMenu;
 use yii\bootstrap4\LinkPager;
 use yii\helpers\Html;
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="mb-3" style="text-align: right;">
 
-            
+
         </div>
     </div>
 
@@ -48,14 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'linkOptions' => ['class' => 'page-link'],
                 ],
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                    ['class' => 'yii\grid\SerialColumn', 'headerOptions' => ['style' => 'width: 45px;']],
 
                     // 'id',
                     // 'number',
                     [
                         'attribute' => 'number',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 150px;'],
                         'value' => function ($model) {
                             return  Html::a(
                                 $model->number,
@@ -76,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     [
                         'attribute' => 'title',
-                        'options' => ['style' => 'width:350px;'],
+                        // 'headerOptions' => ['style' => 'width:350px;'],
                         'format' => 'html',
                         'value' => function ($model) {
                             $truncatedSupplierName = mb_substr($model->title, 0, 35, 'UTF-8');
@@ -108,8 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'request_date',
                         'format' => 'date',
-                        'headerOptions' => ['style' => 'width: 200px;'],
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 150px;'],
                         'value' => function ($model) {
                             return $model->request_date;
                         },
@@ -127,14 +127,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'request_by',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 250px;'],
                         'value' => function ($model) {
                             return $model->requestBy->thai_name;
                         },
                         'filter' => Select2::widget([
                             'model' => $searchModel,
                             'attribute' => 'request_by',
-                            'data' => ArrayHelper::map(User::find()->all(), 'id', 'thai_name'),
+                            'data' => ArrayHelper::map(User::find()->where(['status' => 10])->all(), 'id', 'thai_name'),
                             'options' => ['placeholder' => Yii::t('app', 'Select...')],
                             'language' => 'th',
                             'pluginOptions' => [
@@ -146,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'job_department',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 100px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->jobDepartment->color . ';"><b>' . $model->jobDepartment->code . '</b></span>';
                         },
@@ -166,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'job_type',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 140px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->jobType->color . ';"><b>' . $model->jobType->code . '</b></span>';
                         },
@@ -184,7 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'urgency',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 140px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->urgency0->color . ';"><b>' . $model->urgency0->name . '</b></span>';
                         },
@@ -202,14 +202,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'job_status',
                         'format' => 'html',
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 140px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->jobStatus->color . ';"><b>' . $model->jobStatus->name . '</b></span>';
                         },
                         'filter' => Select2::widget([
                             'model' => $searchModel,
                             'attribute' => 'job_status',
-                            'data' => ArrayHelper::map(Jobs::find()->all(), 'jobStatus.id', 'jobStatus.name'),
+                            'data' => ArrayHelper::map(JobStatus::find()->all(), 'id', 'name'),
                             'options' => ['placeholder' => Yii::t('app', 'Select...')],
                             'language' => 'th',
                             'pluginOptions' => [
@@ -221,7 +221,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'docs:ntext',
                     [
                         'class' => 'kartik\grid\ActionColumn',
-                        'options' => ['style' => 'width:150px'],
+                        'headerOptions' => ['style' => 'width: 150px;'],
                         'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
                         'template' => '<div class="btn-group btn-group-xs" role="group"> {operate} {view} {update} {delete}</div>',
                         'urlCreator' => function ($action, $model, $key, $index, $column) {

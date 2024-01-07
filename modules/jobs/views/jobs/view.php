@@ -1,6 +1,6 @@
 <?php
 
-use yii2mod\alert\Alert;
+// use yii2mod\alert\Alert;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="jobs-view">
-    <?php echo Alert::widget() ?>
     <div style="display: flex; justify-content: space-between;">
         <p>
             <?= Html::a('<i class="fas fa-chevron-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
@@ -144,10 +143,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    $('.image-link').on('click', function() {
-        var largeImage = $(this).find('img[data-large-image]');
-        largeImage.show(); // แสดงรูปภาพขนาดใหญ่เมื่อคลิกที่รูปภาพขนาดเล็ก
+    $(document).ready(function() {
+        $('.image-link').on('click', function() {
+            var largeImage = $(this).find('img[data-large-image]');
+            largeImage.show(); // แสดงรูปภาพขนาดใหญ่เมื่อคลิกที่รูปภาพขนาดเล็ก
+        });
     });
-});
 </script>

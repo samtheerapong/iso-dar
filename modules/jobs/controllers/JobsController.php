@@ -15,6 +15,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Json;
 use yii\web\UploadedFile;
+//
+use dominus77\sweetalert2\Alert;
 
 /**
  * JobsController implements the CRUD actions for Jobs model.
@@ -116,7 +118,15 @@ class JobsController extends Controller
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Updated Successfully'));
+                Alert::widget([
+                    'options' => [
+                        'Good job!',
+                        'You clicked the button!',
+                        Alert::TYPE_SUCCESS
+                    ]
+                ]);
+                // Yii::$app->session->setFlash('success', Yii::t('app', 'Updated Successfully'));
+                
             }
         }
 

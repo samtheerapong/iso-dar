@@ -142,4 +142,14 @@
          //  Rp Lists
          'Rp Lists' => 'รายการแจ้งซ่อม',
          'Repair Lists' => 'รายการแจ้งซ่อม',
+
+         // Jobs
+         'Number'=> 'เลขที่',
+         'Title'=> 'เรื่อง',
+         'Request Date'=> 'วันที่แจ้ง',
+         'Request By'=> 'ผู้แจ้ง',
+         'Job Department'=> 'แผนก',
+         'Job Type'=> 'ประเภท',
+         'Urgency'=> 'ความเร่งรีบ',
+         'Job Status'=> 'สถานะ',
 ];
