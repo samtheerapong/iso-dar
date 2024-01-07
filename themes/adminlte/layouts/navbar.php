@@ -29,7 +29,10 @@ use yii\helpers\Url;
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?= Url::toRoute('/itms/it-todo/index') ?>" class="nav-link"> <?= Yii::t('app', 'TO DO') ?></a>
+            <a href="<?= Url::toRoute('/itms/it-todo/index') ?>" class="nav-link"> <?= Yii::t('app', 'Todo') ?></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="<?= Url::toRoute('/jobs/jobs/index') ?>" class="nav-link"> <?= Yii::t('app', 'Job') ?></a>
         </li>
 
        
