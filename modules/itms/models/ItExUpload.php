@@ -15,7 +15,6 @@ use yii\helpers\Url;
  */
 class ItExUpload extends \yii\db\ActiveRecord
 {
-
     const UPLOAD_FOLDER_IMG = 'uploads/ex/img';
     const UPLOAD_FOLDER_DOC = 'uploads/ex/doc';
     /**
@@ -101,7 +100,6 @@ class ItExUpload extends \yii\db\ActiveRecord
     }
 
     // Add this method to your ItExUpload model class
-
     public function getDocumentList()
     {
         $docs = UploadDoc::find()->where(['ref' => $this->doc_ref])->all();

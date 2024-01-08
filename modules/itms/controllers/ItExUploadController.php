@@ -86,7 +86,6 @@ class ItExUploadController extends Controller
 
                 $this->UploadImg(false); // Image
 
-                $this->CreateDocDir($model->doc_ref);
                 $this->UploadDoc(false); // Document
 
                 $model->save();
@@ -147,6 +146,7 @@ class ItExUploadController extends Controller
         $model = $this->findModel($id);
 
         $this->removeUploadImageDir($model->img_ref);
+        $this->removeUploadImageDir($model->img_ref);
 
         UploadImg::deleteAll(['ref' => $model->img_ref]);
 
@@ -200,7 +200,7 @@ class ItExUploadController extends Controller
     private function UploadImg($isAjax = false)
     {
         if (Yii::$app->request->isPost) {
-            $images = UploadedFile::getInstancesByName('upload_image'); //actionUploadImage
+            $images = UploadedFile::getInstancesByName('img_ref');
             if ($images) {
 
                 if ($isAjax === true) {
@@ -308,12 +308,12 @@ class ItExUploadController extends Controller
 
 
 
-
+    // Upload Document
     private function UploadDoc($isAjax = false)
     {
         if (Yii::$app->request->isPost) {
-            $docs = UploadedFile::getInstancesByName('upload_document');
-            if ($docs) {
+            $documents = UploadedFile::getInstancesByName('documents');
+            if ($documents) {
 
                 if ($isAjax === true) {
                     $doc_ref = Yii::$app->request->post('doc_ref');
@@ -324,7 +324,7 @@ class ItExUploadController extends Controller
 
                 $this->CreateDir($doc_ref);
 
-                foreach ($docs as $file) {
+                foreach ($documents as $file) {
                     $fileName       = $file->baseName . '.' . $file->extension;
                     $realFileName   = md5($file->baseName . time()) . '.' . $file->extension;
                     $savePath       = ItExUpload::UPLOAD_FOLDER_IMG . '/' . $doc_ref . '/' . $realFileName;
@@ -352,6 +352,12 @@ class ItExUploadController extends Controller
             }
         }
     }
+
+    private function removeUploadDocDir($dir)
+    {
+        BaseFileHelper::removeDirectory(ItExUpload::getUploadPathDoc() . $dir);
+    }
+
 
     private function getInitialPreviewDoc($doc_ref)
     {
@@ -397,7 +403,7 @@ class ItExUploadController extends Controller
     }
 
 
-    
+
     private function CreateDocDir($folderName)
     {
         if ($folderName != null) {
