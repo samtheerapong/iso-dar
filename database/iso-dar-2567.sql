@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 06, 2024 at 10:02 AM
+-- Generation Time: Jan 08, 2024 at 09:02 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.9
 
@@ -58,6 +58,10 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('6612-????', 2, 1, 1703816855),
 ('6612/????', 2, 1, 1703609014),
 ('6701-????', 1, 1, 1704247569),
+('DOC6701-????', 2, 1, 1704694273),
+('EX-6701-????', 15, 1, 1704688357),
+('EX-6701-?????', 20, 1, 1704682780),
+('IMG6701-????', 2, 1, 1704694273),
 ('J2401-???', 4, 1, 1704535296),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
@@ -169,6 +173,39 @@ INSERT INTO `document_rule` (`id`, `code`, `name`, `color`, `active`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `it_demo`
+--
+
+CREATE TABLE `it_demo` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `photo` text NOT NULL,
+  `photos` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `it_demo`
+--
+
+INSERT INTO `it_demo` (`id`, `name`, `photo`, `photos`) VALUES
+(1, 'aaaa', 'b78e84b5b6088a91622055350cf1420c.jpg', '303d155a4e240fcf70203c4507f19203.jpg,0815d1163657e647dd508ec1d0fa86f5.jpg,81ce8692794095cfce3893c8f193c64a.jpg,4b35d760131dc9a210305ba381cf5000.jpg,310db8f4ad67dff85556a9138b3a99f2.jpg,919a5147a3782b78cb767e2493393705.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_ex_upload`
+--
+
+CREATE TABLE `it_ex_upload` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `img_ref` varchar(255) DEFAULT NULL,
+  `doc_ref` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `it_todo`
 --
 
@@ -194,7 +231,7 @@ CREATE TABLE `it_todo` (
 
 INSERT INTO `it_todo` (`id`, `code`, `todo_date`, `title`, `description`, `request_name`, `photo`, `status_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `ref`) VALUES
 (2, 'TD-6701-0001', '2024-01-04', 'ทดสอบหัวข้อ', 'รายละเอียดรายละเอียดรายละเอียดรายละเอียด', 5, 'a294431de2417b8cefa5065a79a73bdd.jpg', 3, NULL, NULL, '2024-01-04', 1, NULL),
-(3, 'TD-6701-0002', '2024-01-05', 'ทดสอบ', '', 3, '1213f759602f47838534a57ba0bef649.jpg', 2, '2024-01-04', 1, NULL, 1, NULL),
+(3, 'TD-6701-0002', '2024-01-05', 'ทดสอบ', '', 3, '9e79a547bac016ff690fe4b63b8d4e07.jpg', 2, '2024-01-04', 1, '2024-01-08', 12, NULL),
 (4, 'TD-6701-0004', '2024-01-04', 'asdasdad', '', 6, '797f36f21eb06110c8e2057c3e509d61.webp', 1, '2024-01-04', 1, '2024-01-04', 12, NULL);
 
 -- --------------------------------------------------------
@@ -306,7 +343,7 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`id`, `number`, `request_date`, `title`, `description`, `request_by`, `job_department`, `location`, `equipment`, `job_type`, `urgency`, `job_status`, `remask`, `docs`) VALUES
-(1, 'J2401-004', '2024-01-10', 'asdasd', 'asdasda', 3, 3, 2, 'คอมพิวเตอร์', 1, 1, 1, '', '{\"2066ec85967fa670ffd82e248b34cb70.png\":\"asset-image-7-K4qaDN2efK.png\"}');
+(1, 'J2401-004', '2024-01-10', 'asdasd', 'asdasda', 3, 3, 2, 'คอมพิวเตอร์', 1, 1, 1, '', '{\"124cd36cbec952a4abf0b2d42e53d79e.jpg\":\"NFC PLANT_3 - Copy.jpg\"}');
 
 -- --------------------------------------------------------
 
@@ -465,8 +502,8 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `ncr_process_id`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `troubleshooting`, `docs`, `ncr_status_id`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(5, '6612-0001', '2024-01-01', 1, 2, 1, 1, '', '2023-12-27', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 1, '', 2, 3, '', '{\"66c4b3cf29ecb9828ca85a9a093f9870.jpg\":\"IMG_2125.jpg\",\"7c8730b85c5a40a3c44df4d7656915da.jpg\":\"IMG_7524.jpg\"}', 2, 'ocsQVO1m96BF5ou3GEXVSX', '2023-12-27', 12, '2024-01-03', 1),
-(6, '6701-0001', '2024-01-03', 1, 2, 1, 1, '071/23', '2023-12-22', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 2, 1, '', 1, 19, 'ทดสอบเบื้องต้น', '{\"d365181cec46f044e48a2c891b7c91d9.jpg\":\"LINE_ALBUM_1012567_๒๔๐๑๐๒_1.jpg\"}', 1, 'Vp1De5dQtllWbHV40Bnvcn', '2024-01-03', 1, '2024-01-04', NULL);
+(5, '6612-0001', '2024-01-01', 1, 2, 1, 1, '', '2023-12-27', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 1, '', 2, 3, '', '{\"ab30f875272577f6ea1b3d5de3ebb213.jpg\":\"IMG_7560.jpg\",\"b37774bfb4064d150e19cc4a2ac25cd5.jpg\":\"IMG_7444.jpg\"}', 1, 'ocsQVO1m96BF5ou3GEXVSX', '2023-12-27', 12, '2024-01-08', 12),
+(6, '6701-0001', '2024-01-03', 1, 2, 1, 2, '071/23', '2023-12-22', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 2, 1, '', 1, 19, 'ทดสอบเบื้องต้น', '{\"180044233238690d932b2aea41b833ed.jpg\":\"IMG_7505.jpg\"}', 1, 'Vp1De5dQtllWbHV40Bnvcn', '2024-01-03', 1, '2024-01-08', 12);
 
 -- --------------------------------------------------------
 
@@ -970,6 +1007,36 @@ CREATE TABLE `uploads` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `upload_doc`
+--
+
+CREATE TABLE `upload_doc` (
+  `upload_id` int(11) NOT NULL,
+  `ref` varchar(50) DEFAULT NULL,
+  `file_name` varchar(150) DEFAULT NULL COMMENT 'ชื่อไฟล์',
+  `real_filename` varchar(150) DEFAULT NULL COMMENT 'ชื่อไฟล์จริง',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` int(11) DEFAULT NULL COMMENT 'ประเภท'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `upload_img`
+--
+
+CREATE TABLE `upload_img` (
+  `upload_id` int(11) NOT NULL,
+  `ref` varchar(50) DEFAULT NULL,
+  `file_name` varchar(150) DEFAULT NULL COMMENT 'ชื่อไฟล์',
+  `real_filename` varchar(150) DEFAULT NULL COMMENT 'ชื่อไฟล์จริง',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` int(11) DEFAULT NULL COMMENT 'ประเภท'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -1212,6 +1279,18 @@ ALTER TABLE `document_rule`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `it_demo`
+--
+ALTER TABLE `it_demo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `it_ex_upload`
+--
+ALTER TABLE `it_ex_upload`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `it_todo`
 --
 ALTER TABLE `it_todo`
@@ -1445,6 +1524,18 @@ ALTER TABLE `uploads`
   ADD PRIMARY KEY (`upload_id`);
 
 --
+-- Indexes for table `upload_doc`
+--
+ALTER TABLE `upload_doc`
+  ADD PRIMARY KEY (`upload_id`);
+
+--
+-- Indexes for table `upload_img`
+--
+ALTER TABLE `upload_img`
+  ADD PRIMARY KEY (`upload_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -1492,6 +1583,18 @@ ALTER TABLE `document_point`
 --
 ALTER TABLE `document_rule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `it_demo`
+--
+ALTER TABLE `it_demo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `it_ex_upload`
+--
+ALTER TABLE `it_ex_upload`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `it_todo`
@@ -1690,6 +1793,18 @@ ALTER TABLE `review_upload`
 --
 ALTER TABLE `uploads`
   MODIFY `upload_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `upload_doc`
+--
+ALTER TABLE `upload_doc`
+  MODIFY `upload_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `upload_img`
+--
+ALTER TABLE `upload_img`
+  MODIFY `upload_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`

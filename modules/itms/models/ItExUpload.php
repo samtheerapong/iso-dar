@@ -52,33 +52,33 @@ class ItExUpload extends \yii\db\ActiveRecord
     }
 
     // uploading img
-    public static function getUploadPathImg()
+    public static function getUploadImagePath()
     {
         return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER_IMG . '/';
     }
 
-    public static function getUploadUrlImg()
+    public static function getUploadImageUrl()
     {
         return Url::base(true) . '/' . self::UPLOAD_FOLDER_IMG . '/';
     }
 
-    public function getThumbnailsImg($img_ref, $title)
+    public function getImageThumbnails($img_ref)
     {
-        $uploadFiles   = Uploads::find()->where(['ref' => $img_ref])->all();
+        $uploadFiles   = UploadImg::find()->where(['ref' => $img_ref])->all();
         $preview = [];
         foreach ($uploadFiles as $file) {
             $preview[] = [
-                'url' => self::getUploadUrlImg(true) . $img_ref . '/' . $file->real_filename,
-                'src' => self::getUploadUrlImg(true) . $img_ref . '/thumbnail/' . $file->real_filename,
-                'options' => ['title' => $title]
+                'url' => self::getUploadImageUrl(true) . $img_ref . '/' . $file->real_filename,
+                'src' => self::getUploadImageUrl(true) . $img_ref . '/thumbnail/' . $file->real_filename,
+                'options' => ['title' => $img_ref]
             ];
         }
         return $preview;
     }
 
-    public function getPhotoIndexShow()
+    public function getImageShow()
     {
-        $thumbnails = $this->getThumbnailsImg($this->img_ref, $this->title);
+        $thumbnails = $this->getImageThumbnails($this->img_ref);
         if (!empty($thumbnails)) {
             return Html::a(Html::img($thumbnails[0]['src'], ['height' => '80px', 'class' => 'img-rounded ']), ['view', 'id' => $this->id]);
         } else {

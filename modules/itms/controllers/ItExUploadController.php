@@ -4,7 +4,7 @@ namespace app\modules\itms\controllers;
 
 use app\modules\itms\models\ItExUpload;
 use app\modules\itms\models\search\ItExUploadSearch;
-use app\modules\itms\models\UploadFile;
+use app\modules\itms\models\UploadImg;
 use app\modules\itms\models\Uploads;
 use mdm\autonumber\AutoNumber;
 use Yii;
@@ -77,15 +77,12 @@ class ItExUploadController extends Controller
     {
         $model = new ItExUpload();
 
-        // $model->ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
-        $model->img_ref = AutoNumber::generate('IMG' . (date('y') + 43) . date('m') . '-????');
-        $model->doc_ref = AutoNumber::generate('DOC' . (date('y') + 43) . date('m') . '-????');
+        $model->img_ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                // $model->ref = AutoNumber::generate('EX-' . (date('y') + 43) . date('m') . '-????');
-                $this->Uploads(false);
+                $this->UploadImg(false);
 
                 $model->save();
 
@@ -116,7 +113,7 @@ class ItExUploadController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
-            $this->Uploads(false);
+            $this->UploadImg(false);
 
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -141,9 +138,9 @@ class ItExUploadController extends Controller
     {
         $model = $this->findModel($id);
 
-        $this->removeUploadDir($model->ref);
+        $this->removeUploadImageDir($model->img_ref);
 
-        Uploads::deleteAll(['ref' => $model->ref]);
+        UploadImg::deleteAll(['ref' => $model->img_ref]);
 
         $model->delete();
 
@@ -166,20 +163,20 @@ class ItExUploadController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-
+    
     /*  |*********************************************************************************|
         |================================ Upload Img Ajax ================================|
         |*********************************************************************************|     */
 
-    public function actionUploadImg()
+    public function actionUploadImage()
     {
-        $this->Uploads(true);
+        $this->UploadImg(true);
     }
 
     private function CreateDir($folderName)
     {
         if ($folderName != NULL) {
-            $basePath = ItExUpload::getUploadPathImg();
+            $basePath = ItExUpload::getUploadImagePath();
             if (BaseFileHelper::createDirectory($basePath . $folderName, 0777)) {
                 BaseFileHelper::createDirectory($basePath . $folderName . '/thumbnail', 0777);
             }
@@ -187,15 +184,15 @@ class ItExUploadController extends Controller
         return;
     }
 
-    private function removeUploadDir($dir)
+    private function removeUploadImageDir($dir)
     {
-        BaseFileHelper::removeDirectory(ItExUpload::getUploadPathImg() . $dir);
+        BaseFileHelper::removeDirectory(ItExUpload::getUploadImagePath() . $dir);
     }
 
-    private function Uploads($isAjax = false)
+    private function UploadImg($isAjax = false)
     {
         if (Yii::$app->request->isPost) {
-            $images = UploadedFile::getInstancesByName('img_ref');
+            $images = UploadedFile::getInstancesByName('upload_image'); //actionUploadImage
             if ($images) {
 
                 if ($isAjax === true) {
@@ -217,7 +214,7 @@ class ItExUploadController extends Controller
                             $this->createThumbnail($img_ref, $realFileName);
                         }
 
-                        $model                  = new Uploads;
+                        $model                  = new UploadImg();
                         $model->ref             = $img_ref;
                         $model->file_name       = $fileName;
                         $model->real_filename   = $realFileName;
@@ -236,9 +233,9 @@ class ItExUploadController extends Controller
         }
     }
 
-    private function getInitialPreview($ref)
+    private function getInitialPreview($img_ref)
     {
-        $datas = Uploads::find()->where(['ref' => $ref])->all();
+        $datas = UploadImg::find()->where(['ref' => $img_ref])->all();
         $initialPreview = [];
         $initialPreviewConfig = [];
         foreach ($datas as $key => $value) {
@@ -246,7 +243,7 @@ class ItExUploadController extends Controller
             array_push($initialPreviewConfig, [
                 'caption' => $value->file_name,
                 'width'  => '120px',
-                'url'    => Url::to(['deletefile-ajax']),
+                'url'    => Url::to(['deletefile-img']),
                 'key'    => $value->upload_id
             ]);
         }
@@ -258,9 +255,9 @@ class ItExUploadController extends Controller
         return @is_array(getimagesize($filePath)) ? true : false;
     }
 
-    private function getTemplatePreview(Uploads $model)
+    private function getTemplatePreview(UploadImg $model)
     {
-        $filePath = ItExUpload::getUploadUrlImg() . $model->ref . '/thumbnail/' . $model->real_filename;
+        $filePath = ItExUpload::getUploadImageUrl() . $model->ref . '/thumbnail/' . $model->real_filename;
         $isImage  = $this->isImage($filePath);
         if ($isImage) {
             $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $model->file_name, 'title' => $model->file_name]);
@@ -274,7 +271,7 @@ class ItExUploadController extends Controller
 
     private function createThumbnail($folderName, $fileName, $width = 250)
     {
-        $uploadPath   = ItExUpload::getUploadPathImg() . '/' . $folderName . '/';
+        $uploadPath   = ItExUpload::getUploadImagePath() . '/' . $folderName . '/';
         $file         = $uploadPath . $fileName;
         $image        = Yii::$app->image->load($file);
         $image->resize($width);
@@ -285,126 +282,10 @@ class ItExUploadController extends Controller
     public function actionDeletefileAjax()
     {
 
-        $model = Uploads::findOne(Yii::$app->request->post('key'));
+        $model = UploadImg::findOne(Yii::$app->request->post('key'));
         if ($model !== NULL) {
-            $filename  = ItExUpload::getUploadPathImg() . $model->ref . '/' . $model->real_filename;
-            $thumbnail = ItExUpload::getUploadPathImg() . $model->ref . '/thumbnail/' . $model->real_filename;
-            if ($model->delete()) {
-                @unlink($filename);
-                @unlink($thumbnail);
-                echo json_encode(['success' => true]);
-            } else {
-                echo json_encode(['success' => false]);
-            }
-        } else {
-            echo json_encode(['success' => false]);
-        }
-    }
-
-    /*  |*********************************************************************************|
-        |================================ Upload Doc Ajax ================================|
-        |*********************************************************************************|     */
-
-    public function actionUploadDoc()
-    {
-        $this->UploadDoc(true);
-    }
-
-    private function CreateDirDoc($folderName)
-    {
-        if ($folderName != NULL) {
-            $basePath = ItExUpload::getUploadPathDoc();
-            if (BaseFileHelper::createDirectory($basePath . $folderName, 0777)) {
-                BaseFileHelper::createDirectory($basePath . $folderName . '/thumbnail', 0777);
-            }
-        }
-        return;
-    }
-
-    private function removeUploadDirFile($dir)
-    {
-        BaseFileHelper::removeDirectory(ItExUpload::getUploadPathDoc() . $dir);
-    }
-
-    private function UploadDoc($isAjax = false)
-    {
-        if (Yii::$app->request->isPost) {
-            $docs = UploadedFile::getInstancesByName('upload_docs'); // actionUploadDoc
-            if ($docs) {
-                if ($isAjax === true) {
-                    $doc = Yii::$app->request->post('docs');
-                } else {
-                    $uploader = Yii::$app->request->post('ItExUpload');
-                    $doc = $uploader['doc'];
-                }
-
-                $this->CreateDir($doc);
-
-                foreach ($docs as $file) {
-                    $fileName       = $file->baseName . '.' . $file->extension;
-                    $realFileName   = md5($file->baseName . time()) . '.' . $file->extension;
-                    $savePath       = ItExUpload::UPLOAD_FOLDER_IMG . '/' . $doc . '/' . $realFileName;
-                    if ($file->saveAs($savePath)) {
-
-                        if ($this->isImage(Url::base(true) . '/' . $savePath)) {
-                            $this->createThumbnail($doc, $realFileName);
-                        }
-
-                        $model                  = new UploadFile();
-                        $model->ref             = $doc;
-                        $model->file_name       = $fileName;
-                        $model->real_filename   = $realFileName;
-                        $model->save();
-
-                        if ($isAjax === true) {
-                            echo json_encode(['success' => 'true']);
-                        }
-                    } else {
-                        if ($isAjax === true) {
-                            echo json_encode(['success' => 'false', 'eror' => $file->error]);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private function getInitialPreviewFile($doc)
-    {
-        $datas = UploadFile::find()->where(['ref' => $doc])->all();
-        $initialPreview = [];
-        $initialPreviewConfig = [];
-        foreach ($datas as $key => $value) {
-            array_push($initialPreview, $this->getTemplatePreview($value));
-            array_push($initialPreviewConfig, [
-                'caption' => $value->file_name,
-                'width'  => '120px',
-                'url'    => Url::to(['deletefile-ajax']),
-                'key'    => $value->upload_id
-            ]);
-        }
-        return  [$initialPreview, $initialPreviewConfig];
-    }
-
-
-    private function getTemplatePreviewFile(Uploads $model)
-    {
-        $file =  "<div class='file-preview-other'> " .
-            "<h2><i class='fa fa-file'></i></h2>" .
-            "</div>";
-
-        return $file;
-    }
-
-    
-
-    public function actionDeletefileFile()
-    {
-
-        $model = UploadFile::findOne(Yii::$app->request->post('key'));
-        if ($model !== NULL) {
-            $filename  = ItExUpload::getUploadPathImg() . $model->doc . '/' . $model->real_filename;
-            $thumbnail = ItExUpload::getUploadPathImg() . $model->doc . '/thumbnail/' . $model->real_filename;
+            $filename  = ItExUpload::getUploadImagePath() . $model->img_ref . '/' . $model->real_filename;
+            $thumbnail = ItExUpload::getUploadImagePath() . $model->img_ref . '/thumbnail/' . $model->real_filename;
             if ($model->delete()) {
                 @unlink($filename);
                 @unlink($thumbnail);

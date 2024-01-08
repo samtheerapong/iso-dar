@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'raw',
                         'value' => function ($model) {
                             return Gallery::widget([
-                                'items' => $model->getThumbnailsImg($model->img_ref, $model->title),
+                                'items' => $model->getImageThumbnails($model->img_ref),
                             ]);
                         },
                     ],

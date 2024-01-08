@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'html',
                         'contentOptions' => ['class' => 'text-center','style' => 'width: 100px;'],
                         'value' => function (ItExUpload $model) {
-                            return $model->getPhotoIndexShow();
+                            return $model->getImageShow();
                         },
                     ],
                     
