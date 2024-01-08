@@ -70,22 +70,24 @@ class ItExUpload extends \yii\db\ActiveRecord
             $preview[] = [
                 'url' => self::getUploadImageUrl(true) . $img_ref . '/' . $file->real_filename,
                 'src' => self::getUploadImageUrl(true) . $img_ref . '/thumbnail/' . $file->real_filename,
-                'options' => ['title' => $img_ref]
+                'options' => [
+                    'title' => $file->real_filename,
+                ],
             ];
         }
         return $preview;
     }
 
+
     public function getImageShow()
     {
         $thumbnails = $this->getImageThumbnails($this->img_ref);
         if (!empty($thumbnails)) {
-            return Html::a(Html::img($thumbnails[0]['src'], ['height' => '80px', 'class' => 'img-rounded ']), ['view', 'id' => $this->id]);
+            return Html::a(Html::img($thumbnails[0]['src'], ['height' => '80px', 'class' => 'img-rounded']), ['view', 'id' => $this->id]);
         } else {
             return Html::a(Html::img(Yii::getAlias('@web') . '/uploads/no-image.jpg', ['height' => '80px', 'class' => 'img-rounded']), ['view', 'id' => $this->id]);
         }
     }
-
 
     // uploading doc
     public static function getUploadPathDoc()

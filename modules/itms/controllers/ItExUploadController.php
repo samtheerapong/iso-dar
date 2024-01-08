@@ -243,7 +243,7 @@ class ItExUploadController extends Controller
             array_push($initialPreviewConfig, [
                 'caption' => $value->file_name,
                 'width'  => '120px',
-                'url'    => Url::to(['/itms/it-ex-upload/deletefile-img']),
+                'url'    => Url::to(['deletefile-img']),
                 'key'    => $value->upload_id
             ]);
         }
