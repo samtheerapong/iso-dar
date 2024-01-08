@@ -32,9 +32,10 @@
         'N/A' => 'ไม่ระบุ',
         'Solving' => 'ดำเนินการตอบกลับ',
         'Solvings : {name}' => 'ตอบกลับ : {name}',
+        'It Ex Uploads' => 'ตัวอย่าง',
         
         //NCR
-        'Ncrs' => 'Nonconformance Report',
+        'Ncrs' => 'NCR',
         'Ncr Solvings' => 'การตอบกลับ',
         'Corrective action' => 'การดำเนินการแก้ไข',
         'Special acceptance' => 'การยอมรับเป็นกรณีพิเศษ',

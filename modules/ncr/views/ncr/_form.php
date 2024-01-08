@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
 <div class="ncr-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-    
+
     <div class="card border-secondary">
         <div class="card-header text-white bg-secondary">
             <?= Html::encode($this->title) ?>
@@ -178,6 +178,7 @@ use yii\widgets\ActiveForm;
                 <div class="col-md-12">
                     <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
                         'options' => [
+                            'options' => ['accept' => 'image/*'],
                             'multiple' => true
                         ],
                         'pluginOptions' => [
