@@ -99,4 +99,22 @@ class ItExUpload extends \yii\db\ActiveRecord
     {
         return Url::base(true) . '/' . self::UPLOAD_FOLDER_DOC . '/';
     }
+
+    // Add this method to your ItExUpload model class
+
+    public function getDocumentList()
+    {
+        $docs = UploadDoc::find()->where(['ref' => $this->doc_ref])->all();
+
+        $list = [];
+        foreach ($docs as $doc) {
+            $filePath = Yii::$app->urlManager->createAbsoluteUrl([$doc->file_path]);
+            $list[] = [
+                'name' => $doc->file_name,
+                'url' => $filePath,
+            ];
+        }
+
+        return $list;
+    }
 }

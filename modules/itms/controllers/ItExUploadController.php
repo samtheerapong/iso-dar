@@ -4,6 +4,7 @@ namespace app\modules\itms\controllers;
 
 use app\modules\itms\models\ItExUpload;
 use app\modules\itms\models\search\ItExUploadSearch;
+use app\modules\itms\models\UploadDoc;
 use app\modules\itms\models\UploadImg;
 use app\modules\itms\models\Uploads;
 use mdm\autonumber\AutoNumber;
@@ -78,11 +79,15 @@ class ItExUploadController extends Controller
         $model = new ItExUpload();
 
         $model->img_ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
+        $model->doc_ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $this->UploadImg(false);
+                $this->UploadImg(false); // Image
+
+                $this->CreateDocDir($model->doc_ref);
+                $this->UploadDoc(false); // Document
 
                 $model->save();
 
@@ -110,6 +115,7 @@ class ItExUploadController extends Controller
         $model = $this->findModel($id);
 
         list($initialPreview, $initialPreviewConfig) = $this->getInitialPreview($model->img_ref);
+        list($initialPreviewDoc, $initialPreviewConfigDoc) = $this->getInitialPreview($model->doc_ref);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
@@ -123,7 +129,9 @@ class ItExUploadController extends Controller
         return $this->render('update', [
             'model' => $model,
             'initialPreview' => $initialPreview,
-            'initialPreviewConfig' => $initialPreviewConfig
+            'initialPreviewConfig' => $initialPreviewConfig,
+            'initialPreviewDoc' => $initialPreviewDoc,
+            'initialPreviewConfigDoc' => $initialPreviewConfigDoc
         ]);
     }
 
@@ -163,7 +171,7 @@ class ItExUploadController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    
+
     /*  |*********************************************************************************|
         |================================ Upload Img Ajax ================================|
         |*********************************************************************************|     */
@@ -296,5 +304,111 @@ class ItExUploadController extends Controller
         } else {
             echo json_encode(['success' => false]);
         }
+    }
+
+
+
+
+    private function UploadDoc($isAjax = false)
+    {
+        if (Yii::$app->request->isPost) {
+            $docs = UploadedFile::getInstancesByName('upload_document');
+            if ($docs) {
+
+                if ($isAjax === true) {
+                    $doc_ref = Yii::$app->request->post('doc_ref');
+                } else {
+                    $uploader = Yii::$app->request->post('ItExUpload');
+                    $doc_ref = $uploader['doc_ref'];
+                }
+
+                $this->CreateDir($doc_ref);
+
+                foreach ($docs as $file) {
+                    $fileName       = $file->baseName . '.' . $file->extension;
+                    $realFileName   = md5($file->baseName . time()) . '.' . $file->extension;
+                    $savePath       = ItExUpload::UPLOAD_FOLDER_IMG . '/' . $doc_ref . '/' . $realFileName;
+                    if ($file->saveAs($savePath)) {
+
+                        if ($this->isImage(Url::base(true) . '/' . $savePath)) {
+                            $this->createThumbnail($doc_ref, $realFileName);
+                        }
+
+                        $model                  = new UploadDoc();
+                        $model->ref             = $doc_ref;
+                        $model->file_name       = $fileName;
+                        $model->real_filename   = $realFileName;
+                        $model->save();
+
+                        if ($isAjax === true) {
+                            echo json_encode(['success' => 'true']);
+                        }
+                    } else {
+                        if ($isAjax === true) {
+                            echo json_encode(['success' => 'false', 'eror' => $file->error]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private function getInitialPreviewDoc($doc_ref)
+    {
+        $datas = UploadDoc::find()->where(['ref' => $doc_ref])->all();
+        $initialPreviewDoc = [];
+        foreach ($datas as $key => $value) {
+            array_push($initialPreviewDoc, $this->getTemplatePreviewDoc($value));
+        }
+        return $initialPreviewDoc;
+    }
+
+    private function getInitialPreviewConfigDoc($doc_ref)
+    {
+        $datas = UploadDoc::find()->where(['ref' => $doc_ref])->all();
+        $initialPreviewConfigDoc = [];
+        foreach ($datas as $value) {
+            array_push($initialPreviewConfigDoc, [
+                'caption' => $value->file_name,
+                'width'  => '120px',
+                'url'    => Url::to(['deletefile-doc']),
+                'key'    => $value->upload_id
+            ]);
+        }
+        return $initialPreviewConfigDoc;
+    }
+
+
+    public function actionDeletefileDoc()
+    {
+        $model = UploadDoc::findOne(Yii::$app->request->post('key'));
+        if ($model !== null) {
+            $filename = ItExUpload::getUploadPathDoc() . $model->ref . '/' . $model->real_filename;
+
+            if ($model->delete()) {
+                @unlink($filename);
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        } else {
+            echo json_encode(['success' => false]);
+        }
+    }
+
+
+    
+    private function CreateDocDir($folderName)
+    {
+        if ($folderName != null) {
+            $basePath = ItExUpload::getUploadPathDoc();
+
+            if (!file_exists($basePath . $folderName)) {
+                mkdir($basePath . $folderName, 0777, true); // Create document upload directory
+
+                // Additional setup for document upload directory, if needed
+            }
+        }
+        return;
     }
 }

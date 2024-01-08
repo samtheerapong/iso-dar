@@ -76,6 +76,23 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                     ],
+                    [
+                        'attribute' => 'doc_ref',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            $documentList = $model->getDocumentList();
+                            if (!empty($documentList)) {
+                                echo '<ul>';
+                                foreach ($documentList as $doc) {
+                                    echo '<li>' . Html::a($doc['name'], $doc['url'], ['target' => '_blank']) . '</li>';
+                                }
+                                echo '</ul>';
+                            } else {
+                                echo 'No documents available.';
+                            }
+                        },
+                    ],
+                    
 
                 ],
             ]) ?>

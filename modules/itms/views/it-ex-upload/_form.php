@@ -14,6 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <?= $form->field($model, 'img_ref')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'doc_ref')->hiddenInput()->label(false) ?>
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-secondary">
@@ -45,6 +46,9 @@ use yii\widgets\ActiveForm;
                         ?>
                     </div>
                 </div>
+
+                <?= $form->field($model, 'doc_ref')->fileInput(['accept' => 'application/pdf']) ?>
+
 
                 
 
