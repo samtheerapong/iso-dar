@@ -243,7 +243,7 @@ class ItExUploadController extends Controller
             array_push($initialPreviewConfig, [
                 'caption' => $value->file_name,
                 'width'  => '120px',
-                'url'    => Url::to(['deletefile-img']),
+                'url'    => Url::to(['/itms/it-ex-upload/deletefile-img']),
                 'key'    => $value->upload_id
             ]);
         }
@@ -279,13 +279,13 @@ class ItExUploadController extends Controller
         return;
     }
 
-    public function actionDeletefileAjax()
+    public function actionDeletefileImg()
     {
 
         $model = UploadImg::findOne(Yii::$app->request->post('key'));
         if ($model !== NULL) {
-            $filename  = ItExUpload::getUploadImagePath() . $model->img_ref . '/' . $model->real_filename;
-            $thumbnail = ItExUpload::getUploadImagePath() . $model->img_ref . '/thumbnail/' . $model->real_filename;
+            $filename  = ItExUpload::getUploadImagePath() . $model->ref . '/' . $model->real_filename;
+            $thumbnail = ItExUpload::getUploadImagePath() . $model->ref . '/thumbnail/' . $model->real_filename;
             if ($model->delete()) {
                 @unlink($filename);
                 @unlink($thumbnail);
