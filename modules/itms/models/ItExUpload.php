@@ -10,7 +10,7 @@ use yii\helpers\Url;
  * This is the model class for table "it_ex_upload".
  *
  * @property int $id
- * @property string|null $ref
+ * @property string|null $img_ref
  * @property string|null $title
  */
 class ItExUpload extends \yii\db\ActiveRecord
@@ -32,8 +32,9 @@ class ItExUpload extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ref', 'title'], 'string', 'max' => 255],
-            [['ref'], 'unique']
+            [['img_ref', 'title'], 'string', 'max' => 255],
+            [['img_ref'], 'unique'],
+            [['doc_ref'], 'unique']
         ];
     }
 
@@ -44,8 +45,9 @@ class ItExUpload extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'ref' => Yii::t('app', 'Ref'),
             'title' => Yii::t('app', 'Title'),
+            'img_ref' => Yii::t('app', 'img_ref'),
+            'doc_ref' => Yii::t('app', 'doc_ref'),
         ];
     }
 
@@ -60,14 +62,14 @@ class ItExUpload extends \yii\db\ActiveRecord
         return Url::base(true) . '/' . self::UPLOAD_FOLDER_IMG . '/';
     }
 
-    public function getThumbnailsImg($ref, $title)
+    public function getThumbnailsImg($img_ref, $title)
     {
-        $uploadFiles   = Uploads::find()->where(['ref' => $ref])->all();
+        $uploadFiles   = Uploads::find()->where(['ref' => $img_ref])->all();
         $preview = [];
         foreach ($uploadFiles as $file) {
             $preview[] = [
-                'url' => self::getUploadUrlImg(true) . $ref . '/' . $file->real_filename,
-                'src' => self::getUploadUrlImg(true) . $ref . '/thumbnail/' . $file->real_filename,
+                'url' => self::getUploadUrlImg(true) . $img_ref . '/' . $file->real_filename,
+                'src' => self::getUploadUrlImg(true) . $img_ref . '/thumbnail/' . $file->real_filename,
                 'options' => ['title' => $title]
             ];
         }
@@ -76,7 +78,7 @@ class ItExUpload extends \yii\db\ActiveRecord
 
     public function getPhotoIndexShow()
     {
-        $thumbnails = $this->getThumbnailsImg($this->ref, $this->title);
+        $thumbnails = $this->getThumbnailsImg($this->img_ref, $this->title);
         if (!empty($thumbnails)) {
             return Html::a(Html::img($thumbnails[0]['src'], ['height' => '80px', 'class' => 'img-rounded ']), ['view', 'id' => $this->id]);
         } else {
@@ -85,9 +87,14 @@ class ItExUpload extends \yii\db\ActiveRecord
     }
 
 
-        // uploading doc
+    // uploading doc
     public static function getUploadPathDoc()
     {
-        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER_IMG . '/';
+        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER_DOC . '/';
+    }
+
+    public static function getUploadUrlDoc()
+    {
+        return Url::base(true) . '/' . self::UPLOAD_FOLDER_DOC . '/';
     }
 }

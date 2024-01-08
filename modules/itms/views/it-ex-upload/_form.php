@@ -13,7 +13,8 @@ use yii\widgets\ActiveForm;
 <div class="it-ex-upload-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-    <?= $form->field($model, 'ref')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'img_ref')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'doc_ref')->hiddenInput()->label(false) ?>
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-secondary">
@@ -25,19 +26,19 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
                 <div class="form-group field-upload_files">
-                    <label class="control-label" for="upload_files[]"> ภาพถ่าย </label>
+                    <label class="control-label" for="img_ref[]"> ภาพถ่าย </label>
                     <div>
                         <?= FileInput::widget([
-                            'name' => 'upload_ajax[]',
+                            'name' => 'img_ref[]',
                             'options' => ['multiple' => true, 'accept' => 'image/*'], //'accept' => 'image/*' หากต้องเฉพาะ image
                             'pluginOptions' => [
                                 'overwriteInitial' => false,
                                 'initialPreviewShowDelete' => true,
                                 'initialPreview' => $initialPreview,
                                 'initialPreviewConfig' => $initialPreviewConfig,
-                                'uploadUrl' => Url::to(['upload-ajax']),
+                                'uploadUrl' => Url::to(['upload-img']),
                                 'uploadExtraData' => [
-                                    'ref' => $model->ref,
+                                    'img_ref' => $model->img_ref,
                                 ],
                                 'maxFileCount' => 10
                             ]
@@ -51,3 +52,8 @@ use yii\widgets\ActiveForm;
                         <?php ActiveForm::end(); ?>
 
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
