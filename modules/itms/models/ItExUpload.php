@@ -33,8 +33,8 @@ class ItExUpload extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['img_ref', 'title', 'doc_ref', 'docs'], 'string', 'max' => 255],
-            [['img_ref'], 'unique'],
+            [['title'], 'string', 'max' => 255],
+            // [['img_ref'], 'unique'],
         ];
     }
 

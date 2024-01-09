@@ -14,7 +14,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <?= $form->field($model, 'img_ref')->hiddenInput()->label(false) ?>
-    <?= $form->field($model, 'doc_ref')->hiddenInput()->label(false) ?>
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-secondary">
@@ -46,27 +45,23 @@ use yii\widgets\ActiveForm;
                 </div>
 
 
-                <div class="col-md-6">
-                    <label class="control-label" for="doc_ref[]"> <?= Yii::t('app', 'Documents') ?> </label>
-                    <?= FileInput::widget([
-                        'name' => 'doc_ref[]',  
+                <div class="col-md-12 mt-2">
+                    <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
                         'options' => [
-                            'multiple' => true,
-                            'accept' => 'application/pdf'
+                            'multiple' => true
                         ],
                         'pluginOptions' => [
+                            'initialPreview' => $model->listDownloadFiles('docs'),
+                            'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
+                            'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
+                            'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods', 'jpg', 'png', 'jpeg'],
+                            'showPreview' => true,
+                            'showCaption' => true,
+                            'showRemove' => true,
+                            'showUpload' => false,
                             'overwriteInitial' => false,
-                            'initialPreviewShowDelete' => true,
-                            'initialPreview' => $initialPreviewDoc,
-                            'initialPreviewConfig' => $initialPreviewConfigDoc,
-                            'uploadUrl' => Url::to(['upload-doc']),
-                            'uploadExtraData' => [
-                                'doc_ref' => $model->doc_ref,
-                            ],
-                            'maxFileCount' => 10
-                        ]
-                    ]);
-                    ?>
+                        ],
+                    ]); ?>
                 </div>
             </div>
         </div>

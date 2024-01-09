@@ -18,7 +18,7 @@ class ItExUploadSearch extends ItExUpload
     {
         return [
             [['id'], 'integer'],
-            [['img_ref', 'doc_ref', 'title'], 'safe'],
+            [['img_ref', 'docs', 'title'], 'safe'],
         ];
     }
 
@@ -62,7 +62,7 @@ class ItExUploadSearch extends ItExUpload
         ]);
 
         $query->andFilterWhere(['like', 'img_ref', $this->img_ref])
-            ->andFilterWhere(['like', 'doc_ref', $this->doc_ref])
+            ->andFilterWhere(['like', 'docs', $this->docs])
             ->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
