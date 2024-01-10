@@ -15,7 +15,6 @@ use yii\helpers\Url;
  */
 class ItExUpload extends \yii\db\ActiveRecord
 {
-
     const UPLOAD_FOLDER_IMG = 'uploads/ex/img';
     const UPLOAD_FOLDER_DOC = 'uploads/ex/doc';
     /**
@@ -34,7 +33,7 @@ class ItExUpload extends \yii\db\ActiveRecord
         return [
             [['img_ref', 'title'], 'string', 'max' => 255],
             [['img_ref'], 'unique'],
-            [['doc_ref'], 'unique']
+            [['doc_ref'], 'unique'],
         ];
     }
 

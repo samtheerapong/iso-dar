@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-secondary">
-            <?= Html::encode($model->title) ?>
+            <?= Yii::t('app', 'Uploads') ?>
         </div>
         <div class="card-body">
             <div class="row">
@@ -45,8 +45,6 @@ use yii\widgets\ActiveForm;
                         ?>
                     </div>
                 </div>
-
-                
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
