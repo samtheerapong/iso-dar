@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var app\modules\itms\models\ItExUpload $model */
+/** @var app\modules\itms\models\ItTodo $model */
 
-$this->title = Yii::t('app', 'Create It Ex Upload');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'It Ex Uploads'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create It Todo');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'It Todos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="it-ex-upload-create">
+<div class="it-todo-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

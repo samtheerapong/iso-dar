@@ -4,6 +4,7 @@ namespace app\modules\itms\models;
 
 use Yii;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 /**
@@ -15,9 +16,9 @@ use yii\helpers\Url;
  */
 class ItExUpload extends \yii\db\ActiveRecord
 {
+    const UPLOAD_FOLDER = 'uploads/ex/doc';
 
     const UPLOAD_FOLDER_IMG = 'uploads/ex/img';
-    const UPLOAD_FOLDER_DOC = 'uploads/ex/doc';
     /**
      * {@inheritdoc}
      */
@@ -32,9 +33,8 @@ class ItExUpload extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['img_ref', 'title'], 'string', 'max' => 255],
-            [['img_ref'], 'unique'],
-            [['doc_ref'], 'unique']
+            [['title'], 'string', 'max' => 255],
+            // [['img_ref'], 'unique'],
         ];
     }
 
@@ -88,15 +88,5 @@ class ItExUpload extends \yii\db\ActiveRecord
             return Html::a(Html::img(Yii::getAlias('@web') . '/uploads/no-image.jpg', ['height' => '80px', 'class' => 'img-rounded']), ['view', 'id' => $this->id]);
         }
     }
-
-    // uploading doc
-    public static function getUploadPathDoc()
-    {
-        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER_DOC . '/';
-    }
-
-    public static function getUploadUrlDoc()
-    {
-        return Url::base(true) . '/' . self::UPLOAD_FOLDER_DOC . '/';
-    }
+   
 }

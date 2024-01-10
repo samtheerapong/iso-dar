@@ -4,12 +4,12 @@ namespace app\modules\itms\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\itms\models\ItExUpload;
+use app\modules\itms\models\ItDemo;
 
 /**
- * ItExUploadSearch represents the model behind the search form of `app\modules\itms\models\ItExUpload`.
+ * ItDemoSearch represents the model behind the search form of `app\modules\itms\models\ItDemo`.
  */
-class ItExUploadSearch extends ItExUpload
+class ItDemoSearch extends ItDemo
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class ItExUploadSearch extends ItExUpload
     {
         return [
             [['id'], 'integer'],
-            [['img_ref', 'doc_ref', 'title'], 'safe'],
+            [['name', 'photo', 'photos'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class ItExUploadSearch extends ItExUpload
      */
     public function search($params)
     {
-        $query = ItExUpload::find();
+        $query = ItDemo::find();
 
         // add conditions that should always apply here
 
@@ -61,9 +61,9 @@ class ItExUploadSearch extends ItExUpload
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'img_ref', $this->img_ref])
-            ->andFilterWhere(['like', 'doc_ref', $this->doc_ref])
-            ->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'photo', $this->photo])
+            ->andFilterWhere(['like', 'photos', $this->photos]);
 
         return $dataProvider;
     }

@@ -17,66 +17,46 @@ use yii\widgets\ActiveForm;
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-secondary">
-            <?= Html::encode($this->title) ?>
+            <?= Html::encode($model->title) ?>
         </div>
         <div class="card-body">
-            <div class="col-md-12">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-            </div>
             <div class="row">
-                <div class="col-md-6">
-                    <label class="control-label" for="img_ref[]"> <?= Yii::t('app', 'Images') ?> </label>
-                    <?= FileInput::widget([
-                        'name' => 'img_ref[]',
-                        'options' => ['multiple' => true, 'accept' => 'image/*'], //'accept' => 'image/*' หากต้องเฉพาะ image
-                        'pluginOptions' => [
-                            'overwriteInitial' => false,
-                            'initialPreviewShowDelete' => true,
-                            'initialPreview' => $initialPreview,
-                            'initialPreviewConfig' => $initialPreviewConfig,
-                            'uploadUrl' => Url::to(['upload-img']),
-                            'uploadExtraData' => [
-                                'img_ref' => $model->img_ref,
-                            ],
-                            'maxFileCount' => 10
-                        ]
-                    ]);
-                    ?>
+
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+                <div class="form-group field-upload_files">
+                    <label class="control-label" for="upload_image[]"> ภาพถ่าย </label>
+                    <div>
+                        <?= FileInput::widget([
+                            'name' => 'upload_image[]',
+                            'options' => ['multiple' => true, 'accept' => 'image/*'], //'accept' => 'image/*' หากต้องเฉพาะ image
+                            'pluginOptions' => [
+                                'overwriteInitial' => false,
+                                'initialPreviewShowDelete' => true,
+                                'initialPreview' => $initialPreview,
+                                'initialPreviewConfig' => $initialPreviewConfig,
+                                'uploadUrl' => Url::to(['upload-img']),
+                                'uploadExtraData' => [
+                                    'img_ref' => $model->img_ref,
+                                ],
+                                'maxFileCount' => 10
+                            ]
+                        ]);
+                        ?>
+                    </div>
                 </div>
 
+                
 
-                <div class="col-md-12 mt-2">
-                    <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
-                        'options' => [
-                            'multiple' => true
-                        ],
-                        'pluginOptions' => [
-                            'initialPreview' => $model->listDownloadFiles('docs'),
-                            'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
-                            'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
-                            'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods', 'jpg', 'png', 'jpeg'],
-                            'showPreview' => true,
-                            'showCaption' => true,
-                            'showRemove' => true,
-                            'showUpload' => false,
-                            'overwriteInitial' => false,
-                        ],
-                    ]); ?>
+                <div class="form-group">
+                    <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
                 </div>
+
+                <?php ActiveForm::end(); ?>
+
+
             </div>
         </div>
     </div>
 </div>
-
-<div class="card-footer">
-    <div class="row">
-        <div class="form-group">
-            <div class="d-grid gap-2">
-                <?= Html::submitButton('<i class="fas fa-save"></i> ' . Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<?php ActiveForm::end(); ?>
 </div>

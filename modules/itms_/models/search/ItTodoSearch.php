@@ -4,12 +4,12 @@ namespace app\modules\itms\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\itms\models\ItExUpload;
+use app\modules\itms\models\ItTodo;
 
 /**
- * ItExUploadSearch represents the model behind the search form of `app\modules\itms\models\ItExUpload`.
+ * ItTodoSearch represents the model behind the search form of `app\modules\itms\models\ItTodo`.
  */
-class ItExUploadSearch extends ItExUpload
+class ItTodoSearch extends ItTodo
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class ItExUploadSearch extends ItExUpload
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['img_ref', 'doc_ref', 'title'], 'safe'],
+            [['id', 'request_name', 'status_id', 'created_by', 'updated_by'], 'integer'],
+            [['code', 'todo_date', 'title', 'description', 'photo', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class ItExUploadSearch extends ItExUpload
      */
     public function search($params)
     {
-        $query = ItExUpload::find();
+        $query = ItTodo::find();
 
         // add conditions that should always apply here
 
@@ -59,11 +59,19 @@ class ItExUploadSearch extends ItExUpload
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'todo_date' => $this->todo_date,
+            'request_name' => $this->request_name,
+            'status_id' => $this->status_id,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'img_ref', $this->img_ref])
-            ->andFilterWhere(['like', 'doc_ref', $this->doc_ref])
-            ->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'photo', $this->photo]);
 
         return $dataProvider;
     }

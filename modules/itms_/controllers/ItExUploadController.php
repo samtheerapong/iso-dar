@@ -4,15 +4,19 @@ namespace app\modules\itms\controllers;
 
 use app\modules\itms\models\ItExUpload;
 use app\modules\itms\models\search\ItExUploadSearch;
+use app\modules\itms\models\UploadDoc;
 use app\modules\itms\models\UploadImg;
 use app\modules\itms\models\Uploads;
+use Exception;
 use mdm\autonumber\AutoNumber;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
@@ -82,14 +86,13 @@ class ItExUploadController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $this->UploadImg(false);
+                $this->UploadImg(false); // Image
 
-                $model->save();
-
-                return $this->redirect(['view', 'id' => $model->id]);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
-
             $model->loadDefaultValues();
         }
 
@@ -110,6 +113,7 @@ class ItExUploadController extends Controller
         $model = $this->findModel($id);
 
         list($initialPreview, $initialPreviewConfig) = $this->getInitialPreview($model->img_ref);
+        list($initialPreviewDoc, $initialPreviewConfigDoc) = $this->getInitialPreview($model->doc_ref);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
@@ -123,7 +127,9 @@ class ItExUploadController extends Controller
         return $this->render('update', [
             'model' => $model,
             'initialPreview' => $initialPreview,
-            'initialPreviewConfig' => $initialPreviewConfig
+            'initialPreviewConfig' => $initialPreviewConfig,
+            'initialPreviewDoc' => $initialPreviewDoc,
+            'initialPreviewConfigDoc' => $initialPreviewConfigDoc
         ]);
     }
 
@@ -163,7 +169,7 @@ class ItExUploadController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    
+
     /*  |*********************************************************************************|
         |================================ Upload Img Ajax ================================|
         |*********************************************************************************|     */
@@ -192,7 +198,7 @@ class ItExUploadController extends Controller
     private function UploadImg($isAjax = false)
     {
         if (Yii::$app->request->isPost) {
-            $images = UploadedFile::getInstancesByName('upload_image'); //actionUploadImage
+            $images = UploadedFile::getInstancesByName('img_ref');
             if ($images) {
 
                 if ($isAjax === true) {
@@ -297,4 +303,5 @@ class ItExUploadController extends Controller
             echo json_encode(['success' => false]);
         }
     }
+   
 }
