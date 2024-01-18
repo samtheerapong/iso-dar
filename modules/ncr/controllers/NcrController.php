@@ -89,7 +89,7 @@ class NcrController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $model->ncr_number = AutoNumber::generate('NCR-' . (date('y') + 43) . date('m') . '-????'); // Auto Number EX 6612/0001
+                $model->ncr_number = AutoNumber::generate('N-' . (date('y') + 43) . date('m') . '-???'); // Auto Number EX 6612/0001
 
                 $model->ref =  $ref;
                 $this->CreateDir($model->ref); // create Directory 6701-12
