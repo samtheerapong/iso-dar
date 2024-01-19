@@ -146,6 +146,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->ncr_status_id ? $model->ncrStatus->status_name : Yii::t('app', 'N/A');
                                 },
                             ],
+
+                            // [
+                            //     'attribute' => 'docs',
+                            //     'format' => 'html',
+                            //     'value' => function ($model) {
+                            //         return $model->docs ? $model->docs : Yii::t('app', 'N/A');
+                            //     },
+                            // ],
                         ],
                     ]) ?>
                 </div>

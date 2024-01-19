@@ -208,23 +208,26 @@ class Ncr extends \yii\db\ActiveRecord
 
                 $isImage = $this->isImage($filePath);
 
-                if ($type == 'file') {
-                    $initial[] = "<div class='file-preview-other'><h2><i class='glyphicon glyphicon-file'></i></h2></div>";
-                } elseif ($type == 'config') {
-                    $initial[] = [
-                        'caption' => $value,
-                        'width'  => '120px',
-                        'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
-                        'key'    => $key
-                    ];
-                } else {
-                    if ($isImage) {
-                        $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
+                if ($isImage = true) {
+                    if ($type == 'file') {
+                        $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
+                    } elseif ($type == 'config') {
+                        $initial[] = [
+                            'caption' => $value,
+                            'width'  => '120px',
+                            'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
+                            'key'    => $key
+                        ];
                     } else {
-                        $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
+                        if ($isImage) {
+                            $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
+                        } else {
+                            $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
+                        }
+                        $initial[] = $file;
                     }
-                    $initial[] = $file;
                 }
+                
             }
         }
         return $initial;
