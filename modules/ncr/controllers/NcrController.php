@@ -4,6 +4,7 @@ namespace app\modules\ncr\controllers;
 
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\NcrSolving;
+use app\modules\ncr\models\NcrYear;
 use app\modules\ncr\models\search\NcrSearch;
 use Exception;
 use mdm\autonumber\AutoNumber;
@@ -88,7 +89,7 @@ class NcrController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $model->ncr_number = AutoNumber::generate((date('y') + 43) . date('m') . '-????'); // Auto Number EX 6612/0001
+                $model->ncr_number = AutoNumber::generate('N-' . (date('y') + 43) . date('m') . '-???'); // Auto Number EX 6612/0001
 
                 $model->ref =  $ref;
                 $this->CreateDir($model->ref); // create Directory 6701-12
@@ -96,7 +97,7 @@ class NcrController extends Controller
                 $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller
 
                 if ($model->save()) {
-                    $this->LineNotify($model);
+                    // $this->LineNotify($model);
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
@@ -127,7 +128,7 @@ class NcrController extends Controller
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
             if ($model->save()) {
-                $this->LineNotify($model);
+                // $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

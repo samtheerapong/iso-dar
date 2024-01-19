@@ -178,7 +178,6 @@ use yii\widgets\ActiveForm;
                 <div class="col-md-12">
                     <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
                         'options' => [
-                            'options' => ['accept' => 'image/*'],
                             'multiple' => true
                         ],
                         'pluginOptions' => [
@@ -186,11 +185,16 @@ use yii\widgets\ActiveForm;
                             'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
                             'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
                             'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods', 'jpg', 'png', 'jpeg'],
-                            'showPreview' => true,
-                            'showCaption' => true,
-                            'showRemove' => true,
+                            // 'showPreview' => false,
+                            'showCancel' => false,
+                            'showRemove' => false,
                             'showUpload' => false,
                             'overwriteInitial' => false,
+                            'initialPreviewShowDelete' => true,
+                            'uploadExtraData' => [
+                                'ref' => $model->ref,
+                            ],
+                            'maxFileCount' => 10
                         ],
                     ]); ?>
                 </div>
@@ -199,15 +203,14 @@ use yii\widgets\ActiveForm;
         </div>
 
         <div class="card-footer">
-            <div class="form-group">
-                <div class="d-grid">
-                    <?= Html::submitButton('<i class="fas fa-save"></i> ' . Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+            <div class="row">
+                <div class="form-group">
+                    <div class="d-grid gap-2">
+                        <?= Html::submitButton('<i class="fas fa-save"></i> ' . Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

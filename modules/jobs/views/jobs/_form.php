@@ -134,8 +134,11 @@ use yii\widgets\ActiveForm;
             </div>
 
             <div class="row">
-                <div class="col-md-12">
-                    <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
+                <div class="form-group field-upload_files">
+                    <label class="control-label" for="docs[]"> Documents </label>
+                    <div>
+                        <?= FileInput::widget([
+                            'name' => 'docs[]',
                         'options' => [
                             'multiple' => true
                         ],
