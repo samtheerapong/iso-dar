@@ -21,6 +21,7 @@ use yii\web\UploadedFile;
 use kartik\mpdf\Pdf;
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Config\FontVariables;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /**
@@ -339,4 +340,6 @@ class NcrController extends Controller
         }
         curl_close($chOne);
     }
+
+    
 }

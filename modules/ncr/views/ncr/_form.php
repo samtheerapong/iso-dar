@@ -176,26 +176,21 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <div class="col-md-12">
-                    <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
+                    <?= $form->field($model, 'docs[]')->widget(FileInput::classname(), [
                         'options' => [
+                            //'accept' => 'image/*',
                             'multiple' => true
                         ],
                         'pluginOptions' => [
-                            // 'initialPreview' => $model->listDownloadFiles('docs'),
                             'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
                             'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
-                            'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods', 'jpg', 'png', 'jpeg'],
-                            // 'showPreview' => false,
-                            'showCancel' => false,
-                            'showRemove' => false,
+                            'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx'],
+                            'showPreview' => true,
+                            'showCaption' => true,
+                            'showRemove' => true,
                             'showUpload' => false,
-                            'overwriteInitial' => false,
-                            'initialPreviewShowDelete' => true,
-                            'uploadExtraData' => [
-                                'ref' => $model->ref,
-                            ],
-                            'maxFileCount' => 10
-                        ],
+                            'overwriteInitial' => false
+                        ]
                     ]); ?>
                 </div>
                 <?= $form->field($model, 'ncr_status_id')->hiddenInput(['value' => 1])->label(false) ?>
