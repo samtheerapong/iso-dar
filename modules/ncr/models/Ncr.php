@@ -2,6 +2,7 @@
 
 namespace app\modules\ncr\models;
 
+use app\models\User;
 use Yii;
 
 /**
@@ -125,7 +126,7 @@ class Ncr extends \yii\db\ActiveRecord
         return $this->hasOne(NcrMonth::class, ['id' => 'month']);
     }
 
-    
+
     public function getNcrProcess()
     {
         return $this->hasOne(NcrProcess::class, ['id' => 'ncr_process_id']);
@@ -164,5 +165,20 @@ class Ncr extends \yii\db\ActiveRecord
     public function getToDepartment()
     {
         return $this->hasOne(NcrDepartment::class, ['id' => 'department']);
+    }
+
+    public function getReporter()
+    {
+        return $this->hasOne(User::class, ['id' => 'report_by']);
+    }
+
+    public function getCreated()
+    {
+        return $this->hasOne(User::class, ['id' => 'created_by']);
+    }
+
+    public function getUpdated()
+    {
+        return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
 }
