@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 19, 2024 at 09:25 AM
+-- Generation Time: Jan 21, 2024 at 07:59 AM
 -- Server version: 5.7.39
--- PHP Version: 7.4.9
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -190,7 +190,7 @@ CREATE TABLE `ex_uploads` (
 
 INSERT INTO `ex_uploads` (`id`, `docs`, `images`, `ref`) VALUES
 (1, '{\"35e90f728b3805677fc4b01dc45d0bc0.docx\":\"FM-QC-13 Rev.08 0022.24 - อรอนงค์ ชุมภู.docx\"}', NULL, 'B7-iNrRhFUFxZwlJhFSQ_X'),
-(2, '{\"3ac42fe2b9db2d32b1048237f8bca311.pdf\":\"TAX_FORM_P910013271860.pdf\",\"7f97fa62ce77043aa8647772a7e17b11.pdf\":\"ประกาศ กำหนดวันหยุดตามประเพณี ปี 2567-CEI.pdf_1.pdf\",\"477d9aae81aa9efdb0fc560f038d5e05.pdf\":\"ถั่วเหลือง Organic FT. - อุ่มแสง.pdf\"}', NULL, '_I7sdxbhHm31JKrVN0Xs-J');
+(2, '{\"7f97fa62ce77043aa8647772a7e17b11.pdf\":\"ประกาศ กำหนดวันหยุดตามประเพณี ปี 2567-CEI.pdf_1.pdf\",\"477d9aae81aa9efdb0fc560f038d5e05.pdf\":\"ถั่วเหลือง Organic FT. - อุ่มแสง.pdf\"}', NULL, '_I7sdxbhHm31JKrVN0Xs-J');
 
 -- --------------------------------------------------------
 
@@ -519,10 +519,10 @@ CREATE TABLE `ncr` (
   `datail` text COMMENT 'รายละเอียดปัญหา',
   `department_issue` int(11) DEFAULT NULL COMMENT 'แผนกที่พบปัญหา',
   `report_by` int(11) DEFAULT NULL COMMENT 'ผู้รายงาน',
-  `troubleshooting` text COMMENT 'การดำเนินการ',
+  `action` text COMMENT 'การดำเนินการเบื้องต้น',
   `docs` text COMMENT 'ไฟล์แนบ',
-  `ncr_status_id` int(11) DEFAULT NULL COMMENT 'สถานะ',
   `ref` varchar(45) DEFAULT NULL COMMENT 'อ้างอิง',
+  `ncr_status_id` int(11) DEFAULT NULL COMMENT 'สถานะ',
   `created_at` date DEFAULT NULL COMMENT 'สร้างเมื่อ',
   `created_by` int(11) DEFAULT NULL COMMENT 'สร้างโดย',
   `updated_at` date DEFAULT NULL COMMENT 'ล่าสุดเมื่อ',
@@ -533,10 +533,27 @@ CREATE TABLE `ncr` (
 -- Dumping data for table `ncr`
 --
 
-INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `ncr_process_id`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `troubleshooting`, `docs`, `ncr_status_id`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(5, '6612-0001', '2024-01-01', 1, 2, 1, 1, '', '2023-12-27', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 1, '', 2, 3, '', '{\"ab30f875272577f6ea1b3d5de3ebb213.jpg\":\"IMG_7560.jpg\",\"b37774bfb4064d150e19cc4a2ac25cd5.jpg\":\"IMG_7444.jpg\"}', 1, 'ocsQVO1m96BF5ou3GEXVSX', '2023-12-27', 12, '2024-01-08', 12),
-(6, '6701-0001', '2024-01-03', 1, 2, 1, 2, '071/23', '2023-12-22', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 2, 1, '', 1, 19, 'ทดสอบเบื้องต้น', '{\"2b7b666c410768eaa639168458a2364f.jpg\":\"937022.jpg\"}', 1, 'Vp1De5dQtllWbHV40Bnvcn', '2024-01-03', 1, '2024-01-19', NULL),
-(7, 'N-6701-001', '2024-01-19', 1, 2, 1, 1, '071/23', '2024-01-17', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 3, 1, '', 1, 3, 'Test', '{\"c52903d2cb52fd2abbb5947686361eae.jpg\":\"373330223_803105268179660_186846195545684021_n.jpg\",\"530f44bd50c5b17f5868a15b297a997b.jpg\":\"393599268_828804315609755_7478797839013769849_n.jpg\",\"a2a6f67f8fdadb74504b73f0508c2f25.jpg\":\"393606033_828804218943098_686037007461913561_n.jpg\"}', 1, 'HI8aG4pNGborrX9iC0RJrF', '2024-01-19', NULL, '2024-01-19', NULL);
+INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `ncr_process_id`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `ncr_status_id`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(5, '6612-0001', '2024-01-01', 1, 2, 1, 1, '', '2023-12-27', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 1, '', 2, 3, NULL, '{\"ab30f875272577f6ea1b3d5de3ebb213.jpg\":\"IMG_7560.jpg\",\"b37774bfb4064d150e19cc4a2ac25cd5.jpg\":\"IMG_7444.jpg\"}', 'ocsQVO1m96BF5ou3GEXVSX', 1, '2023-12-27', 12, '2024-01-08', 12),
+(6, '6701-0001', '2024-01-03', 1, 2, 1, 2, '071/23', '2023-12-22', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 2, 1, '', 1, 19, '', '{\"2b7b666c410768eaa639168458a2364f.jpg\":\"937022.jpg\"}', 'Vp1De5dQtllWbHV40Bnvcn', 3, '2024-01-03', 1, '2024-01-19', NULL),
+(7, 'N-6701-001', '2024-01-19', 1, 2, 1, 3, '071/23', '2024-01-17', 'organic FT soy Sauce 200 ml.', 'ทดสอบ', 3, 1, '', 1, 3, '', '{\"c52903d2cb52fd2abbb5947686361eae.jpg\":\"373330223_803105268179660_186846195545684021_n.jpg\",\"530f44bd50c5b17f5868a15b297a997b.jpg\":\"393599268_828804315609755_7478797839013769849_n.jpg\",\"a2a6f67f8fdadb74504b73f0508c2f25.jpg\":\"393606033_828804218943098_686037007461913561_n.jpg\"}', 'HI8aG4pNGborrX9iC0RJrF', 2, '2024-01-19', NULL, '2024-01-19', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ncr_accept`
+--
+
+CREATE TABLE `ncr_accept` (
+  `id` int(11) NOT NULL,
+  `ncr_id` int(11) DEFAULT NULL COMMENT 'NCR',
+  `ncr_concession_id` int(11) DEFAULT NULL COMMENT 'ยอมรับเป็นกรณีพิเศษ',
+  `customer_name` varchar(255) DEFAULT NULL COMMENT 'ชื่อลูกค้า',
+  `process` varchar(255) DEFAULT NULL COMMENT 'วิธีการ',
+  `cause` varchar(255) DEFAULT NULL COMMENT 'เหตุผล',
+  `approve_name` int(11) DEFAULT NULL COMMENT 'ผู้อนุมัติ',
+  `approve_date` date DEFAULT NULL COMMENT 'วันที่อนุมัติ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -546,7 +563,7 @@ INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `departm
 
 CREATE TABLE `ncr_category` (
   `id` int(11) NOT NULL,
-  `category_name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
   `active` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -555,13 +572,42 @@ CREATE TABLE `ncr_category` (
 -- Dumping data for table `ncr_category`
 --
 
-INSERT INTO `ncr_category` (`id`, `category_name`, `color`, `active`) VALUES
-(1, 'Physical', '#11009E', 1),
-(2, 'Chemical', '#FF9800', 1),
-(3, 'Micro', '#4CB9E7', 1),
-(4, 'Alergen', '#7E30E1', 1),
-(5, 'Fake Food', '#607274', 1),
-(6, 'Document', '#750E21', 1);
+INSERT INTO `ncr_category` (`id`, `name`, `color`, `active`) VALUES
+(1, NULL, '#11009E', 1),
+(2, NULL, '#FF9800', 1),
+(3, NULL, '#4CB9E7', 1),
+(4, NULL, '#7E30E1', 1),
+(5, NULL, '#607274', 1),
+(6, NULL, '#750E21', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ncr_cause`
+--
+
+CREATE TABLE `ncr_cause` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL COMMENT 'ชื่อ',
+  `color` varchar(45) DEFAULT NULL COMMENT 'สี',
+  `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ncr_closing`
+--
+
+CREATE TABLE `ncr_closing` (
+  `id` int(11) NOT NULL,
+  `ncr_accept_id` int(11) DEFAULT NULL,
+  `accept` int(11) DEFAULT NULL COMMENT 'การยอมรับ',
+  `auditor` int(11) DEFAULT NULL COMMENT 'ผู้ตรวจติดตาม',
+  `qmr` int(11) DEFAULT NULL COMMENT 'ผู้อนุมัติปิดการตรวจติดตาม',
+  `accept_date` date DEFAULT NULL COMMENT 'วันที่',
+  `ncr_closingcol` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -593,8 +639,8 @@ INSERT INTO `ncr_concession` (`id`, `concession_name`, `color`, `active`) VALUES
 
 CREATE TABLE `ncr_department` (
   `id` int(11) NOT NULL,
-  `department_code` varchar(45) DEFAULT NULL COMMENT 'รหัส',
-  `department_name` varchar(255) DEFAULT NULL COMMENT 'แผนก',
+  `code` varchar(45) DEFAULT NULL COMMENT 'รหัส',
+  `name` varchar(255) DEFAULT NULL COMMENT 'แผนก',
   `color` varchar(45) DEFAULT NULL COMMENT 'สี',
   `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -603,14 +649,14 @@ CREATE TABLE `ncr_department` (
 -- Dumping data for table `ncr_department`
 --
 
-INSERT INTO `ncr_department` (`id`, `department_code`, `department_name`, `color`, `active`) VALUES
-(1, 'PD', 'Production', NULL, 1),
+INSERT INTO `ncr_department` (`id`, `code`, `name`, `color`, `active`) VALUES
+(1, 'PD', NULL, NULL, 1),
 (2, 'QC', NULL, NULL, 1),
-(3, 'SL', 'Sale', NULL, 1),
-(4, 'PN', 'Planning', NULL, 1),
-(5, 'PC', 'Purchase', NULL, 1),
-(6, 'RD', 'แผนกวิจัยและพัฒนาผลิตภัณฑ์', NULL, 1),
-(7, 'GM', 'ผู้จัดการทั่วไป', NULL, 1);
+(3, 'PC', NULL, NULL, 1),
+(4, 'WH', NULL, NULL, 1),
+(5, 'SA', NULL, NULL, 1),
+(6, 'GM', NULL, NULL, 1),
+(7, 'PN', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -651,7 +697,7 @@ INSERT INTO `ncr_month` (`id`, `month`, `color`, `active`) VALUES
 
 CREATE TABLE `ncr_process` (
   `id` int(11) NOT NULL,
-  `process_name` varchar(255) DEFAULT NULL COMMENT 'กระบวนการ',
+  `name` varchar(255) DEFAULT NULL COMMENT 'กระบวนการ',
   `color` varchar(45) DEFAULT NULL COMMENT 'สี',
   `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -660,12 +706,12 @@ CREATE TABLE `ncr_process` (
 -- Dumping data for table `ncr_process`
 --
 
-INSERT INTO `ncr_process` (`id`, `process_name`, `color`, `active`) VALUES
-(1, 'Incoming', '#527853', 1),
+INSERT INTO `ncr_process` (`id`, `name`, `color`, `active`) VALUES
+(1, 'Incoming      ', '#527853', 1),
 (2, 'Inprocess', '#EE7214', 1),
 (3, 'Finish goods', '#3559E0', 1),
 (4, 'Claim', '#E36414', 1),
-(5, 'Infections', '#B31312', 1);
+(5, 'Infection', '#B31312', 1);
 
 -- --------------------------------------------------------
 
@@ -675,70 +721,47 @@ INSERT INTO `ncr_process` (`id`, `process_name`, `color`, `active`) VALUES
 
 CREATE TABLE `ncr_protection` (
   `id` int(11) NOT NULL,
-  `ncr_solving_id` int(11) DEFAULT NULL
+  `ncr_id` int(11) DEFAULT NULL COMMENT 'NCR',
+  `ncr_cause_id` int(11) DEFAULT NULL COMMENT 'การวิเคราะห์สาเหตุ',
+  `issue` text COMMENT 'สาเหตุปัญหา',
+  `action` text COMMENT 'การแก้ไขและป้องกัน',
+  `schedule_date` date DEFAULT NULL COMMENT 'กำหนดการแก้ไข',
+  `operator` int(11) DEFAULT NULL COMMENT 'ผู้ดำเนินการ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ncr_solving`
+-- Table structure for table `ncr_reply`
 --
 
-CREATE TABLE `ncr_solving` (
+CREATE TABLE `ncr_reply` (
   `id` int(11) NOT NULL,
-  `ncr_id` int(11) DEFAULT NULL COMMENT 'เลขที่ NCR',
-  `solving_type_id` int(11) DEFAULT NULL COMMENT 'ประเภทการดำเนินการ',
+  `ncr_id` int(11) DEFAULT NULL COMMENT 'NCR',
+  `reply_type_id` int(11) DEFAULT NULL COMMENT 'ประเภทการดำเนินการ',
   `quantity` int(11) DEFAULT NULL COMMENT 'จำนวน',
   `unit` varchar(45) DEFAULT NULL COMMENT 'หน่วย',
   `proceed` text COMMENT 'วิธีการ',
   `operation_date` date DEFAULT NULL COMMENT 'วันที่ดำเนินการ',
   `operation_name` int(11) DEFAULT NULL COMMENT 'ผู้ดำเนินการ',
-  `ncr_concession_id` int(11) DEFAULT NULL COMMENT 'ยอมรับเป็นกรณีพิเศษ',
-  `customer_name` varchar(255) DEFAULT NULL COMMENT 'ชื่อลูกค้า',
-  `process` varchar(255) DEFAULT NULL COMMENT 'วิธีการ',
-  `cause` varchar(255) DEFAULT NULL COMMENT 'เหตุผล',
   `approve_name` int(11) DEFAULT NULL COMMENT 'ผู้อนุมัติ',
   `approve_date` date DEFAULT NULL COMMENT 'วันที่อนุมัติ',
   `docs` text COMMENT 'แนบไฟล์',
   `ref` varchar(255) DEFAULT NULL COMMENT 'Ref'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `ncr_solving`
---
-
-INSERT INTO `ncr_solving` (`id`, `ncr_id`, `solving_type_id`, `quantity`, `unit`, `proceed`, `operation_date`, `operation_name`, `ncr_concession_id`, `customer_name`, `process`, `cause`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
-(1, 5, 1, 1, 'pcs', 'ส่งทางเรือ', '2023-12-28', 12, 1, 'John Doe', 'ฟหกฟ', 'ฟหกฟห', 10, '2023-12-29', NULL, NULL),
-(2, 5, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 5, 1, 1, 'pcs', '', '2024-01-17', 29, 1, 'John Doe', 'ทดสอบ', '', 4, '2024-01-18', NULL, NULL),
-(4, 5, 1, 5, 'กล่อง', '', '2024-01-04', 3, 1, 'John Doe', '', '', 4, '2024-01-11', NULL, NULL),
-(5, 6, 3, 4, 'กล่อง', 'แก้ไขใหม่', '2024-01-04', 29, 2, 'ทดสอบ', 'ทดสอบ', 'ไม่มี', 4, '2024-01-05', NULL, NULL),
-(6, 6, 1, 1, 'กล่อง', 'dddddddddd', '2024-01-17', 4, 2, 'ทดสอบ', 'ทดสอบ', 'ddddddddd', 1, '2024-01-06', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ncr_solving_type`
+-- Table structure for table `ncr_reply_type`
 --
 
-CREATE TABLE `ncr_solving_type` (
+CREATE TABLE `ncr_reply_type` (
   `id` int(11) NOT NULL,
-  `type_name` varchar(100) DEFAULT NULL COMMENT 'ประเภท',
+  `name` varchar(100) DEFAULT NULL COMMENT 'ชื่อ',
   `color` varchar(45) DEFAULT NULL COMMENT 'สี',
   `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `ncr_solving_type`
---
-
-INSERT INTO `ncr_solving_type` (`id`, `type_name`, `color`, `active`) VALUES
-(1, 'ส่งคืน (Reject)', NULL, 1),
-(2, 'คัดแยกของเสียเพื่อส่งคืน', NULL, 1),
-(3, 'แก้ไข (Rework)', NULL, 1),
-(4, 'ทำลาย (Scrap)', NULL, 1),
-(5, 'เปลี่ยนสินค้า', NULL, 1),
-(6, 'ลดเกรด (Down Grade)', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -748,7 +771,7 @@ INSERT INTO `ncr_solving_type` (`id`, `type_name`, `color`, `active`) VALUES
 
 CREATE TABLE `ncr_status` (
   `id` int(11) NOT NULL,
-  `status_name` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
   `active` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -757,10 +780,12 @@ CREATE TABLE `ncr_status` (
 -- Dumping data for table `ncr_status`
 --
 
-INSERT INTO `ncr_status` (`id`, `status_name`, `color`, `active`) VALUES
+INSERT INTO `ncr_status` (`id`, `name`, `color`, `active`) VALUES
 (1, 'Open', '#B31312', 1),
-(2, 'Work', '#EE7214', 1),
-(3, 'Close', '#65B741', 1);
+(2, 'Reply', '#EE7214', 1),
+(3, 'Protect', '#11009E', 1),
+(4, 'Accept', '#D24545', 1),
+(5, 'Close', '#65B741', 1);
 
 -- --------------------------------------------------------
 
@@ -770,7 +795,7 @@ INSERT INTO `ncr_status` (`id`, `status_name`, `color`, `active`) VALUES
 
 CREATE TABLE `ncr_sub_category` (
   `id` int(11) NOT NULL,
-  `category_name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
   `active` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -779,7 +804,7 @@ CREATE TABLE `ncr_sub_category` (
 -- Dumping data for table `ncr_sub_category`
 --
 
-INSERT INTO `ncr_sub_category` (`id`, `category_name`, `color`, `active`) VALUES
+INSERT INTO `ncr_sub_category` (`id`, `name`, `color`, `active`) VALUES
 (1, 'YM', '#711DB0', 1),
 (2, 'BA', '#C21292', 1),
 (3, 'SA', '#EF4040', 1);
@@ -1446,10 +1471,31 @@ ALTER TABLE `ncr`
   ADD KEY `fk_ncr_ncr_year1_idx` (`year`);
 
 --
+-- Indexes for table `ncr_accept`
+--
+ALTER TABLE `ncr_accept`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_ncr_solving_ncr_concession1_idx` (`ncr_concession_id`),
+  ADD KEY `fk_ncr_accept_ncr1_idx` (`ncr_id`);
+
+--
 -- Indexes for table `ncr_category`
 --
 ALTER TABLE `ncr_category`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ncr_cause`
+--
+ALTER TABLE `ncr_cause`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ncr_closing`
+--
+ALTER TABLE `ncr_closing`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_ncr_closing_ncr_accept1_idx` (`ncr_accept_id`);
 
 --
 -- Indexes for table `ncr_concession`
@@ -1480,21 +1526,21 @@ ALTER TABLE `ncr_process`
 --
 ALTER TABLE `ncr_protection`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_ncr_protection_ncr_solving1_idx` (`ncr_solving_id`);
+  ADD KEY `fk_ncr_protect_ncr_cause1_idx` (`ncr_cause_id`),
+  ADD KEY `fk_ncr_protect_ncr1_idx` (`ncr_id`);
 
 --
--- Indexes for table `ncr_solving`
+-- Indexes for table `ncr_reply`
 --
-ALTER TABLE `ncr_solving`
+ALTER TABLE `ncr_reply`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_ncr_solving_ncr1_idx` (`ncr_id`),
-  ADD KEY `fk_ncr_solving_ncr_solving_type1_idx` (`solving_type_id`),
-  ADD KEY `fk_ncr_solving_ncr_concession1_idx` (`ncr_concession_id`);
+  ADD KEY `fk_ncr_reply_ncr_reply_type1_idx` (`reply_type_id`),
+  ADD KEY `fk_ncr_reply_ncr1_idx` (`ncr_id`);
 
 --
--- Indexes for table `ncr_solving_type`
+-- Indexes for table `ncr_reply_type`
 --
-ALTER TABLE `ncr_solving_type`
+ALTER TABLE `ncr_reply_type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1738,10 +1784,28 @@ ALTER TABLE `ncr`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `ncr_accept`
+--
+ALTER TABLE `ncr_accept`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `ncr_category`
 --
 ALTER TABLE `ncr_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `ncr_cause`
+--
+ALTER TABLE `ncr_cause`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ncr_closing`
+--
+ALTER TABLE `ncr_closing`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ncr_concession`
@@ -1774,22 +1838,22 @@ ALTER TABLE `ncr_protection`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ncr_solving`
+-- AUTO_INCREMENT for table `ncr_reply`
 --
-ALTER TABLE `ncr_solving`
+ALTER TABLE `ncr_reply`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `ncr_solving_type`
+-- AUTO_INCREMENT for table `ncr_reply_type`
 --
-ALTER TABLE `ncr_solving_type`
+ALTER TABLE `ncr_reply_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ncr_status`
 --
 ALTER TABLE `ncr_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_sub_category`
@@ -1942,18 +2006,31 @@ ALTER TABLE `ncr`
   ADD CONSTRAINT `fk_ncr_ncr_year1` FOREIGN KEY (`year`) REFERENCES `ncr_year` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `ncr_accept`
+--
+ALTER TABLE `ncr_accept`
+  ADD CONSTRAINT `fk_ncr_accept_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ncr_solving_ncr_concession10` FOREIGN KEY (`ncr_concession_id`) REFERENCES `ncr_concession` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ncr_closing`
+--
+ALTER TABLE `ncr_closing`
+  ADD CONSTRAINT `fk_ncr_closing_ncr_accept1` FOREIGN KEY (`ncr_accept_id`) REFERENCES `ncr_accept` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `ncr_protection`
 --
 ALTER TABLE `ncr_protection`
-  ADD CONSTRAINT `fk_ncr_protection_ncr_solving1` FOREIGN KEY (`ncr_solving_id`) REFERENCES `ncr_solving` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_ncr_protect_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ncr_protect_ncr_cause1` FOREIGN KEY (`ncr_cause_id`) REFERENCES `ncr_cause` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `ncr_solving`
+-- Constraints for table `ncr_reply`
 --
-ALTER TABLE `ncr_solving`
-  ADD CONSTRAINT `fk_ncr_solving_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_ncr_solving_ncr_concession1` FOREIGN KEY (`ncr_concession_id`) REFERENCES `ncr_concession` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_ncr_solving_ncr_solving_type1` FOREIGN KEY (`solving_type_id`) REFERENCES `ncr_solving_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `ncr_reply`
+  ADD CONSTRAINT `fk_ncr_reply_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ncr_reply_ncr_reply_type1` FOREIGN KEY (`reply_type_id`) REFERENCES `ncr_reply_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `request`

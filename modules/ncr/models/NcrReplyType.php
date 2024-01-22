@@ -5,23 +5,23 @@ namespace app\modules\ncr\models;
 use Yii;
 
 /**
- * This is the model class for table "ncr_process".
+ * This is the model class for table "ncr_reply_type".
  *
  * @property int $id
- * @property string|null $name กระบวนการ
+ * @property string|null $name ชื่อ
  * @property string|null $color สี
  * @property int|null $active สถานะ
  *
- * @property Ncr[] $ncrs
+ * @property NcrReply[] $ncrReplies
  */
-class NcrProcess extends \yii\db\ActiveRecord
+class NcrReplyType extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'ncr_process';
+        return 'ncr_reply_type';
     }
 
     /**
@@ -31,7 +31,7 @@ class NcrProcess extends \yii\db\ActiveRecord
     {
         return [
             [['active'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 100],
             [['color'], 'string', 'max' => 45],
         ];
     }
@@ -43,19 +43,19 @@ class NcrProcess extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'กระบวนการ'),
+            'name' => Yii::t('app', 'ชื่อ'),
             'color' => Yii::t('app', 'สี'),
             'active' => Yii::t('app', 'สถานะ'),
         ];
     }
 
     /**
-     * Gets query for [[Ncrs]].
+     * Gets query for [[NcrReplies]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getNcrs()
+    public function getNcrReplies()
     {
-        return $this->hasMany(Ncr::class, ['ncr_process_id' => 'id']);
+        return $this->hasMany(NcrReply::class, ['reply_type_id' => 'id']);
     }
 }

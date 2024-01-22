@@ -5,23 +5,23 @@ namespace app\modules\ncr\models;
 use Yii;
 
 /**
- * This is the model class for table "ncr_process".
+ * This is the model class for table "ncr_cause".
  *
  * @property int $id
- * @property string|null $name กระบวนการ
+ * @property string|null $name ชื่อ
  * @property string|null $color สี
  * @property int|null $active สถานะ
  *
- * @property Ncr[] $ncrs
+ * @property NcrProtection[] $ncrProtections
  */
-class NcrProcess extends \yii\db\ActiveRecord
+class NcrCause extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'ncr_process';
+        return 'ncr_cause';
     }
 
     /**
@@ -31,7 +31,7 @@ class NcrProcess extends \yii\db\ActiveRecord
     {
         return [
             [['active'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 100],
             [['color'], 'string', 'max' => 45],
         ];
     }
@@ -43,19 +43,19 @@ class NcrProcess extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'กระบวนการ'),
+            'name' => Yii::t('app', 'ชื่อ'),
             'color' => Yii::t('app', 'สี'),
             'active' => Yii::t('app', 'สถานะ'),
         ];
     }
 
     /**
-     * Gets query for [[Ncrs]].
+     * Gets query for [[NcrProtections]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getNcrs()
+    public function getNcrProtections()
     {
-        return $this->hasMany(Ncr::class, ['ncr_process_id' => 'id']);
+        return $this->hasMany(NcrProtection::class, ['ncr_cause_id' => 'id']);
     }
 }

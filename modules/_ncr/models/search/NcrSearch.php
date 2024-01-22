@@ -17,8 +17,8 @@ class NcrSearch extends Ncr
     public function rules()
     {
         return [
-            [['id', 'month', 'year', 'department', 'ncr_process_id', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
-            [['ncr_number', 'created_date', 'lot', 'production_date', 'product_name', 'customer_name', 'datail', 'action', 'docs', 'ref', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'year', 'month', 'department', 'ncr_process_id', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id'], 'integer'],
+            [['ncr_number', 'created_date', 'lot', 'production_date', 'product_name', 'customer_name', 'datail', 'troubleshooting', 'docs', 'ref'], 'safe'],
         ];
     }
 
@@ -42,10 +42,13 @@ class NcrSearch extends Ncr
     {
         $query = Ncr::find();
 
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC, // เรียงจากล่าสุดก่อน
+                ],
+            ],
         ]);
 
         $this->load($params);
@@ -70,10 +73,6 @@ class NcrSearch extends Ncr
             'department_issue' => $this->department_issue,
             'report_by' => $this->report_by,
             'ncr_status_id' => $this->ncr_status_id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'ncr_number', $this->ncr_number])
@@ -81,7 +80,7 @@ class NcrSearch extends Ncr
             ->andFilterWhere(['like', 'product_name', $this->product_name])
             ->andFilterWhere(['like', 'customer_name', $this->customer_name])
             ->andFilterWhere(['like', 'datail', $this->datail])
-            ->andFilterWhere(['like', 'action', $this->action])
+            ->andFilterWhere(['like', 'troubleshooting', $this->troubleshooting])
             ->andFilterWhere(['like', 'docs', $this->docs])
             ->andFilterWhere(['like', 'ref', $this->ref]);
 

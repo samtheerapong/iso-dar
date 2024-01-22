@@ -6,13 +6,12 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\modules\ncr\models\Ncr $model */
 
-$this->title = $model->id;
+$this->title = $model->ncr_number;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncrs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="ncr-view">
-
     <div style="display: flex; justify-content: space-between;">
         <p>
             <?= Html::a('<i class="fas fa-chevron-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
@@ -27,14 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-6">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= $model->ncr_number  . ' | ' . Yii::t('app', 'Status') . ' = ' . $model->ncrStatus->name ?>
+                    <?= Html::encode($this->title) ?>
                 </div>
                 <div class="card-body table-responsive">
 
                     <?= DetailView::widget([
                         'model' => $model,
-                        'template' => '<tr><th style="width: 250px;">{label}</th><td> {value}</td></tr>',
+                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
                         'attributes' => [
+                            // 'id',
                             [
                                 'attribute' => 'ncr_number',
                                 'format' => 'html',
@@ -42,8 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->ncr_number ? $model->ncr_number : Yii::t('app', 'N/A');
                                 },
                             ],
-
-                            [
+                            
+                             [
                                 'attribute' => 'created_date',
                                 'format' => 'html',
                                 'value' => function ($model) {
@@ -52,10 +52,26 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
 
                             [
+                                'attribute' => 'month',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->month ? $model->month0->month : Yii::t('app', 'N/A');
+                                },
+                            ],
+
+                            [
+                                'attribute' => 'year',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->year ? $model->year0->year : Yii::t('app', 'N/A');
+                                },
+                            ],
+
+                            [
                                 'attribute' => 'department',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->department ? $model->toDepartment->name . ' (' . $model->toDepartment->code . ')' : Yii::t('app', 'N/A');
+                                    return $model->department ? $model->toDepartment->department_name . ' (' . $model->toDepartment->department_code . ')' : Yii::t('app', 'N/A');
                                 },
                             ],
 
@@ -63,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'ncr_process_id',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncr_process_id ? $model->ncrProcess->name : Yii::t('app', 'N/A');
+                                    return $model->ncr_process_id ? $model->ncrProcess->process_name : Yii::t('app', 'N/A');
                                 },
                             ],
 
@@ -82,6 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->production_date ? Yii::$app->formatter->asDate($model->production_date) : Yii::t('app', 'N/A');
                                 },
                             ],
+
                             [
                                 'attribute' => 'product_name',
                                 'format' => 'html',
@@ -102,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'category_id',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->category_id ? $model->category->name : Yii::t('app', 'N/A');
+                                    return $model->category_id ? $model->category->category_name : Yii::t('app', 'N/A');
                                 },
                             ],
 
@@ -110,9 +127,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'sub_category_id',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->sub_category_id ? $model->subCategory->name : Yii::t('app', 'N/A');
+                                    return $model->sub_category_id ? $model->subCategory->category_name : Yii::t('app', 'N/A');
                                 },
                             ],
+
                             [
                                 'attribute' => 'datail',
                                 'format' => 'ntext',
@@ -120,57 +138,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->datail ? $model->datail : Yii::t('app', 'N/A');
                                 },
                             ],
-                            [
-                                'attribute' => 'report_by',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    return $model->report_by ? $model->reporter->thai_name : 'N/A';
-                                },
-                            ],
-                            [
-                                'attribute' => 'department_issue',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    return $model->department_issue ? $model->fromDepartment->name . ' (' . $model->fromDepartment->code . ')' : 'N/A';
-                                },
-                            ],
-                            [
-                                'attribute' => 'action',
-                                'format' => 'ntext',
-                                'value' => function ($model) {
-                                    return $model->action ? $model->action : Yii::t('app', 'N/A');
-                                },
-                            ],
+
                             [
                                 'attribute' => 'ncr_status_id',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncr_status_id ? $model->ncrStatus->name : Yii::t('app', 'N/A');
+                                    return $model->ncr_status_id ? $model->ncrStatus->status_name : Yii::t('app', 'N/A');
                                 },
                             ],
 
-                        ],
-                    ]) ?>
-
-                </div>
-            </div>
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Files') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            [
-                                'attribute' => 'docs',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    // return  $model->listDownloadFiles('docs');
-                                },
-                            ],
-
+                            // [
+                            //     'attribute' => 'docs',
+                            //     'format' => 'html',
+                            //     'value' => function ($model) {
+                            //         return $model->docs ? $model->docs : Yii::t('app', 'N/A');
+                            //     },
+                            // ],
                         ],
                     ]) ?>
                 </div>
@@ -178,17 +161,41 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <div class="col-md-6">
-
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Reply') ?>
+                    <?= Yii::t('app', 'Reporter') ?>
                 </div>
                 <div class="card-body table-responsive">
                     <?= DetailView::widget([
                         'model' => $model,
                         'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
                         'attributes' => [
-                            'id',
+                            [
+                                'attribute' => 'report_by',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->report_by ? $model->reportBy->thai_name : Yii::t('app', 'N/A');
+                                },
+                            ],
+
+                            [
+                                'attribute' => 'department_issue',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->department_issue ? $model->departmentIssue->department_name . ' (' . $model->departmentIssue->department_code . ')' : 'N/A';
+                                },
+                            ],
+
+                            'troubleshooting:ntext',
+
+                            [
+                                'attribute' => 'docs',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return  $model->listDownloadFiles('docs');
+                                },
+                            ],
+                            
                         ],
                     ]) ?>
                 </div>
@@ -196,82 +203,44 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Concession') ?>
+                    <?= Yii::t('app', 'System Log') ?>
                 </div>
                 <div class="card-body table-responsive">
                     <?= DetailView::widget([
                         'model' => $model,
                         'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
                         'attributes' => [
-                            'id',
-                        ],
-                    ]) ?>
-                </div>
-            </div>
+                            [
+                                'attribute' => 'created_at',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->created_at ? Yii::$app->formatter->asDate($model->created_at) : Yii::t('app', 'N/A');
+                                },
+                            ],
 
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Accept') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            'id',
-                        ],
-                    ]) ?>
-                </div>
-            </div>
-
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Closing') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            'id',
-                        ],
-                    ]) ?>
-                </div>
-            </div>
-
-
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Logs') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            // [
-                            //     'attribute' => 'report_by',
-                            //     'format' => 'html',
-                            //     'value' => function ($model) {
-                            //         return $model->report_by ? $model->reportBy->thai_name : Yii::t('app', 'N/A');
-                            //     },
-                            'created_at:date',
                             [
                                 'attribute' => 'created_by',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->created_by ? $model->created->thai_name : 'N/A';
+                                    return $model->created_by ? $model->createdBy->thai_name : Yii::t('app', 'N/A');
                                 },
                             ],
-                            'updated_at:date',
+
+                            [
+                                'attribute' => 'updated_at',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->updated_at ? Yii::$app->formatter->asDate($model->updated_at) : Yii::t('app', 'N/A');
+                                },
+                            ],
+
                             [
                                 'attribute' => 'updated_by',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->updated_by ? $model->updated->thai_name : 'N/A';
+                                    return $model->updated_by ? $model->updatedBy->thai_name : Yii::t('app', 'N/A');
                                 },
                             ],
-
                         ],
                     ]) ?>
                 </div>

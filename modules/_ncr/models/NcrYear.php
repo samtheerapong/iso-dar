@@ -5,23 +5,23 @@ namespace app\modules\ncr\models;
 use Yii;
 
 /**
- * This is the model class for table "ncr_sub_category".
+ * This is the model class for table "ncr_year".
  *
  * @property int $id
- * @property string|null $name
- * @property string|null $color
- * @property int|null $active
+ * @property string|null $year ปี
+ * @property string|null $color สี
+ * @property int|null $active สถานะ
  *
  * @property Ncr[] $ncrs
  */
-class NcrSubCategory extends \yii\db\ActiveRecord
+class NcrYear extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'ncr_sub_category';
+        return 'ncr_year';
     }
 
     /**
@@ -31,7 +31,7 @@ class NcrSubCategory extends \yii\db\ActiveRecord
     {
         return [
             [['active'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['year'], 'string', 'max' => 255],
             [['color'], 'string', 'max' => 45],
         ];
     }
@@ -43,9 +43,9 @@ class NcrSubCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'color' => Yii::t('app', 'Color'),
-            'active' => Yii::t('app', 'Active'),
+            'year' => Yii::t('app', 'ปี'),
+            'color' => Yii::t('app', 'สี'),
+            'active' => Yii::t('app', 'สถานะ'),
         ];
     }
 
@@ -56,6 +56,6 @@ class NcrSubCategory extends \yii\db\ActiveRecord
      */
     public function getNcrs()
     {
-        return $this->hasMany(Ncr::class, ['sub_category_id' => 'id']);
+        return $this->hasMany(Ncr::class, ['year' => 'id']);
     }
 }

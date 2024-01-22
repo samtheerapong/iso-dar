@@ -23,9 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'month') ?>
 
-    <?= $form->field($model, 'year') ?>
-
-    <?php // echo $form->field($model, 'department') ?>
+    <?= $form->field($model, 'department') ?>
 
     <?php // echo $form->field($model, 'ncr_process_id') ?>
 
@@ -47,21 +45,13 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'report_by') ?>
 
-    <?php // echo $form->field($model, 'action') ?>
+    <?php // echo $form->field($model, 'troubleshooting') ?>
 
     <?php // echo $form->field($model, 'docs') ?>
 
-    <?php // echo $form->field($model, 'ref') ?>
-
     <?php // echo $form->field($model, 'ncr_status_id') ?>
 
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'created_by') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <?php // echo $form->field($model, 'updated_by') ?>
+    <?php // echo $form->field($model, 'ref') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

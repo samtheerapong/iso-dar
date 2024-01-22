@@ -12,7 +12,7 @@ use Yii;
  * @property string|null $color สี
  * @property int|null $active สถานะ
  *
- * @property NcrSolving[] $ncrSolvings
+ * @property NcrAccept[] $ncrAccepts
  */
 class NcrConcession extends \yii\db\ActiveRecord
 {
@@ -50,12 +50,12 @@ class NcrConcession extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[NcrSolvings]].
+     * Gets query for [[NcrAccepts]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getNcrSolvings()
+    public function getNcrAccepts()
     {
-        return $this->hasMany(NcrSolving::class, ['ncr_concession_id' => 'id']);
+        return $this->hasMany(NcrAccept::class, ['ncr_concession_id' => 'id']);
     }
 }

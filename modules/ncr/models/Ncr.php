@@ -4,51 +4,66 @@ namespace app\modules\ncr\models;
 
 use app\models\User;
 use Yii;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
-use yii\db\BaseActiveRecord;
-use yii\helpers\Html;
-use yii\helpers\Json;
-use yii\helpers\Url;
 
+/**
+ * This is the model class for table "ncr".
+ *
+ * @property int $id
+ * @property string|null $ncr_number เลขที่ NCR
+ * @property string|null $created_date วันที่
+ * @property int|null $month เดือน
+ * @property int|null $year ปี
+ * @property int|null $department ถึงแผนก
+ * @property int|null $ncr_process_id กระบวนการ
+ * @property string|null $lot หมายเลขล็อต
+ * @property string|null $production_date วันที่ผลิต
+ * @property string|null $product_name ชื่อสินค้า
+ * @property string|null $customer_name ชื่อลูกค้า
+ * @property int|null $category_id หมวดหมู่
+ * @property int|null $sub_category_id หมวดหมู่ย่อย
+ * @property string|null $datail รายละเอียดปัญหา
+ * @property int|null $department_issue แผนกที่พบปัญหา
+ * @property int|null $report_by ผู้รายงาน
+ * @property string|null $action การดำเนินการเบื้องต้น
+ * @property string|null $docs ไฟล์แนบ
+ * @property string|null $ref อ้างอิง
+ * @property int|null $ncr_status_id สถานะ
+ * @property string|null $created_at สร้างเมื่อ
+ * @property int|null $created_by สร้างโดย
+ * @property string|null $updated_at ล่าสุดเมื่อ
+ * @property int|null $updated_by ล่าสุดโดย
+ *
+ * @property NcrCategory $category
+ * @property NcrDepartment $departmentIssue
+ * @property NcrDepartment $departmentIssue0
+ * @property NcrMonth $month0
+ * @property NcrAccept[] $ncrAccepts
+ * @property NcrProcess $ncrProcess
+ * @property NcrProtection[] $ncrProtections
+ * @property NcrReply[] $ncrReplies
+ * @property NcrStatus $ncrStatus
+ * @property NcrSubCategory $subCategory
+ * @property NcrYear $year0
+ */
 class Ncr extends \yii\db\ActiveRecord
 {
-    const UPLOAD_FOLDER = 'uploads/ncr';
-
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    self::EVENT_BEFORE_INSERT => ['created_at'],
-                    self::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-                'value' => function () {
-                    return date('Y-m-d H:i:s');
-                },
-            ],
-            [
-                'class' => BlameableBehavior::class,
-                'attributes' => [
-                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_by', 'updated_by'],
-                    BaseActiveRecord::EVENT_BEFORE_UPDATE => ['updated_by'],
-                ],
-            ],
-        ];
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName()
     {
         return 'ncr';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
             [['created_date', 'production_date', 'created_at', 'updated_at'], 'safe'],
             [['month', 'year', 'department', 'ncr_process_id', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
-            [['datail', 'troubleshooting'], 'string'],
+            [['datail', 'action', 'docs'], 'string'],
             [['ncr_number'], 'string', 'max' => 100],
             [['lot', 'product_name', 'customer_name'], 'string', 'max' => 255],
             [['ref'], 'string', 'max' => 45],
@@ -60,10 +75,12 @@ class Ncr extends \yii\db\ActiveRecord
             [['ncr_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrStatus::class, 'targetAttribute' => ['ncr_status_id' => 'id']],
             [['sub_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrSubCategory::class, 'targetAttribute' => ['sub_category_id' => 'id']],
             [['year'], 'exist', 'skipOnError' => true, 'targetClass' => NcrYear::class, 'targetAttribute' => ['year' => 'id']],
-            [['docs'], 'file', 'maxFiles' => 10, 'skipOnEmpty' => true]
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels()
     {
         return [
@@ -83,10 +100,10 @@ class Ncr extends \yii\db\ActiveRecord
             'datail' => Yii::t('app', 'รายละเอียดปัญหา'),
             'department_issue' => Yii::t('app', 'แผนกที่พบปัญหา'),
             'report_by' => Yii::t('app', 'ผู้รายงาน'),
-            'troubleshooting' => Yii::t('app', 'การดำเนินการ'),
+            'action' => Yii::t('app', 'การดำเนินการเบื้องต้น'),
             'docs' => Yii::t('app', 'ไฟล์แนบ'),
-            'ncr_status_id' => Yii::t('app', 'สถานะ'),
             'ref' => Yii::t('app', 'อ้างอิง'),
+            'ncr_status_id' => Yii::t('app', 'สถานะ'),
             'created_at' => Yii::t('app', 'สร้างเมื่อ'),
             'created_by' => Yii::t('app', 'สร้างโดย'),
             'updated_at' => Yii::t('app', 'ล่าสุดเมื่อ'),
@@ -99,12 +116,7 @@ class Ncr extends \yii\db\ActiveRecord
         return $this->hasOne(NcrCategory::class, ['id' => 'category_id']);
     }
 
-    public function getToDepartment()
-    {
-        return $this->hasOne(NcrDepartment::class, ['id' => 'department']);
-    }
-
-    public function getDepartmentIssue()
+    public function getFromDepartment()
     {
         return $this->hasOne(NcrDepartment::class, ['id' => 'department_issue']);
     }
@@ -114,14 +126,25 @@ class Ncr extends \yii\db\ActiveRecord
         return $this->hasOne(NcrMonth::class, ['id' => 'month']);
     }
 
+
     public function getNcrProcess()
     {
         return $this->hasOne(NcrProcess::class, ['id' => 'ncr_process_id']);
     }
 
-    public function getNcrSolvings()
+    public function getNcrAcceptS()
     {
-        return $this->hasMany(NcrSolving::class, ['ncr_id' => 'id']);
+        return $this->hasMany(NcrAccept::class, ['ncr_id' => 'id']);
+    }
+
+    public function getNcrProtections()
+    {
+        return $this->hasMany(NcrProtection::class, ['ncr_id' => 'id']);
+    }
+
+    public function getNcrReplies()
+    {
+        return $this->hasMany(NcrReply::class, ['ncr_id' => 'id']);
     }
 
     public function getNcrStatus()
@@ -139,97 +162,23 @@ class Ncr extends \yii\db\ActiveRecord
         return $this->hasOne(NcrYear::class, ['id' => 'year']);
     }
 
-    public function getReportBy()
+    public function getToDepartment()
+    {
+        return $this->hasOne(NcrDepartment::class, ['id' => 'department']);
+    }
+
+    public function getReporter()
     {
         return $this->hasOne(User::class, ['id' => 'report_by']);
     }
 
-    public function getCreatedBy()
+    public function getCreated()
     {
         return $this->hasOne(User::class, ['id' => 'created_by']);
     }
 
-    public function getUpdatedBy()
+    public function getUpdated()
     {
         return $this->hasOne(User::class, ['id' => 'updated_by']);
-    }
-
-
-    //********** Upload Path*/
-    public static function getUploadPath()
-    {
-        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER . '/';
-    }
-
-    public static function getUploadUrl()
-    {
-        return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/';
-    }
-
-    //********** List Downloads */
-    public function listDownloadFiles($type)
-    {
-        $docs_file = '';
-        if (in_array($type, ['docs'])) {
-            $data = $type === 'docs' ? $this->docs : '';
-            $files = Json::decode($data);
-            if (is_array($files)) {
-                $docs_file = '<ul>';
-                foreach ($files as $key => $value) {
-                    if (strpos($value, '.jpg') !== false || strpos($value, '.jpeg') !== false || strpos($value, '.png') !== false || strpos($value, '.gif') !== false) {
-                        $thumbnail = Html::img(['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'img-thumbnail', 'alt' => 'Image', 'style' => 'width: 150px']);
-                        $fullSize = Html::a($thumbnail, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['target' => '_blank']);
-                        $docs_file .= '<li>' . $fullSize . '</li>';
-                    } else {
-                        $docs_file .= '<li>' . Html::a($value, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value]) . '</li>';
-                    }
-                }
-                $docs_file .= '</ul>';
-            }
-        }
-
-        return $docs_file;
-    }
-
-    //********** initialPreview */    
-    public function isImage($filePath)
-    {
-        return @is_array(getimagesize($filePath)) ? true : false;
-    }
-
-    public function initialPreview($data, $field, $type = 'file')
-    {
-        $initial = [];
-        $files = Json::decode($data);
-        if (is_array($files)) {
-            foreach ($files as $key => $value) {
-                $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
-                $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
-
-                $isImage = $this->isImage($filePath);
-
-                if ($isImage = true) {
-                    if ($type == 'file') {
-                        $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
-                    } elseif ($type == 'config') {
-                        $initial[] = [
-                            'caption' => $value,
-                            'width'  => '120px',
-                            'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
-                            'key'    => $key
-                        ];
-                    } else {
-                        if ($isImage) {
-                            $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
-                        } else {
-                            $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
-                        }
-                        $initial[] = $file;
-                    }
-                }
-                
-            }
-        }
-        return $initial;
     }
 }

@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "ncr_status".
  *
  * @property int $id
- * @property string|null $status_name
+ * @property string|null $name
  * @property string|null $color
  * @property int|null $active
  *
@@ -31,7 +31,7 @@ class NcrStatus extends \yii\db\ActiveRecord
     {
         return [
             [['active'], 'integer'],
-            [['status_name'], 'string', 'max' => 100],
+            [['name'], 'string', 'max' => 100],
             [['color'], 'string', 'max' => 45],
         ];
     }
@@ -43,9 +43,9 @@ class NcrStatus extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'status_name' => Yii::t('app', 'Status Name'),
+            'name' => Yii::t('app', 'Name'),
             'color' => Yii::t('app', 'Color'),
-            'active' => Yii::t('app', 'active'),
+            'active' => Yii::t('app', 'Active'),
         ];
     }
 

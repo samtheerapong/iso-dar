@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "ncr_sub_category".
  *
  * @property int $id
- * @property string|null $name
+ * @property string|null $category_name
  * @property string|null $color
  * @property int|null $active
  *
@@ -31,7 +31,7 @@ class NcrSubCategory extends \yii\db\ActiveRecord
     {
         return [
             [['active'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['category_name'], 'string', 'max' => 255],
             [['color'], 'string', 'max' => 45],
         ];
     }
@@ -43,9 +43,9 @@ class NcrSubCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'category_name' => Yii::t('app', 'Category Name'),
             'color' => Yii::t('app', 'Color'),
-            'active' => Yii::t('app', 'Active'),
+            'active' => Yii::t('app', 'active'),
         ];
     }
 

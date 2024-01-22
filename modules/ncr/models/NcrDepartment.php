@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "ncr_department".
  *
  * @property int $id
- * @property string|null $department_code รหัส
- * @property string|null $department_name แผนก
+ * @property string|null $code รหัส
+ * @property string|null $name แผนก
  * @property string|null $color สี
  * @property int|null $active สถานะ
  *
@@ -33,8 +33,8 @@ class NcrDepartment extends \yii\db\ActiveRecord
     {
         return [
             [['active'], 'integer'],
-            [['department_code', 'color'], 'string', 'max' => 45],
-            [['department_name'], 'string', 'max' => 255],
+            [['code', 'color'], 'string', 'max' => 45],
+            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,8 +45,8 @@ class NcrDepartment extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'department_code' => Yii::t('app', 'รหัส'),
-            'department_name' => Yii::t('app', 'แผนก'),
+            'code' => Yii::t('app', 'รหัส'),
+            'name' => Yii::t('app', 'แผนก'),
             'color' => Yii::t('app', 'สี'),
             'active' => Yii::t('app', 'สถานะ'),
         ];
