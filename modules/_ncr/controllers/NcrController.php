@@ -86,6 +86,8 @@ class NcrController extends Controller
         $model = new Ncr();
         // $status = 1;
         $ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
+        
+        $model->ncr_status_id =  1;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -93,6 +95,7 @@ class NcrController extends Controller
                 $model->ncr_number = AutoNumber::generate('N-' . (date('y') + 43) . date('m') . '-???'); // Auto Number EX 6612/0001
 
                 $model->ref =  $ref;
+
                 $this->CreateDir($model->ref); // create Directory 6701-12
 
                 $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller

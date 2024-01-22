@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Department;
 use app\modules\ncr\models\NcrDepartment;
 use app\modules\ncr\models\NcrMonth;
 use app\modules\ncr\models\NcrProcess;
@@ -72,14 +73,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'attribute' => 'department',
                             'format' => 'html',
-                            'headerOptions' => ['class' => 'text-center', 'style' => 'width:120px;'],
+                            'headerOptions' => ['style' => 'width:160px;'],
                             'value' => function ($model) {
-                                return $model->department ? $model->toDepartment->code : 'N/A';
+                                return $model->department ? $model->toDepartment->name : 'N/A';
                             },
                             'filter' => Select2::widget([
                                 'model' => $searchModel,
                                 'attribute' => 'department',
-                                'data' => ArrayHelper::map(NcrDepartment::find()->where(['active' => 1])->all(), 'id', 'code'),
+                                'data' => ArrayHelper::map(Department::find()->where(['active' => 1])->all(), 'id', 'name'),
                                 'options' => ['placeholder' => Yii::t('app', 'Select...')],
                                 'pluginOptions' => [
                                     'allowClear' => true
@@ -87,16 +88,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             ])
                         ],
                         [
-                            'attribute' => 'ncr_process_id',
+                            'attribute' => 'process',
                             'format' => 'html',
-                            'headerOptions' => ['style' => 'width:150px;'],
+                            'headerOptions' => ['style' => 'width:200px;'],
                             'value' => function ($model) {
-                                return $model->ncr_process_id ? '<span class="text" style="color:' . $model->ncrProcess->color . ';">' . $model->ncrProcess->name . '</span>' : 'N/A';
+                                // return $model->process ? '<span class="text" style="color:' . $model->ncrProcess->color . ';">' . $model->ncrProcess->name . '</span>' : 'N/A';
+                                return $model->process;
                             },
                             'filter' => Select2::widget([
                                 'model' => $searchModel,
-                                'attribute' => 'ncr_process_id',
-                                'data' => ArrayHelper::map(NcrProcess::find()->where(['active' => 1])->all(), 'id', 'name'),
+                                'attribute' => 'process',
+                                'data' => ArrayHelper::map(NcrProcess::find()->where(['active' => 1])->all(), 'name', 'name'),
                                 'options' => ['placeholder' => Yii::t('app', 'Select...')],
                                 'pluginOptions' => [
                                     'allowClear' => true
@@ -110,6 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return $model->product_name ? $model->product_name : 'N/A';
                             },
                         ],
+                       
                         [
                             'attribute' => 'ncr_status_id',
                             'format' => 'html',

@@ -60,10 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
 
                             [
-                                'attribute' => 'ncr_process_id',
+                                'attribute' => 'process',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncr_process_id ? $model->ncrProcess->name : Yii::t('app', 'N/A');
+                                    return $model->process ? $model->process : Yii::t('app', 'N/A');
                                 },
                             ],
 
