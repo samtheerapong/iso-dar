@@ -52,11 +52,11 @@ class NcrController extends Controller
 
     public function actionCreate()
     {
-        $model =            new Ncr();
-        $ModelReply =       new NcrReply();
-        $ModelAccept =      new NcrAccept();
-        $ModelProtection =  new NcrProtection();
-        $ModelClosing =     new NcrClosing();
+        $model = new Ncr();
+        $ModelReply = new NcrReply();
+        $ModelAccept = new NcrAccept();
+        $ModelProtection = new NcrProtection();
+        $ModelClosing = new NcrClosing();
 
         $ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
         $defaultValue = 1;
@@ -66,32 +66,35 @@ class NcrController extends Controller
 
                 $model->ncr_number = AutoNumber::generate('N-' . (date('y') + 43) . date('m') . '-???'); // Auto Number EX N-6612-0001
 
-                $model->ref =  $ref;
+                $model->ref = $ref;
 
-                $model->ncr_status_id =  $defaultValue;
+                $model->ncr_status_id = $defaultValue;
 
                 if ($model->save()) {
-                    $ModelReply->ncr_id =  $model->id;
-                    $ModelAccept->ncr_id =  $model->id;
-                    $ModelProtection->ncr_id =  $model->id;
-                    $ModelClosing->ncr_id =  $model->id;
+                    $ModelReply->ncr_id = $model->id;
+                    $ModelAccept->ncr_id = $model->id;
+                    $ModelProtection->ncr_id = $model->id;
+                    $ModelClosing->ncr_id = $model->id;
+
+                    // Assuming you have appropriate attributes configured for each related model
                     if (
                         $ModelReply->save() &&
-                        $ModelAccept->save() &&
                         $ModelAccept->save() &&
                         $ModelProtection->save() &&
                         $ModelClosing->save()
                     ) {
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
-                    // $this->LineNotify($model);
                 }
             }
-        } else {
         }
 
         return $this->render('create', [
             'model' => $model,
+            // 'ModelReply' => $ModelReply,
+            // 'ModelAccept' => $ModelAccept,
+            // 'ModelProtection' => $ModelProtection,
+            // 'ModelClosing' => $ModelClosing,
         ]);
     }
 

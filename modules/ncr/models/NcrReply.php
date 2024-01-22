@@ -70,21 +70,12 @@ class NcrReply extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Ncr]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNcr()
+   
+    public function getNcrModel()
     {
         return $this->hasOne(Ncr::class, ['id' => 'ncr_id']);
     }
 
-    /**
-     * Gets query for [[ReplyType]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getReplyType()
     {
         return $this->hasOne(NcrReplyType::class, ['id' => 'reply_type_id']);

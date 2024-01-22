@@ -1,7 +1,6 @@
 <?php
 
 use app\models\Department;
-use app\modules\ncr\models\NcrDepartment;
 use app\modules\ncr\models\NcrMonth;
 use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrStatus;
@@ -133,11 +132,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'width:250px;'],
                             'contentOptions' => ['class' => 'text-center'],
                             'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                            'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {solving}</div>',
+                            'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {reply}</div>',
                             'buttons' => [
-                                'solving' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa-solid fa-right-left"></i>', ['solving', 'id' => $model->id], [
-                                        'title' => Yii::t('app', 'Solving'),
+                                'reply' => function ($url, $model, $key) {
+                                    return Html::a('<i class="fa-solid fa-right-left"></i>', ['/ncr/ncr-reply/update', 'id' => $model->id], [
+                                        'title' => Yii::t('app', 'Reply'),
                                         'class' => 'btn btn-outline-dark btn-sm',
                                     ]);
                                 },

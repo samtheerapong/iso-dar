@@ -2,8 +2,10 @@
 
 namespace app\modules\ncr\controllers;
 
+use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\NcrAccept;
 use app\modules\ncr\models\search\NcrAcceptSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -92,14 +94,28 @@ class NcrAcceptController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $modelNcr->ncr_status_id = 3;
+            if ($model->save()) {
+                $modelNcr->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    protected function findModelNcr($id)
+    {
+        if (($model = Ncr::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
