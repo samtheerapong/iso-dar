@@ -7,7 +7,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncrs'), 'url' => ['i
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ncr-create">
-<p>
+    <p>
         <?= Html::a('<i class="fas fa-circle-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
     </p>
     <?= $this->render('_form', [

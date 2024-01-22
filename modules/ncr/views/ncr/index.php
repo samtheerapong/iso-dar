@@ -40,10 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => LinkPager::class,
                     ],
                     'columns' => [
-                        [
-                            'class' => 'yii\grid\SerialColumn',
-                            'headerOptions' => ['style' => 'width:40px;'],
-                        ],
+                        ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'width:40px;']],
+                        // ['class' => 'yii\grid\CheckboxColumn','headerOptions' => ['style' => 'width:40px;']],
 
                         [
                             'attribute' => 'ncr_number',

@@ -42,7 +42,7 @@ class Ncr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_date', 'production_date', 'created_at', 'updated_at','process'], 'safe'],
+            [['created_date', 'production_date', 'created_at', 'updated_at', 'process'], 'safe'],
             [['month', 'year', 'department', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
             [['datail', 'action', 'docs'], 'string'],
             [['ncr_number'], 'string', 'max' => 100],
@@ -164,7 +164,6 @@ class Ncr extends \yii\db\ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if (!empty($this->process)) {
-                // $this->social = $this->setToArray($this->social);
                 $this->process = $this->setToArray($this->process);
             }
             return true;
