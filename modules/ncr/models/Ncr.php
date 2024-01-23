@@ -65,6 +65,7 @@ class Ncr extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'ncr_number' => Yii::t('app', 'เลขที่ NCR'),
             'created_date' => Yii::t('app', 'วันที่'),
+            'monthly' => Yii::t('app', 'ประจำเดือน'),
             'month' => Yii::t('app', 'เดือน'),
             'year' => Yii::t('app', 'ปี'),
             'department' => Yii::t('app', 'ถึงแผนก'),
@@ -99,12 +100,7 @@ class Ncr extends \yii\db\ActiveRecord
         return $this->hasOne(Department::class, ['id' => 'department_issue']);
     }
 
-    public function getMonth0()
-    {
-        return $this->hasOne(NcrMonth::class, ['id' => 'month']);
-    }
-
-    public function getNcrProcess()
+       public function getNcrProcess()
     {
         return $this->hasOne(NcrProcess::class, ['id' => 'process']);
     }
@@ -137,6 +133,11 @@ class Ncr extends \yii\db\ActiveRecord
     public function getYear0()
     {
         return $this->hasOne(NcrYear::class, ['id' => 'year']);
+    }
+
+    public function getMonth0()
+    {
+        return $this->hasOne(NcrMonth::class, ['id' => 'month']);
     }
 
     public function getToDepartment()

@@ -4,8 +4,10 @@ use app\models\Department;
 use app\models\User;
 use app\modules\ncr\models\NcrCategory;
 use app\modules\ncr\models\NcrDepartment;
+use app\modules\ncr\models\NcrMonth;
 use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrSubCategory;
+use app\modules\ncr\models\NcrYear;
 use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
@@ -23,8 +25,28 @@ use yii\widgets\ActiveForm;
             <?= Html::encode($this->title) ?>
         </div>
         <div class="card-body">
-
             <div class="row">
+                <div class="col-md-2">
+                    <?= $form->field($model, 'month')->widget(Select2::class, [
+                        'data' => ArrayHelper::map(NcrMonth::find()->where(['active' => 1])->all(), 'id', 'month'),
+                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
+
+                <div class="col-md-2">
+                    <?= $form->field($model, 'year')->widget(Select2::class, [
+                        'data' => ArrayHelper::map(NcrYear::find()->where(['active' => 1])->all(), 'id', 'year'),
+                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
 
                 <div class="col-md-3">
                     <?= $form->field($model, 'department')->widget(Select2::class, [
@@ -37,9 +59,9 @@ use yii\widgets\ActiveForm;
                     ?>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <?= $form->field($model, 'process')->widget(Select2::class, [
-                        'theme' => Select2::THEME_KRAJEE_BS5, // this is the default if theme is not set
+                        'theme' => Select2::THEME_KRAJEE_BS5,
                         'data' => ArrayHelper::map(NcrProcess::find()->where(['active' => 1])->all(), 'name', 'name'),
                         'options' => ['multiple' => true, 'placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
@@ -70,7 +92,7 @@ use yii\widgets\ActiveForm;
                     ); ?>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <?= $form->field($model, 'product_name')->textInput(['maxlength' => true]) ?>
                 </div>
 
@@ -78,61 +100,70 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true]) ?>
                 </div>
 
-                <div class="col-md-2">
-                    <?= $form->field($model, 'category_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(NcrCategory::find()->where(['active' => 1])->all(), 'id', 'name'),
-                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                    ?>
-                </div>
-
-                <div class="col-md-2">
-                    <?= $form->field($model, 'sub_category_id')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(NcrSubCategory::find()->where(['active' => 1])->all(), 'id', 'name'),
-                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                    ?>
-                </div>
-
                 <div class="col-md-12">
                     <?= $form->field($model, 'datail')->textarea(['rows' => 2]) ?>
                 </div>
+            </div>
 
-                <div class="col-md-6">
-                    <?= $form->field($model, 'report_by')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(User::find()->where(['status' => 10])->all(), 'id', 'thai_name'),
-                        'options' => ['value' => Yii::$app->user->identity->id],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                    ?>
+            <div class="row">
+                <div class="card-header text-white bg-warning">
+                    <?= Yii::t('app', 'Reporter'); ?>
                 </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'report_by')->widget(Select2::class, [
+                                'data' => ArrayHelper::map(User::find()->where(['status' => 10])->all(), 'id', 'thai_name'),
+                                'options' => ['value' => Yii::$app->user->identity->id],
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]);
+                            ?>
+                        </div>
 
-                <div class="col-md-6">
-                    <?= $form->field($model, 'department_issue')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(Department::find()->where(['active' => 1])->all(), 'id', 'name'),
-                        'options' => ['value' => Yii::$app->user->identity->department_id],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-                    ?>
-                </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'department_issue')->widget(Select2::class, [
+                                'data' => ArrayHelper::map(Department::find()->where(['active' => 1])->all(), 'id', 'name'),
+                                'options' => ['value' => Yii::$app->user->identity->department_id],
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]);
+                            ?>
+                        </div>
 
-                <div class="col-md-12">
-                    <?= $form->field($model, 'action')->textarea(['rows' => 2]) ?>
-                </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'category_id')->widget(Select2::class, [
+                                'data' => ArrayHelper::map(NcrCategory::find()->where(['active' => 1])->all(), 'id', 'name'),
+                                'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]);
+                            ?>
+                        </div>
 
-                <div class="col-md-12">
-                    <?= $form->field($model, 'docs')->textarea(['rows' => 1]) ?>
-               
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'sub_category_id')->widget(Select2::class, [
+                                'data' => ArrayHelper::map(NcrSubCategory::find()->where(['active' => 1])->all(), 'id', 'name'),
+                                'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]);
+                            ?>
+                        </div>
+
+                        <div class="col-md-12">
+                            <?= $form->field($model, 'action')->textarea(['rows' => 2]) ?>
+                        </div>
+
+                        <div class="col-md-12">
+                            <?= $form->field($model, 'docs')->textarea(['rows' => 1]) ?>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

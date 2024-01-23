@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
-            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Solving'), ['solving', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Reply'), ['reply', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
             <?= Html::a('<i class="fa-solid fa-pen"></i> ' . Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
         </p>
     </div>
@@ -48,6 +48,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format' => 'html',
                                 'value' => function ($model) {
                                     return $model->created_date ? Yii::$app->formatter->asDate($model->created_date) : Yii::t('app', 'N/A');
+                                },
+                            ],
+
+                            [
+                                'attribute' => 'monthly',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->year  ?  $model->month0->month . ' (' .$model->year0->year . ')': Yii::t('app', 'N/A');
                                 },
                             ],
 

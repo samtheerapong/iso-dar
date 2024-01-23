@@ -133,14 +133,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             'contentOptions' => ['class' => 'text-center'],
                             'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
                             'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {reply}</div>',
-                            'buttons' => [
-                                'reply' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa-solid fa-right-left"></i>', ['/ncr/ncr-reply/update', 'id' => $model->id], [
-                                        'title' => Yii::t('app', 'Reply'),
-                                        'class' => 'btn btn-outline-dark btn-sm',
-                                    ]);
-                                },
-                            ],
+                            // 'buttons' => [
+                            //     'reply' => function ($url, $model, $key) {
+                            //         return Html::a('<i class="fa-solid fa-right-left"></i>', ['update', 'id' => $model->id], [
+                            //             'title' => Yii::t('app', 'Reply'),
+                            //             'class' => 'btn btn-outline-dark btn-sm',
+                            //         ]);
+                            //     },
+                            // ],
                         ],
                     ],
                 ]); ?>

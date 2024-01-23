@@ -44,7 +44,7 @@ class NcrReply extends \yii\db\ActiveRecord
             [['operation_date', 'approve_date'], 'safe'],
             [['unit'], 'string', 'max' => 45],
             [['ref'], 'string', 'max' => 255],
-            [['ncr_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ncr::class, 'targetAttribute' => ['ncr_id' => 'id']],
+            // [['ncr_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ncr::class, 'targetAttribute' => ['ncr_id' => 'id']],
             [['reply_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrReplyType::class, 'targetAttribute' => ['reply_type_id' => 'id']],
         ];
     }
@@ -71,7 +71,7 @@ class NcrReply extends \yii\db\ActiveRecord
     }
 
    
-    public function getNcrModel()
+    public function getNcr0()
     {
         return $this->hasOne(Ncr::class, ['id' => 'ncr_id']);
     }

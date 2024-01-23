@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 22, 2024 at 07:21 AM
+-- Generation Time: Jan 23, 2024 at 10:02 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.9
 
@@ -65,7 +65,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('J2401-???', 4, 1, 1704535296),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
-('N-6701-???', 23, 1, 1705907944),
+('N-6701-???', 27, 1, 1706000483),
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
@@ -534,8 +534,7 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `ncr_status_id`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 'N-6701-022', '2024-01-22', NULL, NULL, 8, NULL, '071/23', '2024-01-10', 'organic FT soy Sauce 200 ml.', 'John Doe', 2, 1, '', 11, 12, '', '', 'jkTTcyiOFgYQp9CApmvW5T', 2, '2024-01-22', 12, '2024-01-22', 12),
-(2, 'N-6701-023', '2024-01-22', NULL, NULL, 2, NULL, '071/23', '2024-01-09', 'มมมามา', 'ทดสอบาม', 2, 1, '', 11, 12, '', '', '87EVxMDw6JdXZHMxxLzZ8Z', 2, '2024-01-22', 12, '2024-01-22', 12);
+(1, 'N-6701-027', '2024-01-23', 1, 2, 8, NULL, '071/23', '2024-01-10', 'organic FT soy Sauce 200 ml.', 'John Doe', 2, 1, 'ผลเชื้อเกิน', 11, 12, 'ตรวจซ้ำ', '', '9IAJ7Yhrp-LyKXIt72pryA', 2, '2024-01-23', 12, '2024-01-23', 12);
 
 -- --------------------------------------------------------
 
@@ -559,8 +558,7 @@ CREATE TABLE `ncr_accept` (
 --
 
 INSERT INTO `ncr_accept` (`id`, `ncr_id`, `ncr_concession_id`, `customer_name`, `process`, `cause`, `approve_name`, `approve_date`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 2, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -621,7 +619,7 @@ CREATE TABLE `ncr_closing` (
 --
 
 INSERT INTO `ncr_closing` (`id`, `ncr_id`, `accept`, `auditor`, `qmr`, `accept_date`, `ncr_closingcol`) VALUES
-(1, 2, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -721,7 +719,7 @@ CREATE TABLE `ncr_protection` (
 --
 
 INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_id`, `issue`, `action`, `schedule_date`, `operator`) VALUES
-(1, 2, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -749,8 +747,7 @@ CREATE TABLE `ncr_reply` (
 --
 
 INSERT INTO `ncr_reply` (`id`, `ncr_id`, `reply_type_id`, `quantity`, `unit`, `proceed`, `operation_date`, `operation_name`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
-(1, 1, NULL, NULL, '', '', NULL, NULL, NULL, NULL, '', ''),
-(2, 2, NULL, 21, '1', '', NULL, NULL, NULL, NULL, '', '');
+(1, 1, 1, 10, 'กล่อง', '', NULL, NULL, NULL, NULL, '', '');
 
 -- --------------------------------------------------------
 
@@ -764,6 +761,18 @@ CREATE TABLE `ncr_reply_type` (
   `color` varchar(45) DEFAULT NULL COMMENT 'สี',
   `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ncr_reply_type`
+--
+
+INSERT INTO `ncr_reply_type` (`id`, `name`, `color`, `active`) VALUES
+(1, 'ส่งคืน(Reject)', NULL, 1),
+(2, 'คัดแยกของเสียเพื่อส่งคืน', NULL, 1),
+(3, 'แก้ไข (Rework)', NULL, 1),
+(4, 'ทำลาย (Scrap)', NULL, 1),
+(5, 'เปลี่ยนสินค้า', NULL, 1),
+(6, 'ลดเกรด (Down Grade)   ', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1775,13 +1784,13 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_accept`
 --
 ALTER TABLE `ncr_accept`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_category`
@@ -1829,7 +1838,7 @@ ALTER TABLE `ncr_protection`
 -- AUTO_INCREMENT for table `ncr_reply`
 --
 ALTER TABLE `ncr_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply_type`

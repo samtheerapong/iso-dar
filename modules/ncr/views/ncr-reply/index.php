@@ -43,36 +43,42 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'html',
                             'headerOptions' => ['style' => 'width:150px;'],
                             'value' => function ($model) {
-                                return $model->ncr_id ? Html::a($model->ncrModel->ncr_number, ['view', 'id' => $model->id]) : 'N/A';
+                                return $model->ncr_id ? Html::a($model->ncr0->ncr_number, ['view', 'id' => $model->id]) : 'N/A';
                             },
                         ],
                         [
                             'attribute' => 'process',
                             'format' => 'html',
-                            'headerOptions' => ['style' => 'width:200px;'],
+                            'headerOptions' => ['style' => 'width:350px;'],
                             'value' => function ($model) {
                                 // return $model->process ? '<span class="text" style="color:' . $model->ncrProcess->color . ';">' . $model->ncrProcess->name . '</span>' : 'N/A';
-                                return $model->ncrModel->process ? $model->ncrModel->process : 'N/A';
+                                return $model->ncr0->process ? $model->ncr0->process . ' (' . $model->ncr0->product_name . ')' : 'N/A';
                             },
-                            'filter' => Select2::widget([
-                                'model' => $searchModel,
-                                'attribute' => 'process',
-                                'data' => ArrayHelper::map(NcrProcess::find()->where(['active' => 1])->all(), 'name', 'name'),
-                                'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ])
+                            // 'filter' => Select2::widget([
+                            //     'model' => $searchModel,
+                            //     'attribute' => 'process',
+                            //     'data' => ArrayHelper::map(NcrProcess::find()->where(['active' => 1])->all(), 'name', 'name'),
+                            //     'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            //     'pluginOptions' => [
+                            //         'allowClear' => true
+                            //     ],
+                            // ])
                         ],
+
                         [
-                            'attribute' => 'ncrModel.product_name',
+                            'attribute' => 'reply_type_id',
                             'format' => 'html',
                             'value' => function ($model) {
-                                return $model->ncrModel->product_name ? $model->ncrModel->product_name : 'N/A';
+                                return $model->reply_type_id ? $model->replyType->name : 'ยังไม่ได้ดำเนินการ';
                             },
                         ],
-                        'reply_type_id',
-                        'quantity',
+                        [
+                            'attribute' => 'quantity',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->quantity ? $model->quantity . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
+                            },
+                        ],
                         'unit',
                         //'proceed:ntext',
                         //'operation_date',
