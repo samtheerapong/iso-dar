@@ -21,23 +21,23 @@ use yii\helpers\Url;
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?= Url::toRoute('/dar/request') ?>" class="nav-link"> <?= Yii::t('app', 'DAR') ?></a>
+            <a href="<?= Url::toRoute('/dar/request') ?>" class="nav-link"> <?= Yii::t('app', 'DAR ') ?></a>
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?= Url::toRoute('/ncr/ncr/index') ?>" class="nav-link"> <?= Yii::t('app', 'NCR') ?></a>
+            <a href="<?= Url::toRoute('/ncr/ncr/index') ?>" class="nav-link"> <?= Yii::t('app', 'NCR ') ?></a>
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?= Url::toRoute('/itms/it-todo/index') ?>" class="nav-link"> <?= Yii::t('app', 'Todo') ?></a>
+            <a href="<?= Url::toRoute('/itms/it-todo/index') ?>" class="nav-link"> <?= Yii::t('app', 'Todo ') ?></a>
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?= Url::toRoute('/jobs/jobs/index') ?>" class="nav-link"> <?= Yii::t('app', 'Job') ?></a>
+            <a href="<?= Url::toRoute('/jobs/jobs/index') ?>" class="nav-link"> <?= Yii::t('app', 'Job ') ?></a>
         </li>
         
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?= Url::toRoute('/itms/it-ex-upload/index') ?>" class="nav-link"> <?= Yii::t('app', 'exUpload') ?></a>
+            <a href="<?= Url::toRoute('/itms/it-ex-upload/index') ?>" class="nav-link"> <?= Yii::t('app', 'exUpload ') ?></a>
         </li>
       
     </ul>

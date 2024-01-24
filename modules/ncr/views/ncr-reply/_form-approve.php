@@ -1,6 +1,8 @@
 <?php
 
 use app\models\User;
+use app\modules\ncr\models\NcrProcess;
+use app\modules\ncr\models\NcrStatus;
 use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
@@ -105,7 +107,7 @@ use yii\widgets\DetailView;
                                     ]
                                 ]
                             ); ?>
-                        </div>
+
                     </div>
                 </div>
             </div>

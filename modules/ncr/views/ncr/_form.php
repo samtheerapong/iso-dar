@@ -3,7 +3,6 @@
 use app\models\Department;
 use app\models\User;
 use app\modules\ncr\models\NcrCategory;
-use app\modules\ncr\models\NcrDepartment;
 use app\modules\ncr\models\NcrMonth;
 use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrSubCategory;

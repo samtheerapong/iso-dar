@@ -72,8 +72,8 @@ use yii\widgets\ActiveForm;
 
                 <div class="col-md-6">
                     <?= $form->field($model, 'operation_name')->widget(Select2::class, [
-                        'data' => ArrayHelper::map(User::find()->where(['status' => 10])->all(), 'id', 'thai_name'),
-                        'options' => ['value' => Yii::$app->user->identity->id],
+                        'data' => ArrayHelper::map(User::find()->where(['status' => 10, 'role_id' => [3, 4, 5, 6, 10]])->all(), 'id', 'thai_name'),
+                        // 'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],

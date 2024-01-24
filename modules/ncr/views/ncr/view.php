@@ -12,10 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="ncr-view">
-
     <div style="display: flex; justify-content: space-between;">
         <p>
-            <?= Html::a('<i class="fas fa-chevron-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'NCR Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="fa-solid fa-house-circle-exclamation"></i> ' . Yii::t('app', 'Reply Home'), ['/ncr/ncr-reply/index'], ['class' => 'btn btn-info']) ?>
         </p>
 
         <p style="text-align: right;">
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'monthly',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->year  ?  $model->month0->month . ' (' .$model->year0->year . ')': Yii::t('app', 'N/A');
+                                    return $model->year  ?  $model->month0->month . ' (' . $model->year0->year . ')' : Yii::t('app', 'N/A');
                                 },
                             ],
 

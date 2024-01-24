@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Approve');
     </p>
     <?= $this->render('_form-approve', [
         'model' => $model,
+        // 'modelNcr' => $modelNcr, 
     ]) ?>
 
 </div>

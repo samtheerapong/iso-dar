@@ -11,6 +11,7 @@ use yii\db\BaseActiveRecord;
 
 class Ncr extends \yii\db\ActiveRecord
 {
+    public $progress;
     public function behaviors()
     {
         return [
@@ -70,6 +71,7 @@ class Ncr extends \yii\db\ActiveRecord
             'year' => Yii::t('app', 'ปี'),
             'department' => Yii::t('app', 'ถึงแผนก'),
             'process' => Yii::t('app', 'กระบวนการ'),
+            'progress' => Yii::t('app', 'กระบวนการ'),
             'lot' => Yii::t('app', 'หมายเลขล็อต'),
             'production_date' => Yii::t('app', 'วันที่ผลิต'),
             'product_name' => Yii::t('app', 'ชื่อสินค้า'),

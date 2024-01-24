@@ -37,7 +37,7 @@ use yii\helpers\Url;
                         'header' => true
                     ],
                     [
-                        'label' => Yii::t('app', 'NCR'),
+                        'label' => Yii::t('app', 'NCR '),
                         'iconStyle' => 'fa', 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-circle-chevron-down text-yellow',
                         'items' => [
                             ['label' => Yii::t('app', 'รายละเอียดของปัญหา'),'url' => ['/ncr/ncr/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-location-crosshairs'],

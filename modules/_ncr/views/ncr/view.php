@@ -14,7 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="ncr-view">
     <div style="display: flex; justify-content: space-between;">
         <p>
-            <?= Html::a('<i class="fas fa-chevron-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'NCR Home'), ['ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="fas fa-homes"></i> ' . Yii::t('app', 'Reply Home'), ['ncr/ncr-reply/index'], ['class' => 'btn btn-primary']) ?>
         </p>
 
         <p style="text-align: right;">

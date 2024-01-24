@@ -126,12 +126,12 @@ class NcrReplyController extends Controller
     public function actionApprove($id)
     {
         $model = $this->findModel($id);
-        // $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
+        $modelNcr = $this->findModelNcr($model->ncr_id);
+        $modelNcr->process  = $model->getArray($modelNcr->process);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            // $modelNcr->ncr_status_id = 2;
-            if ($model->save()) {
-                // $modelNcr->save();
+            $modelNcr->ncr_status_id = 2;
+            if ($modelNcr->save() && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
