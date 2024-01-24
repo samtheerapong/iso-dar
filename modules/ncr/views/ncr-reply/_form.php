@@ -67,7 +67,7 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <div class="col-md-12">
-                    <?= $form->field($model, 'proceed')->textarea(['rows' => 2]) ?>
+                    <?= $form->field($model, 'method')->textarea(['rows' => 2]) ?>
                 </div>
 
                 <div class="col-md-6">

@@ -1,8 +1,6 @@
 <?php
 
 use app\models\User;
-use app\modules\ncr\models\Ncr;
-use app\modules\ncr\models\NcrReplyType;
 use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
@@ -54,7 +52,7 @@ use yii\widgets\DetailView;
                             'reply_type_id',
                             'quantity',
                             'unit',
-                            'proceed:ntext',
+                            'method:ntext',
                             [
                                 'attribute' => 'operation_name',
                                 'format' => 'html',

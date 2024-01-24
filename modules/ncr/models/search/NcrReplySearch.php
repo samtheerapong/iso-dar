@@ -19,7 +19,7 @@ class NcrReplySearch extends NcrReply
     {
         return [
             [['id', 'ncr_id', 'reply_type_id', 'quantity', 'operation_name', 'approve_name'], 'integer'],
-            [['unit', 'proceed', 'operation_date', 'approve_date', 'docs', 'ref'], 'safe'],
+            [['unit', 'method', 'operation_date', 'approve_date', 'docs', 'ref'], 'safe'],
             [['process'], 'safe'],
         ];
     }
@@ -76,8 +76,8 @@ class NcrReplySearch extends NcrReply
         ]);
 
         $query->andFilterWhere(['like', 'unit', $this->unit])
-            ->andFilterWhere(['like', 'proceed', $this->proceed])
-            ->andFilterWhere(['like', 'ncrModel.process', $this->proceed])
+            ->andFilterWhere(['like', 'method', $this->method])
+            ->andFilterWhere(['like', 'ncrModel.process', $this->method])
             ->andFilterWhere(['like', 'docs', $this->docs])
             ->andFilterWhere(['like', 'ref', $this->ref]);
 

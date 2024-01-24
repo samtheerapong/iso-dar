@@ -4,6 +4,7 @@ use app\models\Department;
 use app\modules\ncr\models\NcrMonth;
 use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrStatus;
+use app\modules\ncr\models\search\NcrReplySearch;
 use kartik\widgets\Select2;
 use yii\bootstrap5\LinkPager;
 use yii\helpers\Html;
@@ -39,6 +40,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => LinkPager::class,
                     ],
                     'columns' => [
+                        [
+                            'class' => 'kartik\grid\ExpandRowColumn',
+                            'value' => function ($model, $key, $index, $column) {
+                                return GridView::ROW_COLLAPSED;
+                            },
+                            'detail' => function ($model, $key, $index, $column) {
+                                $searchModel = new NcrReplySearch();
+                                $searchModel->ncr_id = $model->id;
+                                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
+                                return Yii::$app->controller->renderPartial('reply', [
+                                    'searchModel' => $searchModel,
+                                    'dataProvider' => $dataProvider,
+                                ]);
+                            },
+                        ],
+
                         ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'width:40px;']],
                         // ['class' => 'yii\grid\CheckboxColumn','headerOptions' => ['style' => 'width:40px;']],
 

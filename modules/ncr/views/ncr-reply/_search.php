@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'unit') ?>
 
-    <?php // echo $form->field($model, 'proceed') ?>
+    <?php // echo $form->field($model, 'method') ?>
 
     <?php // echo $form->field($model, 'operation_date') ?>
 

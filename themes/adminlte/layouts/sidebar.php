@@ -40,11 +40,11 @@ use yii\helpers\Url;
                         'label' => Yii::t('app', 'NCR'),
                         'iconStyle' => 'fa', 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-circle-chevron-down text-yellow',
                         'items' => [
-                            ['label' => Yii::t('app', 'NCR'),'url' => ['/ncr/ncr/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-location-crosshairs'],
-                            ['label' => Yii::t('app', 'Reply'),'url' => ['/ncr/ncr-reply/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-reply'],
-                            ['label' => Yii::t('app', 'Accept'),'url' => ['/ncr/ncr-accept/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-person-circle-check'],
-                            ['label' => Yii::t('app', 'Protection'),'url' => ['/ncr/ncr-protection/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-shield'],
-                            ['label' => Yii::t('app', 'Closing'),'url' => ['/ncr/ncr-closing/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-circle-check'],
+                            ['label' => Yii::t('app', 'รายละเอียดของปัญหา'),'url' => ['/ncr/ncr/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-location-crosshairs'],
+                            ['label' => Yii::t('app', 'การดำเนินการแก้ไข'),'url' => ['/ncr/ncr-reply/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-reply'],
+                            ['label' => Yii::t('app', 'ยอมรับเป็นกรณีพิเศษ'),'url' => ['/ncr/ncr-accept/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-person-circle-check'],
+                            ['label' => Yii::t('app', 'การป้องกัน'),'url' => ['/ncr/ncr-protection/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-shield'],
+                            ['label' => Yii::t('app', 'ตรวจติดตาม'),'url' => ['/ncr/ncr-closing/index'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-circle-check'],
                         ]
                     ],
                     [

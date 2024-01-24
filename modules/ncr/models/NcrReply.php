@@ -16,7 +16,7 @@ use yii\db\BaseActiveRecord;
  * @property int|null $reply_type_id ประเภทการดำเนินการ
  * @property int|null $quantity จำนวน
  * @property string|null $unit หน่วย
- * @property string|null $proceed วิธีการ
+ * @property string|null $method วิธีการ
  * @property string|null $operation_date วันที่ดำเนินการ
  * @property int|null $operation_name ผู้ดำเนินการ
  * @property int|null $approve_name ผู้อนุมัติ
@@ -65,7 +65,7 @@ class NcrReply extends \yii\db\ActiveRecord
         return [
             [['ncr_id'], 'required'],
             [['ncr_id', 'reply_type_id', 'quantity', 'operation_name', 'approve_name'], 'integer'],
-            [['proceed', 'docs'], 'string'],
+            [['method', 'docs'], 'string'],
             [['operation_date', 'approve_date'], 'safe'],
             [['unit'], 'string', 'max' => 45],
             [['ref'], 'string', 'max' => 255],
@@ -85,7 +85,7 @@ class NcrReply extends \yii\db\ActiveRecord
             'reply_type_id' => Yii::t('app', 'ประเภทการดำเนินการ'),
             'quantity' => Yii::t('app', 'จำนวน'),
             'unit' => Yii::t('app', 'หน่วย'),
-            'proceed' => Yii::t('app', 'วิธีการ'),
+            'method' => Yii::t('app', 'วิธีการ'),
             'operation_date' => Yii::t('app', 'วันที่ดำเนินการ'),
             'operation_name' => Yii::t('app', 'ผู้ดำเนินการ'),
             'approve_name' => Yii::t('app', 'ผู้อนุมัติ'),
@@ -110,4 +110,27 @@ class NcrReply extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'operation_name']);
     }
+
+     // process
+     public function beforeSave($insert)
+     {
+         if (parent::beforeSave($insert)) {
+             if (!empty($this->ncrs->process)) {
+                $this->ncrs->process = $this->setToArray($this->ncrs->process);
+             }
+             return true;
+         } else {
+             return false;
+         }
+     }
+ 
+     public function getArray($value)
+     {
+         return explode(',', $value);
+     }
+ 
+     public function setToArray($value)
+     {
+         return is_array($value) ? implode(',', $value) : NULL;
+     }
 }

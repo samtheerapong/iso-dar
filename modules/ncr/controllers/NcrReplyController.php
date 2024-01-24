@@ -99,12 +99,12 @@ class NcrReplyController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
+        // $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $modelNcr->ncr_status_id = 2;
+            // $modelNcr->ncr_status_id = 2;
             if ($model->save()) {
-                $modelNcr->save();
+                // $modelNcr->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -112,6 +112,15 @@ class NcrReplyController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    protected function findModelNcr($id)
+    {
+        if (($model = Ncr::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     public function actionApprove($id)
@@ -160,14 +169,5 @@ class NcrReplyController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-    }
-
-    protected function findModelNcr($id)
-    {
-        if (($model = Ncr::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

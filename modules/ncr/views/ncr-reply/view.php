@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'reply_type_id',
             'quantity',
             'unit',
-            'proceed:ntext',
+            'method:ntext',
             'operation_date',
             'operation_name',
             'approve_name',

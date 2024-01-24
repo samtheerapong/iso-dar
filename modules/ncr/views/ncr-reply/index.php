@@ -148,7 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         // 'unit',
 
-                        //'proceed:ntext',
+                        //'method:ntext',
                         // 'operation_date',
                         [
                             'attribute' => 'operation_date',
