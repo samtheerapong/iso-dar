@@ -2,7 +2,11 @@
 
 namespace app\modules\ncr\models;
 
+use app\models\User;
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\BaseActiveRecord;
 
 /**
  * This is the model class for table "ncr_reply".
@@ -25,9 +29,29 @@ use Yii;
  */
 class NcrReply extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    self::EVENT_BEFORE_INSERT => ['operation_date'],
+                    self::EVENT_BEFORE_UPDATE => ['operation_date'],
+                ],
+                'value' => function () {
+                    return date('Y-m-d H:i:s');
+                },
+            ],
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['operation_name'],
+                    BaseActiveRecord::EVENT_BEFORE_UPDATE => ['operation_name'],
+                ],
+            ],
+        ];
+    }
+
     public static function tableName()
     {
         return 'ncr_reply';
@@ -39,6 +63,7 @@ class NcrReply extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['ncr_id'], 'required'],
             [['ncr_id', 'reply_type_id', 'quantity', 'operation_name', 'approve_name'], 'integer'],
             [['proceed', 'docs'], 'string'],
             [['operation_date', 'approve_date'], 'safe'],
@@ -70,8 +95,8 @@ class NcrReply extends \yii\db\ActiveRecord
         ];
     }
 
-   
-    public function getNcr0()
+
+    public function getNcrs()
     {
         return $this->hasOne(Ncr::class, ['id' => 'ncr_id']);
     }
@@ -79,5 +104,10 @@ class NcrReply extends \yii\db\ActiveRecord
     public function getReplyType()
     {
         return $this->hasOne(NcrReplyType::class, ['id' => 'reply_type_id']);
+    }
+
+    public function getOperator()
+    {
+        return $this->hasOne(User::class, ['id' => 'operation_name']);
     }
 }

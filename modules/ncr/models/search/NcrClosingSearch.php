@@ -46,6 +46,11 @@ class NcrClosingSearch extends NcrClosing
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC, // เรียงจากล่าสุดก่อน
+                ],
+            ],
         ]);
 
         $this->load($params);

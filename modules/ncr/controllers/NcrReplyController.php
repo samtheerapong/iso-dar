@@ -5,6 +5,7 @@ namespace app\modules\ncr\controllers;
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\NcrReply;
 use app\modules\ncr\models\search\NcrReplySearch;
+use app\modules\ncr\models\search\NcrSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -24,7 +25,7 @@ class NcrReplyController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -41,11 +42,15 @@ class NcrReplyController extends Controller
     public function actionIndex()
     {
         $searchModel = new NcrReplySearch();
+        $searchNcr = new NcrSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataNcr = $searchNcr->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'searchNcr' => $searchNcr,
+            // 'dataNcr' => $dataNcr,
         ]);
     }
 
@@ -105,6 +110,24 @@ class NcrReplyController extends Controller
         }
 
         return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionApprove($id)
+    {
+        $model = $this->findModel($id);
+        // $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            // $modelNcr->ncr_status_id = 2;
+            if ($model->save()) {
+                // $modelNcr->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
+
+        return $this->render('approve', [
             'model' => $model,
         ]);
     }

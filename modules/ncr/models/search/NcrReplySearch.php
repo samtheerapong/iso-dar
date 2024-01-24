@@ -48,6 +48,11 @@ class NcrReplySearch extends NcrReply
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC, // เรียงจากล่าสุดก่อน
+                ],
+            ],
         ]);
 
         $this->load($params);

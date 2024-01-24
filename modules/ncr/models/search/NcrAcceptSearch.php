@@ -46,6 +46,11 @@ class NcrAcceptSearch extends NcrAccept
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC, // เรียงจากล่าสุดก่อน
+                ],
+            ],
         ]);
 
         $this->load($params);
