@@ -17,6 +17,7 @@ use yii\helpers\ArrayHelper;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        // 'filterModel' => [$searchModel],
         'summary' => '',
         'columns' => [
             [
@@ -32,15 +33,7 @@ use yii\helpers\ArrayHelper;
                     $color = $model->reply_type_id ? 'black' : 'red';
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },
-                'filter' => Select2::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'reply_type_id',
-                    'data' => ArrayHelper::map(NcrReplyType::find()->all(), 'id', 'name'),
-                    'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ])
+              
             ],
 
             [
@@ -51,21 +44,58 @@ use yii\helpers\ArrayHelper;
                     $color = $model->quantity ? 'black' : 'red';
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },
-                'filter' => Select2::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'quantity',
-                    'data' => ArrayHelper::map(NcrReply::find()->all(), 'quantity', 'quantity'),
-                    'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ])
+              
             ],
             // 'method',
-            'operation_name',
-            'operation_date:date',
-            'approve_name',
-            'approve_date:date',
+            // 'operation_name',
+            [
+                'attribute' => 'operation_name',
+                // 'headerOptions' => ['style' => 'width:200px;'],
+                'format' => 'html',
+                'value' => function ($model) {
+                    $value = $model->operation_name ? $model->operator->thai_name : 'ยังไม่ได้อนุมัติ';
+                    $color = $model->operation_name ? 'black' : 'red';
+                    return '<span style="color:' . $color . ';">' . $value . '</span>';
+                },
+               
+            ],
+            [
+                'attribute' => 'operation_date',
+                // 'headerOptions' => ['style' => 'width:200px;'],
+                'format' => 'html',
+                'value' => function ($model) {
+                    // return $model->operation_date ? $model->operation_date . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
+                    $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : 'ยังไม่ได้ดำเนินการ';
+                    $color = $model->operation_date ? 'black' : 'red'; // Change 'black' to the desired text color
+                    return '<span style="color:' . $color . ';">' . $value . '</span>';
+                },
+              
+            ],
+            // 'approve_name',
+            [
+                'attribute' => 'approve_name',
+                // 'headerOptions' => ['style' => 'width:200px;'],
+                'format' => 'html',
+                'value' => function ($model) {
+                    // return $model->approve_name ? $model->approve_name . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
+                    $value = $model->approve_name ? $model->approver->thai_name : 'ยังไม่ได้อนุมัติ';
+                    $color = $model->approve_name ? 'black' : 'red'; // Change 'black' to the desired text color
+                    return '<span style="color:' . $color . ';">' . $value . '</span>';
+                },
+               
+            ],
+            [
+                'attribute' => 'approve_date',
+                // 'headerOptions' => ['style' => 'width:200px;'],
+                'format' => 'html',
+                'value' => function ($model) {
+                    // return $model->approve_date ? $model->approve_date . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
+                    $value = $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : 'ยังไม่ได้อนุมัติ';
+                    $color = $model->approve_date ? 'black' : 'red'; // Change 'black' to the desired text color
+                    return '<span style="color:' . $color . ';">' . $value . '</span>';
+                },
+               
+            ],
            
             [
                 'class' => 'kartik\grid\ActionColumn',
