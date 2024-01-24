@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 23, 2024 at 10:02 AM
+-- Generation Time: Jan 24, 2024 at 09:32 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.9
 
@@ -65,7 +65,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('J2401-???', 4, 1, 1704535296),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
-('N-6701-???', 27, 1, 1706000483),
+('N-6701-???', 29, 1, 1706064076),
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
@@ -504,6 +504,7 @@ INSERT INTO `location` (`id`, `code`, `name`, `color`) VALUES
 
 CREATE TABLE `ncr` (
   `id` int(11) NOT NULL,
+  `ncr_status_id` int(11) DEFAULT NULL COMMENT 'สถานะ',
   `ncr_number` varchar(100) DEFAULT NULL COMMENT 'เลขที่ NCR',
   `created_date` date DEFAULT NULL COMMENT 'วันที่',
   `month` int(11) DEFAULT NULL COMMENT 'เดือน',
@@ -522,7 +523,6 @@ CREATE TABLE `ncr` (
   `action` text COMMENT 'การดำเนินการเบื้องต้น',
   `docs` text COMMENT 'ไฟล์แนบ',
   `ref` varchar(45) DEFAULT NULL COMMENT 'อ้างอิง',
-  `ncr_status_id` int(11) DEFAULT NULL COMMENT 'สถานะ',
   `created_at` date DEFAULT NULL COMMENT 'สร้างเมื่อ',
   `created_by` int(11) DEFAULT NULL COMMENT 'สร้างโดย',
   `updated_at` date DEFAULT NULL COMMENT 'ล่าสุดเมื่อ',
@@ -533,8 +533,10 @@ CREATE TABLE `ncr` (
 -- Dumping data for table `ncr`
 --
 
-INSERT INTO `ncr` (`id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `ncr_status_id`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 'N-6701-027', '2024-01-23', 1, 2, 8, NULL, '071/23', '2024-01-10', 'organic FT soy Sauce 200 ml.', 'John Doe', 2, 1, 'ผลเชื้อเกิน', 11, 12, 'ตรวจซ้ำ', '', '9IAJ7Yhrp-LyKXIt72pryA', 2, '2024-01-23', 12, '2024-01-23', 12);
+INSERT INTO `ncr` (`id`, `ncr_status_id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 1, 'N-6701-027', '2024-01-23', 1, 2, 8, 'FG,Claim', 'cs-007/24', '2024-01-16', 'Or.Mirin 5.5 %-200 ML', 'John Doe', 2, 1, 'ปริมาณเชื้อ Colifrom เกินมาตรฐาน มาตรฐาน Colifrom =0', 11, 12, 'ตรวจซ้ำ', '', '9IAJ7Yhrp-LyKXIt72pryA', '2024-01-23', 12, '2024-01-24', 12),
+(2, 2, 'N-6701-028', '2024-01-24', 1, 2, 8, NULL, '028/24', '2024-01-12', 'Organic 10 L', '', 1, 1, 'TN ต่ำกว่ามาตรฐาน : 1.05 (Spec 1.15-1.19),pH ต่ำกว่ามาตรฐาน : 4.51 (Spec 4.70-5.00),Color เข้มกว่ามาตรฐาน : 7 (Spec 9-15)\r\nข้อมูลการไล่ท่อ pH : 4.50, Nacl : 17.05 , Brix : 30.6 , TN : 1.05 , Alc: 1.64 , SG : 1.137, Color : 7', 11, 12, '', '', 'fcyONe-gsWBW9inofWKeNN', '2024-01-24', 12, '2024-01-24', 12),
+(3, 2, 'N-6701-029', '2024-01-24', 1, 2, 8, 'Incoming,Claim', '030/24', '2024-01-22', 'Rich 18 lit', 'QP', 1, 2, 'Color เข้มกว่ามาตรฐาน : 7 (Spec 9-15)\r\nข้อมูลการไล่ท่อ pH : 4.81, Nacl : 17.56 , Brix : 37.4 , TN : 1.80 , Alc: 0.82 , SG : 1.167, Color : 7\r\n', 11, 12, '', '', 'tfeeersqyV6E_x5ZLp2_1n', '2024-01-24', 12, '2024-01-24', 12);
 
 -- --------------------------------------------------------
 
@@ -558,7 +560,9 @@ CREATE TABLE `ncr_accept` (
 --
 
 INSERT INTO `ncr_accept` (`id`, `ncr_id`, `ncr_concession_id`, `customer_name`, `process`, `cause`, `approve_name`, `approve_date`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 2, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 3, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -619,7 +623,9 @@ CREATE TABLE `ncr_closing` (
 --
 
 INSERT INTO `ncr_closing` (`id`, `ncr_id`, `accept`, `auditor`, `qmr`, `accept_date`, `ncr_closingcol`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL),
+(2, 2, NULL, NULL, NULL, NULL, NULL),
+(3, 3, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -719,7 +725,9 @@ CREATE TABLE `ncr_protection` (
 --
 
 INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_id`, `issue`, `action`, `schedule_date`, `operator`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL),
+(2, 2, NULL, NULL, NULL, NULL, NULL),
+(3, 3, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -733,7 +741,7 @@ CREATE TABLE `ncr_reply` (
   `reply_type_id` int(11) DEFAULT NULL COMMENT 'ประเภทการดำเนินการ',
   `quantity` int(11) DEFAULT NULL COMMENT 'จำนวน',
   `unit` varchar(45) DEFAULT NULL COMMENT 'หน่วย',
-  `proceed` text COMMENT 'วิธีการ',
+  `method` text COMMENT 'วิธีการ',
   `operation_date` date DEFAULT NULL COMMENT 'วันที่ดำเนินการ',
   `operation_name` int(11) DEFAULT NULL COMMENT 'ผู้ดำเนินการ',
   `approve_name` int(11) DEFAULT NULL COMMENT 'ผู้อนุมัติ',
@@ -746,8 +754,12 @@ CREATE TABLE `ncr_reply` (
 -- Dumping data for table `ncr_reply`
 --
 
-INSERT INTO `ncr_reply` (`id`, `ncr_id`, `reply_type_id`, `quantity`, `unit`, `proceed`, `operation_date`, `operation_name`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
-(1, 1, 1, 10, 'กล่อง', '', NULL, NULL, NULL, NULL, '', '');
+INSERT INTO `ncr_reply` (`id`, `ncr_id`, `reply_type_id`, `quantity`, `unit`, `method`, `operation_date`, `operation_name`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
+(1, 1, 1, 10, 'กล่อง', '', '2024-01-24', 12, 5, '2024-01-24', '', ''),
+(2, 1, 1, 20, 'ขวด', '', '2024-01-24', 12, 4, '2024-01-24', '', ''),
+(3, 2, 5, 8, 'แพ็ค', '', '2024-01-24', 15, 4, '2024-01-24', '', ''),
+(4, 2, 3, 5, 'ลัง', 'ทดสอบ', '2024-01-24', 12, 4, '2024-01-24', '', ''),
+(5, 3, 1, 44, '44', '4444', '2024-01-24', 12, 10, '2024-01-18', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -1195,8 +1207,8 @@ INSERT INTO `user` (`id`, `username`, `thai_name`, `auth_key`, `password_hash`, 
 (38, 'panuwat', 'ภานุวัฒน์ ยางรัมย์', 'KlXe_M-3gpwuMycTgSa3b2cHG4sszYbu', '$2y$13$jJOfZ6JxXLACSauDohJCWOaMMbeqT0vcx.P9u2OyViCMkNCAd6MVm', NULL, 'panuwat.y@local.com', 10, 1699673713, 1699673713, NULL, 11, 1, 6),
 (39, 'ratsamee', 'รัศมี ศศิยศพงศ์', 'ZwwiwqfFPKF3Qyw0RCufsRwieogeqkKA', '$2y$13$yL81Y4Cw45VCKTU5EZqZr.jWIoZGT2RrCOxshvfPljAvK9Jk6mDvO', NULL, 'ratsamee.s@local.com', 10, 1699684280, 1699684280, NULL, 1, 1, 11),
 (40, 'kanprapha', 'กาญจน์ประภา ไพยราช', 'WDv33rQp0vRaL5mKrkznfJ268027UF5a', '$2y$13$/OeA8PeP.Vj6U3oZ5PKxpOk5fbtGD0xu.U4tioVEVnMPUovRK4Z0e', NULL, 'kanprapha.p@local.com', 10, 1699684322, 1699684322, NULL, 1, 1, 11),
-(41, 'chanika', 'ชนิกา เรือนมูล', 'sA-NLySBUOSDB8XSWsh1AqoCQrKjroAX', '$2y$13$mWHXF4/l1LV3Ion3DIe2MuZy9OVQf4.x09BOqCRCrDr9oN.IZ5EDK', NULL, 'chanika.r@local.com', 10, 1699684367, 1699684367, NULL, 1, 1, 9),
-(42, 'tanyarat', 'ธัญญารัตน์ นิ่มวงษ์', 'BAPZkF-0tqu3qK6uVtDff5FZwWHby_lY', '$2y$13$sdHoyCV5cbYP3XU4ZXaX2u0Cvq7spJmxMG35PQCMcoltC0fYJji5y', NULL, 'tanyarat.n@local.com', 10, 1699684417, 1699684417, NULL, 1, 1, 5),
+(41, 'chanika', 'ชนิกา เรือนมูล', 'sA-NLySBUOSDB8XSWsh1AqoCQrKjroAX', '$2y$13$mWHXF4/l1LV3Ion3DIe2MuZy9OVQf4.x09BOqCRCrDr9oN.IZ5EDK', NULL, 'chanika.r@local.com', 10, 1699684367, 1699684367, NULL, 1, 1, 7),
+(42, 'tanyarat', 'ธัญญารัตน์ นิ่มวงษ์', 'BAPZkF-0tqu3qK6uVtDff5FZwWHby_lY', '$2y$13$sdHoyCV5cbYP3XU4ZXaX2u0Cvq7spJmxMG35PQCMcoltC0fYJji5y', NULL, 'tanyarat.n@local.com', 10, 1699684417, 1699684417, NULL, 1, 1, 7),
 (43, 'kannika', 'กรรณิกา คำภีระ', 'ggE1RcJqk0OyaVS9mj-zB8J37fqtvbq7', '$2y$13$f0HOv./6JmeM.J7dKEWfuOSzqrqk7DlURbJM.MFxoMwvDarAFfKe6', NULL, 'kannika.k@local.com', 10, 1699684493, 1699684493, NULL, 1, 1, 2),
 (44, 'sasicha', 'ศศิชา นัตสิทธิ์', 'haaNM8Y3gwJCsL2RvvpP7RioUNVkLCoy', '$2y$13$hAzgJSVrKlqP.TRpOn8q2OuSjkJoz/uSjGqDBPqceY62vOmfOIi..', NULL, 'sasicha.n@local.com', 10, 1699684519, 1699684519, NULL, 1, 1, 2),
 (45, 'pranee', 'ปราณี แดงโคตร', 'fxatETyZYQcw4G9WLuk2DeD6tigRLSpx', '$2y$13$FO383fbroT26IGpfszXMeOHS34ynJIZCCBRmMbq8snhFHVwzgyii2', NULL, 'pranee.d@local.com', 10, 1699684567, 1699687879, NULL, 12, 1, 3),
@@ -1784,13 +1796,13 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ncr_accept`
 --
 ALTER TABLE `ncr_accept`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ncr_category`
@@ -1808,7 +1820,7 @@ ALTER TABLE `ncr_cause`
 -- AUTO_INCREMENT for table `ncr_closing`
 --
 ALTER TABLE `ncr_closing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ncr_concession`
@@ -1832,13 +1844,13 @@ ALTER TABLE `ncr_process`
 -- AUTO_INCREMENT for table `ncr_protection`
 --
 ALTER TABLE `ncr_protection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply`
 --
 ALTER TABLE `ncr_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply_type`
