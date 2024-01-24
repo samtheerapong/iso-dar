@@ -6,38 +6,22 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\ncr\models\Ncr;
 
-/**
- * NcrSearch represents the model behind the search form of `app\modules\ncr\models\Ncr`.
- */
 class NcrSearch extends Ncr
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+       public function rules()
     {
         return [
-            [['id', 'month', 'year', 'department', 'ncr_process_id', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
-            [['ncr_number', 'created_date', 'lot', 'production_date', 'product_name', 'customer_name', 'datail', 'action', 'docs', 'ref', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'month', 'year', 'department', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
+            [['ncr_number', 'process', 'created_date', 'lot', 'production_date', 'product_name', 'customer_name', 'datail', 'action', 'docs', 'ref', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
     public function search($params)
     {
         $query = Ncr::find();
@@ -46,6 +30,11 @@ class NcrSearch extends Ncr
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC, // เรียงจากล่าสุดก่อน
+                ],
+            ],
         ]);
 
         $this->load($params);
@@ -63,7 +52,7 @@ class NcrSearch extends Ncr
             'month' => $this->month,
             'year' => $this->year,
             'department' => $this->department,
-            'ncr_process_id' => $this->ncr_process_id,
+            // 'process' => $this->process,
             'production_date' => $this->production_date,
             'category_id' => $this->category_id,
             'sub_category_id' => $this->sub_category_id,
@@ -78,6 +67,7 @@ class NcrSearch extends Ncr
 
         $query->andFilterWhere(['like', 'ncr_number', $this->ncr_number])
             ->andFilterWhere(['like', 'lot', $this->lot])
+            ->andFilterWhere(['like', 'process', $this->process])
             ->andFilterWhere(['like', 'product_name', $this->product_name])
             ->andFilterWhere(['like', 'customer_name', $this->customer_name])
             ->andFilterWhere(['like', 'datail', $this->datail])

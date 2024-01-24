@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\modules\ncr\models\Ncr $model */
 
-$this->title = $model->id;
+$this->title = $model->ncr_number;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncrs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
-            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Solving'), ['solving', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Reply'), ['reply', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
             <?= Html::a('<i class="fa-solid fa-pen"></i> ' . Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
         </p>
     </div>
@@ -52,6 +52,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
 
                             [
+                                'attribute' => 'monthly',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->year  ?  $model->month0->month . ' (' .$model->year0->year . ')': Yii::t('app', 'N/A');
+                                },
+                            ],
+
+                            [
                                 'attribute' => 'department',
                                 'format' => 'html',
                                 'value' => function ($model) {
@@ -60,10 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
 
                             [
-                                'attribute' => 'ncr_process_id',
+                                'attribute' => 'process',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncr_process_id ? $model->ncrProcess->name : Yii::t('app', 'N/A');
+                                    return $model->process ? $model->process : Yii::t('app', 'N/A');
                                 },
                             ],
 
@@ -154,91 +162,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-6">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
                     <?= Yii::t('app', 'Files') ?>
                 </div>
                 <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            [
-                                'attribute' => 'docs',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    // return  $model->listDownloadFiles('docs');
-                                },
-                            ],
-
-                        ],
-                    ]) ?>
+                    <?= $model->docs ?>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-6">
-
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Reply') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            'id',
-                        ],
-                    ]) ?>
-                </div>
-            </div>
-
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Concession') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            'id',
-                        ],
-                    ]) ?>
-                </div>
-            </div>
-
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Accept') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            'id',
-                        ],
-                    ]) ?>
-                </div>
-            </div>
-
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Closing') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-                            'id',
-                        ],
-                    ]) ?>
-                </div>
-            </div>
-
 
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
@@ -249,13 +183,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'model' => $model,
                         'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
                         'attributes' => [
-                            // [
-                            //     'attribute' => 'report_by',
-                            //     'format' => 'html',
-                            //     'value' => function ($model) {
-                            //         return $model->report_by ? $model->reportBy->thai_name : Yii::t('app', 'N/A');
-                            //     },
-                            'created_at:date',
+
+                            [
+                                'attribute' => 'created_at',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->created_at ? Yii::$app->formatter->asDate($model->created_at) : Yii::t('app', 'N/A');
+                                },
+                            ],
+
                             [
                                 'attribute' => 'created_by',
                                 'format' => 'html',
@@ -263,7 +199,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->created_by ? $model->created->thai_name : 'N/A';
                                 },
                             ],
-                            'updated_at:date',
+
+                            [
+                                'attribute' => 'updated_at',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->updated_at ? Yii::$app->formatter->asDate($model->updated_at) : Yii::t('app', 'N/A');
+                                },
+                            ],
+
                             [
                                 'attribute' => 'updated_by',
                                 'format' => 'html',

@@ -1,9 +1,10 @@
 <?php
 
-use app\modules\ncr\models\NcrDepartment;
+use app\models\Department;
 use app\modules\ncr\models\NcrMonth;
 use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrStatus;
+use app\modules\ncr\models\search\NcrReplySearch;
 use kartik\widgets\Select2;
 use yii\bootstrap5\LinkPager;
 use yii\helpers\Html;
@@ -40,9 +41,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'columns' => [
                         [
-                            'class' => 'yii\grid\SerialColumn',
-                            'headerOptions' => ['style' => 'width:40px;'],
+                            'class' => 'kartik\grid\ExpandRowColumn',
+                            'value' => function ($model, $key, $index, $column) {
+                                return GridView::ROW_COLLAPSED;
+                            },
+                            'detail' => function ($model, $key, $index, $column) {
+                                $searchModel = new NcrReplySearch();
+                                $searchModel->ncr_id = $model->id;
+                                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
+                                return Yii::$app->controller->renderPartial('reply', [
+                                    'searchModel' => $searchModel,
+                                    'dataProvider' => $dataProvider,
+                                ]);
+                            },
                         ],
+
+                        ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'width:40px;']],
+                        // ['class' => 'yii\grid\CheckboxColumn','headerOptions' => ['style' => 'width:40px;']],
 
                         [
                             'attribute' => 'ncr_number',
@@ -72,14 +88,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'attribute' => 'department',
                             'format' => 'html',
-                            'headerOptions' => ['class' => 'text-center', 'style' => 'width:120px;'],
+                            'headerOptions' => ['style' => 'width:160px;'],
                             'value' => function ($model) {
-                                return $model->department ? $model->toDepartment->code : 'N/A';
+                                return $model->department ? $model->toDepartment->name : 'N/A';
                             },
                             'filter' => Select2::widget([
                                 'model' => $searchModel,
                                 'attribute' => 'department',
-                                'data' => ArrayHelper::map(NcrDepartment::find()->where(['active' => 1])->all(), 'id', 'code'),
+                                'data' => ArrayHelper::map(Department::find()->where(['active' => 1])->all(), 'id', 'name'),
                                 'options' => ['placeholder' => Yii::t('app', 'Select...')],
                                 'pluginOptions' => [
                                     'allowClear' => true
@@ -87,16 +103,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             ])
                         ],
                         [
-                            'attribute' => 'ncr_process_id',
+                            'attribute' => 'process',
                             'format' => 'html',
-                            'headerOptions' => ['style' => 'width:150px;'],
+                            'headerOptions' => ['style' => 'width:200px;'],
                             'value' => function ($model) {
-                                return $model->ncr_process_id ? '<span class="text" style="color:' . $model->ncrProcess->color . ';">' . $model->ncrProcess->name . '</span>' : 'N/A';
+                                // return $model->process ? '<span class="text" style="color:' . $model->ncrProcess->color . ';">' . $model->ncrProcess->name . '</span>' : 'N/A';
+                                return $model->process;
                             },
                             'filter' => Select2::widget([
                                 'model' => $searchModel,
-                                'attribute' => 'ncr_process_id',
-                                'data' => ArrayHelper::map(NcrProcess::find()->where(['active' => 1])->all(), 'id', 'name'),
+                                'attribute' => 'process',
+                                'data' => ArrayHelper::map(NcrProcess::find()->where(['active' => 1])->all(), 'name', 'name'),
                                 'options' => ['placeholder' => Yii::t('app', 'Select...')],
                                 'pluginOptions' => [
                                     'allowClear' => true
@@ -110,6 +127,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return $model->product_name ? $model->product_name : 'N/A';
                             },
                         ],
+                       
                         [
                             'attribute' => 'ncr_status_id',
                             'format' => 'html',
@@ -132,15 +150,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'width:250px;'],
                             'contentOptions' => ['class' => 'text-center'],
                             'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                            'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {solving}</div>',
-                            'buttons' => [
-                                'solving' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa-solid fa-right-left"></i>', ['solving', 'id' => $model->id], [
-                                        'title' => Yii::t('app', 'Solving'),
-                                        'class' => 'btn btn-outline-dark btn-sm',
-                                    ]);
-                                },
-                            ],
+                            'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {reply}</div>',
+                            // 'buttons' => [
+                            //     'reply' => function ($url, $model, $key) {
+                            //         return Html::a('<i class="fa-solid fa-right-left"></i>', ['update', 'id' => $model->id], [
+                            //             'title' => Yii::t('app', 'Reply'),
+                            //             'class' => 'btn btn-outline-dark btn-sm',
+                            //         ]);
+                            //     },
+                            // ],
                         ],
                     ],
                 ]); ?>

@@ -2,95 +2,74 @@
 
 namespace app\modules\ncr\models;
 
+use app\models\Department;
 use app\models\User;
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\BaseActiveRecord;
 
-/**
- * This is the model class for table "ncr".
- *
- * @property int $id
- * @property string|null $ncr_number เลขที่ NCR
- * @property string|null $created_date วันที่
- * @property int|null $month เดือน
- * @property int|null $year ปี
- * @property int|null $department ถึงแผนก
- * @property int|null $ncr_process_id กระบวนการ
- * @property string|null $lot หมายเลขล็อต
- * @property string|null $production_date วันที่ผลิต
- * @property string|null $product_name ชื่อสินค้า
- * @property string|null $customer_name ชื่อลูกค้า
- * @property int|null $category_id หมวดหมู่
- * @property int|null $sub_category_id หมวดหมู่ย่อย
- * @property string|null $datail รายละเอียดปัญหา
- * @property int|null $department_issue แผนกที่พบปัญหา
- * @property int|null $report_by ผู้รายงาน
- * @property string|null $action การดำเนินการเบื้องต้น
- * @property string|null $docs ไฟล์แนบ
- * @property string|null $ref อ้างอิง
- * @property int|null $ncr_status_id สถานะ
- * @property string|null $created_at สร้างเมื่อ
- * @property int|null $created_by สร้างโดย
- * @property string|null $updated_at ล่าสุดเมื่อ
- * @property int|null $updated_by ล่าสุดโดย
- *
- * @property NcrCategory $category
- * @property NcrDepartment $departmentIssue
- * @property NcrDepartment $departmentIssue0
- * @property NcrMonth $month0
- * @property NcrAccept[] $ncrAccepts
- * @property NcrProcess $ncrProcess
- * @property NcrProtection[] $ncrProtections
- * @property NcrReply[] $ncrReplies
- * @property NcrStatus $ncrStatus
- * @property NcrSubCategory $subCategory
- * @property NcrYear $year0
- */
 class Ncr extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    self::EVENT_BEFORE_INSERT => ['created_at', 'created_date'],
+                    self::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => function () {
+                    return date('Y-m-d H:i:s');
+                },
+            ],
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_by', 'updated_by', 'report_by'],
+                    BaseActiveRecord::EVENT_BEFORE_UPDATE => ['updated_by'],
+                ],
+            ],
+        ];
+    }
+
     public static function tableName()
     {
         return 'ncr';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
-            [['created_date', 'production_date', 'created_at', 'updated_at'], 'safe'],
-            [['month', 'year', 'department', 'ncr_process_id', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
+            [['created_date', 'production_date', 'created_at', 'updated_at', 'process'], 'safe'],
+            [['month', 'year', 'department', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
             [['datail', 'action', 'docs'], 'string'],
             [['ncr_number'], 'string', 'max' => 100],
             [['lot', 'product_name', 'customer_name'], 'string', 'max' => 255],
             [['ref'], 'string', 'max' => 45],
+
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrCategory::class, 'targetAttribute' => ['category_id' => 'id']],
-            [['department_issue'], 'exist', 'skipOnError' => true, 'targetClass' => NcrDepartment::class, 'targetAttribute' => ['department_issue' => 'id']],
-            [['department_issue'], 'exist', 'skipOnError' => true, 'targetClass' => NcrDepartment::class, 'targetAttribute' => ['department_issue' => 'id']],
+            [['department_issue'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['department_issue' => 'id']],
             [['month'], 'exist', 'skipOnError' => true, 'targetClass' => NcrMonth::class, 'targetAttribute' => ['month' => 'id']],
-            [['ncr_process_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrProcess::class, 'targetAttribute' => ['ncr_process_id' => 'id']],
+            // [['process'], 'exist', 'skipOnError' => true, 'targetClass' => NcrProcess::class, 'targetAttribute' => ['process' => 'id']],
             [['ncr_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrStatus::class, 'targetAttribute' => ['ncr_status_id' => 'id']],
             [['sub_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrSubCategory::class, 'targetAttribute' => ['sub_category_id' => 'id']],
             [['year'], 'exist', 'skipOnError' => true, 'targetClass' => NcrYear::class, 'targetAttribute' => ['year' => 'id']],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
             'id' => Yii::t('app', 'ID'),
             'ncr_number' => Yii::t('app', 'เลขที่ NCR'),
             'created_date' => Yii::t('app', 'วันที่'),
+            'monthly' => Yii::t('app', 'ประจำเดือน'),
             'month' => Yii::t('app', 'เดือน'),
             'year' => Yii::t('app', 'ปี'),
             'department' => Yii::t('app', 'ถึงแผนก'),
-            'ncr_process_id' => Yii::t('app', 'กระบวนการ'),
+            'process' => Yii::t('app', 'กระบวนการ'),
             'lot' => Yii::t('app', 'หมายเลขล็อต'),
             'production_date' => Yii::t('app', 'วันที่ผลิต'),
             'product_name' => Yii::t('app', 'ชื่อสินค้า'),
@@ -118,18 +97,12 @@ class Ncr extends \yii\db\ActiveRecord
 
     public function getFromDepartment()
     {
-        return $this->hasOne(NcrDepartment::class, ['id' => 'department_issue']);
+        return $this->hasOne(Department::class, ['id' => 'department_issue']);
     }
 
-    public function getMonth0()
+       public function getNcrProcess()
     {
-        return $this->hasOne(NcrMonth::class, ['id' => 'month']);
-    }
-
-
-    public function getNcrProcess()
-    {
-        return $this->hasOne(NcrProcess::class, ['id' => 'ncr_process_id']);
+        return $this->hasOne(NcrProcess::class, ['id' => 'process']);
     }
 
     public function getNcrAcceptS()
@@ -162,9 +135,14 @@ class Ncr extends \yii\db\ActiveRecord
         return $this->hasOne(NcrYear::class, ['id' => 'year']);
     }
 
+    public function getMonth0()
+    {
+        return $this->hasOne(NcrMonth::class, ['id' => 'month']);
+    }
+
     public function getToDepartment()
     {
-        return $this->hasOne(NcrDepartment::class, ['id' => 'department']);
+        return $this->hasOne(Department::class, ['id' => 'department']);
     }
 
     public function getReporter()
@@ -180,5 +158,28 @@ class Ncr extends \yii\db\ActiveRecord
     public function getUpdated()
     {
         return $this->hasOne(User::class, ['id' => 'updated_by']);
+    }
+
+    // process
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (!empty($this->process)) {
+                $this->process = $this->setToArray($this->process);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getArray($value)
+    {
+        return explode(',', $value);
+    }
+
+    public function setToArray($value)
+    {
+        return is_array($value) ? implode(',', $value) : NULL;
     }
 }

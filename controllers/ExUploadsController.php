@@ -169,8 +169,6 @@ class ExUploadsController extends Controller
     }
 
 
-
-
     public function actionUploadAjax()
     {
         $this->Uploads(true);

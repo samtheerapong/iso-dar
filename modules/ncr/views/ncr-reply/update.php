@@ -2,14 +2,18 @@
 
 use yii\helpers\Html;
 
-$this->title = Yii::t('app', 'Update Ncr: {name}', [
+/** @var yii\web\View $this */
+/** @var app\modules\ncr\models\NcrReply $model */
+
+$this->title = Yii::t('app', 'Update Ncr Reply: {name}', [
     'name' => $model->id,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncrs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncr Replies'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
-<div class="ncr-update">
+<div class="ncr-reply-update">
+
     <p>
         <?= Html::a('<i class="fas fa-circle-left"></i> ' . Yii::t('app', 'Go Back'), ['index'], ['class' => 'btn btn-primary']) ?>
     </p>

@@ -2,7 +2,11 @@
 
 namespace app\modules\ncr\models;
 
+use app\models\User;
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\BaseActiveRecord;
 
 /**
  * This is the model class for table "ncr_reply".
@@ -12,7 +16,7 @@ use Yii;
  * @property int|null $reply_type_id ประเภทการดำเนินการ
  * @property int|null $quantity จำนวน
  * @property string|null $unit หน่วย
- * @property string|null $proceed วิธีการ
+ * @property string|null $method วิธีการ
  * @property string|null $operation_date วันที่ดำเนินการ
  * @property int|null $operation_name ผู้ดำเนินการ
  * @property int|null $approve_name ผู้อนุมัติ
@@ -25,9 +29,29 @@ use Yii;
  */
 class NcrReply extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    self::EVENT_BEFORE_INSERT => ['operation_date'],
+                    self::EVENT_BEFORE_UPDATE => ['operation_date'],
+                ],
+                'value' => function () {
+                    return date('Y-m-d H:i:s');
+                },
+            ],
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['operation_name'],
+                    BaseActiveRecord::EVENT_BEFORE_UPDATE => ['operation_name'],
+                ],
+            ],
+        ];
+    }
+
     public static function tableName()
     {
         return 'ncr_reply';
@@ -39,12 +63,13 @@ class NcrReply extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['ncr_id'], 'required'],
             [['ncr_id', 'reply_type_id', 'quantity', 'operation_name', 'approve_name'], 'integer'],
-            [['proceed', 'docs'], 'string'],
+            [['method', 'docs'], 'string'],
             [['operation_date', 'approve_date'], 'safe'],
             [['unit'], 'string', 'max' => 45],
             [['ref'], 'string', 'max' => 255],
-            [['ncr_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ncr::class, 'targetAttribute' => ['ncr_id' => 'id']],
+            // [['ncr_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ncr::class, 'targetAttribute' => ['ncr_id' => 'id']],
             [['reply_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrReplyType::class, 'targetAttribute' => ['reply_type_id' => 'id']],
         ];
     }
@@ -60,7 +85,7 @@ class NcrReply extends \yii\db\ActiveRecord
             'reply_type_id' => Yii::t('app', 'ประเภทการดำเนินการ'),
             'quantity' => Yii::t('app', 'จำนวน'),
             'unit' => Yii::t('app', 'หน่วย'),
-            'proceed' => Yii::t('app', 'วิธีการ'),
+            'method' => Yii::t('app', 'วิธีการ'),
             'operation_date' => Yii::t('app', 'วันที่ดำเนินการ'),
             'operation_name' => Yii::t('app', 'ผู้ดำเนินการ'),
             'approve_name' => Yii::t('app', 'ผู้อนุมัติ'),
@@ -70,23 +95,42 @@ class NcrReply extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Ncr]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNcr()
+
+    public function getNcrs()
     {
         return $this->hasOne(Ncr::class, ['id' => 'ncr_id']);
     }
 
-    /**
-     * Gets query for [[ReplyType]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getReplyType()
     {
         return $this->hasOne(NcrReplyType::class, ['id' => 'reply_type_id']);
     }
+
+    public function getOperator()
+    {
+        return $this->hasOne(User::class, ['id' => 'operation_name']);
+    }
+
+     // process
+     public function beforeSave($insert)
+     {
+         if (parent::beforeSave($insert)) {
+             if (!empty($this->ncrs->process)) {
+                $this->ncrs->process = $this->setToArray($this->ncrs->process);
+             }
+             return true;
+         } else {
+             return false;
+         }
+     }
+ 
+     public function getArray($value)
+     {
+         return explode(',', $value);
+     }
+ 
+     public function setToArray($value)
+     {
+         return is_array($value) ? implode(',', $value) : NULL;
+     }
 }

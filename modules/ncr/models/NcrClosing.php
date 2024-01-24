@@ -8,14 +8,14 @@ use Yii;
  * This is the model class for table "ncr_closing".
  *
  * @property int $id
- * @property int|null $ncr_accept_id
+ * @property int|null $ncr_id NCR
  * @property int|null $accept การยอมรับ
  * @property int|null $auditor ผู้ตรวจติดตาม
  * @property int|null $qmr ผู้อนุมัติปิดการตรวจติดตาม
  * @property string|null $accept_date วันที่
  * @property string|null $ncr_closingcol
  *
- * @property NcrAccept $ncrAccept
+ * @property Ncr $ncr
  */
 class NcrClosing extends \yii\db\ActiveRecord
 {
@@ -33,10 +33,10 @@ class NcrClosing extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ncr_accept_id', 'accept', 'auditor', 'qmr'], 'integer'],
+            [['ncr_id', 'accept', 'auditor', 'qmr'], 'integer'],
             [['accept_date'], 'safe'],
             [['ncr_closingcol'], 'string', 'max' => 45],
-            [['ncr_accept_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrAccept::class, 'targetAttribute' => ['ncr_accept_id' => 'id']],
+            [['ncr_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ncr::class, 'targetAttribute' => ['ncr_id' => 'id']],
         ];
     }
 
@@ -47,7 +47,7 @@ class NcrClosing extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'ncr_accept_id' => Yii::t('app', 'Ncr Accept ID'),
+            'ncr_id' => Yii::t('app', 'NCR'),
             'accept' => Yii::t('app', 'การยอมรับ'),
             'auditor' => Yii::t('app', 'ผู้ตรวจติดตาม'),
             'qmr' => Yii::t('app', 'ผู้อนุมัติปิดการตรวจติดตาม'),
@@ -57,12 +57,12 @@ class NcrClosing extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[NcrAccept]].
+     * Gets query for [[Ncr]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getNcrAccept()
+    public function getNcr()
     {
-        return $this->hasOne(NcrAccept::class, ['id' => 'ncr_accept_id']);
+        return $this->hasOne(Ncr::class, ['id' => 'ncr_id']);
     }
 }
