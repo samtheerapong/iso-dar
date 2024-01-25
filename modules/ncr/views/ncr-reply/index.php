@@ -141,7 +141,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'width:250px;'],
                             'contentOptions' => ['class' => 'text-center'],
                             'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                            'template' => '<div class="btn-group btn-group-xs" role="group">{view} {action} {approve}</div>',
+                            // 'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {delete} {action} {approve} </div>',
+                            'template' => '<div class="btn-group btn-group-xs" role="group">{view} {action} {approve} </div>',
                             'buttons' => [
                                 'action' => function ($url, $model, $key) {
                                     return Html::a('<i class="fas fa-location-arrow"></i>', ['/ncr/ncr-reply/update', 'id' => $model->id], [

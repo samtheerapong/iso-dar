@@ -8,9 +8,11 @@ use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrSubCategory;
 use app\modules\ncr\models\NcrYear;
 use kartik\widgets\DatePicker;
+use kartik\widgets\FileInput;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 ?>
@@ -159,7 +161,27 @@ use yii\widgets\ActiveForm;
                         </div>
 
                         <div class="col-md-12">
-                            <?= $form->field($model, 'docs')->textarea(['rows' => 1]) ?>
+                            <div class="form-group field-upload_files">
+                                <label class="control-label" for="upload_image[]"> ภาพถ่าย </label>
+                                <div>
+                                    <?= FileInput::widget([
+                                        'name' => 'upload_image[]',
+                                        'options' => ['multiple' => true, 'accept' => 'image/*'], //'accept' => 'image/*' หากต้องเฉพาะ image
+                                        'pluginOptions' => [
+                                            'overwriteInitial' => false,
+                                            'initialPreviewShowDelete' => true,
+                                            'initialPreview' => $initialPreview,
+                                            'initialPreviewConfig' => $initialPreviewConfig,
+                                            'uploadUrl' => Url::to(['upload-img']),
+                                            'uploadExtraData' => [
+                                                'ref' => $model->ref,
+                                            ],
+                                            'maxFileCount' => 10
+                                        ]
+                                    ]);
+                                    ?>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
