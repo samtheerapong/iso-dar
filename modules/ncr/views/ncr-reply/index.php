@@ -45,12 +45,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             'class' => 'yii\grid\SerialColumn',
                             'contentOptions' => ['class' => 'text-center', 'style' => 'width:45px;'], //กำหนด ความกว้างของ #
                         ],
-                        // 'id',
-                        // 'ncr_id',
                         [
                             'attribute' => 'ncr_id',
                             'format' => 'html',
-                            // 'headerOptions' => ['style' => 'width:150px;'],
                             'value' => function ($model) {
                                 return $model->ncr_id ? Html::a($model->ncrs->ncr_number, ['/ncr/ncr/view', 'id' => $model->ncrs->id]) : 'N/A';
                             },
@@ -86,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'html',
                             'value' => function ($model) {
                                 $value = $model->reply_type_id ? $model->replyType->name : 'ยังไม่ได้ดำเนินการ';
-                                $color = $model->reply_type_id ? 'black' : 'red'; // Change 'black' to the desired text color
+                                $color = $model->reply_type_id ? 'black' : 'red'; 
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
                             'filter' => Select2::widget([
@@ -104,9 +101,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'quantity',
                             'format' => 'html',
                             'value' => function ($model) {
-                                // return $model->quantity ? $model->quantity . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
                                 $value = $model->quantity ? $model->quantity . ' ' . $model->unit  : 'N/A';
-                                $color = $model->quantity ? 'black' : 'red'; // Change 'black' to the desired text color
+                                $color = $model->quantity ? 'black' : 'red'; 
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
                             'filter' => Select2::widget([
@@ -119,18 +115,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             ])
                         ],
-                        // 'unit',
-
-                        //'method:ntext',
-                        // 'operation_date',
+                        
                         [
                             'attribute' => 'operation_date',
                             'headerOptions' => ['style' => 'width:200px;'],
                             'format' => 'html',
                             'value' => function ($model) {
-                                // return $model->operation_date ? $model->operation_date . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
                                 $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : 'ยังไม่ได้ดำเนินการ';
-                                $color = $model->operation_date ? 'black' : 'red'; // Change 'black' to the desired text color
+                                $color = $model->operation_date ? 'black' : 'red'; 
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
                             'filter' => DatePicker::widget([
@@ -143,11 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ]
                             ]),
                         ],
-                        //'operation_name',
-                        //'approve_name',
-                        //'approve_date',
-                        //'docs:ntext',
-                        //'ref',
+                        
                         [
                             'class' => 'kartik\grid\ActionColumn',
                             'headerOptions' => ['style' => 'width:250px;'],
