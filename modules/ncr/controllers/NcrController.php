@@ -9,13 +9,16 @@ use app\modules\ncr\models\NcrProtection;
 use app\modules\ncr\models\NcrReply;
 use app\modules\ncr\models\NcrUploads;
 use app\modules\ncr\models\search\NcrSearch;
+use Exception;
 use mdm\autonumber\AutoNumber;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
@@ -63,16 +66,19 @@ class NcrController extends Controller
         $ModelProtection = new NcrProtection();
         $ModelClosing = new NcrClosing();
 
-        $model->ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
+        $ref = substr(Yii::$app->getSecurity()->generateRandomString(), 10);
 
         $defaultValue = 1;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $this->UploadImg(false);
-
                 $model->ncr_number = AutoNumber::generate('N-' . (date('y') + 43) . date('m') . '-???'); // Auto Number EX N-6612-0001
+                
+                $model->ref =  $ref;
+                $this->CreateDir($model->ref); // create Directory 6701-12
+                
+                $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller
 
                 $model->ncr_status_id = $defaultValue;
 
@@ -108,13 +114,14 @@ class NcrController extends Controller
     {
         $model = $this->findModel($id);
 
-        list($initialPreview, $initialPreviewConfig) = $this->getInitialPreview($model->ref);
+        $tempDocs = $model->docs;
 
         $model->process  = $model->getArray($model->process);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
-            $this->UploadImg(false);
+            $this->CreateDir($model->ref);
+            $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -123,21 +130,14 @@ class NcrController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'initialPreview' => $initialPreview,
-            'initialPreviewConfig' => $initialPreviewConfig
         ]);
     }
 
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-
-        $this->removeUploadImageDir($model->ref);
-
-        NcrUploads::deleteAll(['ref' => $model->ref]);
-
+        $this->removeUploadDir($model->ref);
         $model->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -149,19 +149,71 @@ class NcrController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
-    /*  |*********************************************************************************|
-        |================================ Upload Img Ajax ================================|
-        |*********************************************************************************|     */
 
-    public function actionUploadImage()
+     /***************** action Deletefile ******************/
+     public function actionDeletefile($id, $field, $fileName)
+     {
+         $status = ['success' => false];
+         if (in_array($field, ['docs'])) {
+             $model = $this->findModel($id);
+             $files =  Json::decode($model->{$field});
+             if (array_key_exists($fileName, $files)) {
+                 if ($this->deleteFile('file', $model->ref, $fileName)) {
+                     $status = ['success' => true];
+                     unset($files[$fileName]);
+                     $model->{$field} = Json::encode($files);
+                     $model->save();
+                 }
+             }
+         }
+         echo json_encode($status);
+     }
+        
+    /***************** deleteFile ******************/
+    private function deleteFile($type = 'file', $ref, $fileName)
     {
-        $this->UploadImg(true);
+        if (in_array($type, ['file', 'thumbnail'])) {
+            if ($type === 'file') {
+                $filePath = Ncr::getUploadPath() . $ref . '/' . $fileName;
+            } else {
+                $filePath = Ncr::getUploadPath() . $ref . '/thumbnail/' . $fileName;
+            }
+            @unlink($filePath);
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    /***************** upload MultipleFile ******************/
+    private function uploadMultipleFile($model, $tempFile = null)
+    {
+        $files = [];
+        $json = '';
+        $tempFile = Json::decode($tempFile);
+        $UploadedFiles = UploadedFile::getInstances($model, 'docs');
+        if ($UploadedFiles !== null) {
+            foreach ($UploadedFiles as $file) {
+                try {
+                    $oldFileName = $file->basename . '.' . $file->extension;
+                    $newFileName = md5($file->basename . time()) . '.' . $file->extension;
+                    $file->saveAs(Ncr::UPLOAD_FOLDER . '/' . $model->ref . '/' . $newFileName);
+                    $files[$newFileName] = $oldFileName;
+                } catch (Exception $e) {
+                }
+            }
+            $json = json::encode(ArrayHelper::merge($tempFile, $files));
+        } else {
+            $json = $tempFile;
+        }
+        return $json;
+    }
+
+    /***************** Create Dir ******************/
     private function CreateDir($folderName)
     {
         if ($folderName != NULL) {
-            $basePath = Ncr::getUploadImagePath();
+            $basePath = Ncr::getUploadPath();
             if (BaseFileHelper::createDirectory($basePath . $folderName, 0777)) {
                 BaseFileHelper::createDirectory($basePath . $folderName . '/thumbnail', 0777);
             }
@@ -169,117 +221,64 @@ class NcrController extends Controller
         return;
     }
 
-    private function removeUploadImageDir($dir)
+    /***************** Remove Upload Dir ******************/
+    private function removeUploadDir($dir)
     {
-        BaseFileHelper::removeDirectory(Ncr::getUploadImagePath() . $dir);
+        BaseFileHelper::removeDirectory(Ncr::getUploadPath() . $dir);
     }
 
-    private function UploadImg($isAjax = false)
+    /***************** Download ******************/
+    public function actionDownload($id, $file, $fullname)
     {
-        if (Yii::$app->request->isPost) {
-            $images = UploadedFile::getInstancesByName('upload_image'); //actionUploadImage
-            if ($images) {
-
-                if ($isAjax === true) {
-                    $ref = Yii::$app->request->post('ref');
-                } else {
-                    $uploader = Yii::$app->request->post('Ncr');
-                    $ref = $uploader['ref'];
-                }
-
-                $this->CreateDir($ref);
-
-                foreach ($images as $file) {
-                    $fileName       = $file->baseName . '.' . $file->extension;
-                    $realFileName   = md5($file->baseName . time()) . '.' . $file->extension;
-                    $savePath       = Ncr::UPLOAD_FOLDER . '/' . $ref . '/' . $realFileName;
-                    if ($file->saveAs($savePath)) {
-
-                        if ($this->isImage(Url::base(true) . '/' . $savePath)) {
-                            $this->createThumbnail($ref, $realFileName);
-                        }
-
-                        $model                  = new NcrUploads();
-                        $model->ref             = $ref;
-                        $model->file_name       = $fileName;
-                        $model->real_filename   = $realFileName;
-                        $model->save();
-
-                        if ($isAjax === true) {
-                            echo json_encode(['success' => 'true']);
-                        }
-                    } else {
-                        if ($isAjax === true) {
-                            echo json_encode(['success' => 'false', 'eror' => $file->error]);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private function getInitialPreview($ref)
-    {
-        $datas = NcrUploads::find()->where(['ref' => $ref])->all();
-        $initialPreview = [];
-        $initialPreviewConfig = [];
-        foreach ($datas as $key => $value) {
-            array_push($initialPreview, $this->getTemplatePreview($value));
-            array_push($initialPreviewConfig, [
-                'caption' => $value->file_name,
-                'width'  => '120px',
-                'url'    => Url::to(['deletefile-img']),
-                'key'    => $value->upload_id
-            ]);
-        }
-        return  [$initialPreview, $initialPreviewConfig];
-    }
-
-    public function isImage($filePath)
-    {
-        return @is_array(getimagesize($filePath)) ? true : false;
-    }
-
-    private function getTemplatePreview(NcrUploads $model)
-    {
-        $filePath = Ncr::getUploadImageUrl() . $model->ref . '/thumbnail/' . $model->real_filename;
-        $isImage  = $this->isImage($filePath);
-        if ($isImage) {
-            $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $model->file_name, 'title' => $model->file_name]);
+        $model = $this->findModel($id);
+        if (!empty($model->ref) && !empty($model->docs)) {
+            Yii::$app->response->sendFile($model->getUploadPath() . '/' . $model->ref . '/' . $file, $fullname);
         } else {
-            $file =  "<div class='file-preview-other'> " .
-                "<h2><i class='glyphicon glyphicon-file'></i></h2>" .
-                "</div>";
+            $this->redirect(['/ncr/ncr/view', 'id' => $id]);
         }
-        return $file;
     }
 
-    private function createThumbnail($folderName, $fileName, $width = 250)
-    {
-        $uploadPath   = Ncr::getUploadImagePath() . '/' . $folderName . '/';
-        $file         = $uploadPath . $fileName;
-        $image        = Yii::$app->image->load($file);
-        $image->resize($width);
-        $image->save($uploadPath . 'thumbnail/' . $fileName);
-        return;
-    }
 
-    public function actionDeletefileImg()
+    
+    //**********  ฟังก์ชันส่ง Line
+    public function LineNotify($model)
     {
+        // Line Tokens
+        $lineapi = "Eon0aRHg9A3Y8j4RH1F1hYvdgGYhhnyiTBfNAKQrDmX";
 
-        $model = NcrUploads::findOne(Yii::$app->request->post('key'));
-        if ($model !== NULL) {
-            $filename  = Ncr::getUploadImagePath() . $model->ref . '/' . $model->real_filename;
-            $thumbnail = Ncr::getUploadImagePath() . $model->ref . '/thumbnail/' . $model->real_filename;
-            if ($model->delete()) {
-                @unlink($filename);
-                @unlink($thumbnail);
-                echo json_encode(['success' => true]);
-            } else {
-                echo json_encode(['success' => false]);
-            }
+        //ข้อคว่าม
+        $massage =
+            Yii::t('app', 'เลขที่ NCR') . " : " . $model->ncr_number . "\n" .
+            Yii::t('app', 'วันที่') . " : " .  Yii::$app->formatter->asDate($model->created_date) . "\n" .
+            Yii::t('app', 'ถึงแผนก') . " : " . $model->toDepartment->department_code . "\n" .
+            Yii::t('app', 'กระบวนการ') . " : " . $model->ncrProcess->process_name . "\n" .
+            Yii::t('app', 'ชื่อสินค้า') . " : " . $model->product_name . "\n" .
+            Yii::t('app', 'สถานะ') . " : " . $model->ncrStatus->status_name . "\n" .
+            Yii::t('app', 'Link') . " : " . Url::to(['view', 'id' => $model->id], true);
+
+        $mms = trim($massage);
+
+        //การทำงานของระบบ
+        date_default_timezone_set("Asia/Bangkok");
+        $chOne = curl_init();
+        curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+        curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($chOne, CURLOPT_POST, 1);
+        curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$mms");
+        curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $lineapi . '',);
+        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($chOne);
+        if (curl_error($chOne)) {
+            echo 'error:' . curl_error($chOne);
         } else {
-            echo json_encode(['success' => false]);
+            $result_ = json_decode($result, true);
+            echo "status : " . $result_['status'];
+            echo "message : " . $result_['message'];
         }
+        curl_close($chOne);
     }
+
 }

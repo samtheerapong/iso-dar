@@ -9,11 +9,12 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 class Ncr extends \yii\db\ActiveRecord
 {
-    const UPLOAD_FOLDER_IMG = 'uploads/ncr';
+    const UPLOAD_FOLDER = 'uploads/ncr';
 
     public function behaviors()
     {
@@ -48,7 +49,7 @@ class Ncr extends \yii\db\ActiveRecord
         return [
             [['created_date', 'production_date', 'created_at', 'updated_at', 'process'], 'safe'],
             [['month', 'year', 'department', 'category_id', 'sub_category_id', 'department_issue', 'report_by', 'ncr_status_id', 'created_by', 'updated_by'], 'integer'],
-            [['datail', 'action', 'docs'], 'string'],
+            [['datail', 'action'], 'string'],
             [['ncr_number'], 'string', 'max' => 100],
             [['lot', 'product_name', 'customer_name'], 'string', 'max' => 255],
             [['ref'], 'string', 'max' => 45],
@@ -60,6 +61,7 @@ class Ncr extends \yii\db\ActiveRecord
             [['ncr_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrStatus::class, 'targetAttribute' => ['ncr_status_id' => 'id']],
             [['sub_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrSubCategory::class, 'targetAttribute' => ['sub_category_id' => 'id']],
             [['year'], 'exist', 'skipOnError' => true, 'targetClass' => NcrYear::class, 'targetAttribute' => ['year' => 'id']],
+            [['docs'], 'file', 'maxFiles' => 10, 'skipOnEmpty' => true]
         ];
     }
 
@@ -190,52 +192,81 @@ class Ncr extends \yii\db\ActiveRecord
         return is_array($value) ? implode(',', $value) : NULL;
     }
 
-    // uploading img
-    public static function getUploadImagePath()
-    {
-        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER_IMG . '/';
-    }
+   //********** Upload Path*/
+   public static function getUploadPath()
+   {
+       return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER . '/';
+   }
 
-    public static function getUploadImageUrl()
-    {
-        return Url::base(true) . '/' . self::UPLOAD_FOLDER_IMG . '/';
-    }
+   public static function getUploadUrl()
+   {
+       return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/';
+   }
 
-    public function getImageThumbnails($img_ref)
-    {
-        $uploadFiles   = NcrUploads::find()->where(['ref' => $img_ref])->all();
-        $preview = [];
-        foreach ($uploadFiles as $file) {
-            $preview[] = [
-                'url' => self::getUploadImageUrl(true) . $img_ref . '/' . $file->real_filename,
-                'src' => self::getUploadImageUrl(true) . $img_ref . '/thumbnail/' . $file->real_filename,
-                'options' => [
-                    'title' => $file->real_filename,
-                ],
-            ];
-        }
-        return $preview;
-    }
+   //********** List Downloads */
+   public function listDownloadFiles($type)
+   {
+       $docs_file = '';
+       if (in_array($type, ['docs'])) {
+           $data = $type === 'docs' ? $this->docs : '';
+           $files = Json::decode($data);
+           if (is_array($files)) {
+               $docs_file = '<ul>';
+               foreach ($files as $key => $value) {
+                   if (strpos($value, '.jpg') !== false || strpos($value, '.jpeg') !== false || strpos($value, '.png') !== false || strpos($value, '.gif') !== false) {
+                       $thumbnail = Html::img(['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'img-thumbnail', 'alt' => 'Image', 'style' => 'width: 150px']);
+                       $fullSize = Html::a($thumbnail, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['target' => '_blank']);
+                       $docs_file .= '<li class="mb-2">' . $fullSize . '</li>';
+                   } else {
+                       $docs_file .= '<li class="mb-2">' . Html::a($value, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value]) . '</li>';
+                   }
+               }
+               $docs_file .= '</ul>';
+           }
+       }
 
+       return $docs_file;
+   }
 
-    public function getImageShow()
-    {
-        $thumbnails = $this->getImageThumbnails($this->img_ref);
-        if (!empty($thumbnails)) {
-            return Html::a(Html::img($thumbnails[0]['src'], ['height' => '80px', 'class' => 'img-rounded']), ['view', 'id' => $this->id]);
-        } else {
-            return Html::a(Html::img(Yii::getAlias('@web') . '/uploads/no-image.jpg', ['height' => '80px', 'class' => 'img-rounded']), ['view', 'id' => $this->id]);
-        }
-    }
+   //********** initialPreview */    
+   public function isImage($filePath)
+   {
+       return @is_array(getimagesize($filePath)) ? true : false;
+   }
 
-    // uploading doc
-    public static function getUploadPathDoc()
-    {
-        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER . '/';
-    }
+   public function initialPreview($data, $field, $type = 'file')
+   {
+       $initial = [];
+       $files = Json::decode($data);
+       if (is_array($files)) {
+           foreach ($files as $key => $value) {
+               $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
+               $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
 
-    public static function getUploadUrlDoc()
-    {
-        return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/';
-    }
+               $isImage = $this->isImage($filePath);
+
+               if ($isImage = true) {
+                   if ($type == 'file') {
+                       $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
+                   } elseif ($type == 'config') {
+                       $initial[] = [
+                           'caption' => $value,
+                           'width'  => '120px',
+                           'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
+                           'key'    => $key
+                       ];
+                   } else {
+                       if ($isImage) {
+                           $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
+                       } else {
+                           $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
+                       }
+                       $initial[] = $file;
+                   }
+               }
+               
+           }
+       }
+       return $initial;
+   }
 }

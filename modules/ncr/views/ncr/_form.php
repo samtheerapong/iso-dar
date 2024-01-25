@@ -161,27 +161,22 @@ use yii\widgets\ActiveForm;
                         </div>
 
                         <div class="col-md-12">
-                            <div class="form-group field-upload_files">
-                                <label class="control-label" for="upload_image[]"> ภาพถ่าย </label>
-                                <div>
-                                    <?= FileInput::widget([
-                                        'name' => 'upload_image[]',
-                                        'options' => ['multiple' => true, 'accept' => 'image/*'], //'accept' => 'image/*' หากต้องเฉพาะ image
-                                        'pluginOptions' => [
-                                            'overwriteInitial' => false,
-                                            'initialPreviewShowDelete' => true,
-                                            'initialPreview' => $initialPreview,
-                                            'initialPreviewConfig' => $initialPreviewConfig,
-                                            'uploadUrl' => Url::to(['upload-img']),
-                                            'uploadExtraData' => [
-                                                'ref' => $model->ref,
-                                            ],
-                                            'maxFileCount' => 10
-                                        ]
-                                    ]);
-                                    ?>
-                                </div>
-                            </div>
+                            <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
+                                'options' => [
+                                    //'accept' => 'image/*',
+                                    'multiple' => true
+                                ],
+                                'pluginOptions' => [
+                                    'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
+                                    'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
+                                    'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'png', 'jpeg', 'png', 'gif'],
+                                    'showPreview' => true,
+                                    'showCaption' => true,
+                                    'showRemove' => true,
+                                    'showUpload' => false,
+                                    'overwriteInitial' => false
+                                ]
+                            ]); ?>
 
                         </div>
                     </div>

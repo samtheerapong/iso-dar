@@ -170,7 +170,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Yii::t('app', 'Files') ?>
                 </div>
                 <div class="card-body table-responsive">
-                    <?= $model->docs ?>
+                    <?= $model->listDownloadFiles('docs') ?>
                 </div>
             </div>
 
