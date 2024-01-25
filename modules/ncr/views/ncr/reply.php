@@ -29,7 +29,7 @@ use yii\helpers\ArrayHelper;
                 'attribute' => 'reply_type_id',
                 'format' => 'html',
                 'value' => function ($model) {
-                    $value = $model->reply_type_id ? $model->replyType->name : 'ยังไม่ได้ดำเนินการ';
+                    $value = $model->reply_type_id ? $model->replyType->name : Yii::t('app', 'Pending');
                     $color = $model->reply_type_id ? 'black' : 'red';
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },
@@ -40,7 +40,7 @@ use yii\helpers\ArrayHelper;
                 'attribute' => 'quantity',
                 'format' => 'html',
                 'value' => function ($model) {
-                    $value = $model->quantity ? $model->quantity . ' ' . $model->unit  : 'N/A';
+                    $value = $model->quantity ? $model->quantity . ' ' . $model->unit  : Yii::t('app', 'Pending');
                     $color = $model->quantity ? 'black' : 'red';
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },
@@ -53,7 +53,7 @@ use yii\helpers\ArrayHelper;
                 // 'headerOptions' => ['style' => 'width:200px;'],
                 'format' => 'html',
                 'value' => function ($model) {
-                    $value = $model->operation_name ? $model->operator->thai_name : 'ยังไม่ได้อนุมัติ';
+                    $value = $model->operation_name ? $model->operator->thai_name : Yii::t('app', 'Pending');
                     $color = $model->operation_name ? 'black' : 'red';
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },
@@ -64,8 +64,8 @@ use yii\helpers\ArrayHelper;
                 // 'headerOptions' => ['style' => 'width:200px;'],
                 'format' => 'html',
                 'value' => function ($model) {
-                    // return $model->operation_date ? $model->operation_date . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
-                    $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : 'ยังไม่ได้ดำเนินการ';
+                    // return $model->operation_date ? $model->operation_date . ' ' . $model->unit : 'Pending';
+                    $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : Yii::t('app', 'Pending');
                     $color = $model->operation_date ? 'black' : 'red'; // Change 'black' to the desired text color
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },
@@ -77,8 +77,8 @@ use yii\helpers\ArrayHelper;
                 // 'headerOptions' => ['style' => 'width:200px;'],
                 'format' => 'html',
                 'value' => function ($model) {
-                    // return $model->approve_name ? $model->approve_name . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
-                    $value = $model->approve_name ? $model->approver->thai_name : 'ยังไม่ได้อนุมัติ';
+                    // return $model->approve_name ? $model->approve_name . ' ' . $model->unit : 'Pending';
+                    $value = $model->approve_name ? $model->approver->thai_name : Yii::t('app', 'Pending');
                     $color = $model->approve_name ? 'black' : 'red'; // Change 'black' to the desired text color
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },
@@ -89,8 +89,8 @@ use yii\helpers\ArrayHelper;
                 // 'headerOptions' => ['style' => 'width:200px;'],
                 'format' => 'html',
                 'value' => function ($model) {
-                    // return $model->approve_date ? $model->approve_date . ' ' . $model->unit : 'ยังไม่ได้ดำเนินการ';
-                    $value = $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : 'ยังไม่ได้อนุมัติ';
+                    // return $model->approve_date ? $model->approve_date . ' ' . $model->unit : 'Pending';
+                    $value = $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : Yii::t('app', 'Pending');
                     $color = $model->approve_date ? 'black' : 'red'; // Change 'black' to the desired text color
                     return '<span style="color:' . $color . ';">' . $value . '</span>';
                 },

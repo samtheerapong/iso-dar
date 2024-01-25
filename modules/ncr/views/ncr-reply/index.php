@@ -81,34 +81,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             ])
                         ],
 
-
-                        // [
-                        //     'attribute' => 'ncrs.product_name',
-                        //     'format' => 'html',
-                        //     'value' => function ($model) {
-                        //          $rpValule = $model->request_id ?
-                        //             $model->request0->repair_code . '  ' .
-                        //             $model->request0->request_title :
-                        //             Yii::t('app', 'N/A');
-
-                        //             return  Html::a($rpValule , ['/engineer/rp/view', 'id' => $model->request_id]);
-                        //     },
-                        //     'filter' => Select2::widget([
-                        //         'model' => $searchModel,
-                        //         'attribute' => 'request_id',
-                        //         'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => 1])->all(), 'id', function ($dataValue, $defaultValue) {
-                        //             return
-                        //                 $dataValue->repair_code . '  ' .
-                        //                 $dataValue->request_title;
-                        //         }),
-                        //         'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                        //         'language' => 'th',
-                        //         'pluginOptions' => [
-                        //             'allowClear' => true
-                        //         ],
-                        //     ])
-                        // ],
-
                         [
                             'attribute' => 'reply_type_id',
                             'format' => 'html',

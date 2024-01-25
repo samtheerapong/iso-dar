@@ -32,14 +32,15 @@ use yii\widgets\ActiveForm;
                         'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
                             return
                                 $dataValue->ncr_number
-                                . '  (' . $dataValue->process
-                                . ') : ' . $dataValue->product_name
-                                . '  Lot: ' . $dataValue->lot;
-                            // . '  | ' . Yii::$app->formatter->asDate($dataValue->created_at);
+                                . ' | ' . $dataValue->process
+                                . ' | ' . $dataValue->product_name
+                                . '  | Lot: ' . $dataValue->lot
+                                . '  | ' . Yii::$app->formatter->asDate($dataValue->production_date);
                         }),
                         'options' => [
                             'class' => 'form-control',
                             'placeholder' => Yii::t('app', 'Select...'),
+                            'disabled' => !$model->isNewRecord, // ถ้าไม่ใช่การเพิ่มข้อมูลใหม่ให้ disable
                         ],
                         'pluginOptions' => [
                             'allowClear' => true
