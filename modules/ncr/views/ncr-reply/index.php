@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'filter' => Select2::widget([
                                 'model' => $searchModel,
                                 'attribute' => 'ncr_id',
-                                'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
+                                'data' => ArrayHelper::map(Ncr::find()->orderBy(['id' => SORT_DESC])->all(), 'id', function ($dataValue, $defaultValue) {
                                     return
                                         $dataValue->ncr_number.' | '.$dataValue->product_name . ' ('. Yii::$app->formatter->asDate($dataValue->production_date).')';
                                 }),
