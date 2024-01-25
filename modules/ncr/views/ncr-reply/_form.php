@@ -4,6 +4,7 @@ use app\models\User;
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\NcrReplyType;
 use kartik\widgets\DatePicker;
+use kartik\widgets\FileInput;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -99,7 +100,22 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <div class="col-md-12">
-                    <?= $form->field($model, 'docs')->textarea(['rows' => 1]) ?>
+                    <?= $form->field($model, 'docs[]')->widget(FileInput::class, [
+                        'options' => [
+                            //'accept' => 'image/*',
+                            'multiple' => true
+                        ],
+                        'pluginOptions' => [
+                            'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
+                            'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
+                            'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'png', 'jpeg', 'png', 'gif'],
+                            'showPreview' => true,
+                            'showCaption' => true,
+                            'showRemove' => true,
+                            'showUpload' => false,
+                            'overwriteInitial' => false
+                        ]
+                    ]); ?>
                 </div>
             </div>
         </div>

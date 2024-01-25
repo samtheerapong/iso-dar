@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <p>
             <?= Html::a('<i class="fa-solid fa-house-circle-exclamation"></i> ' . Yii::t('app', 'Reply Home'), ['/ncr/ncr-reply/index'], ['class' => 'btn btn-info']) ?>
         </p>
-        
+
         <p style="text-align: right;">
             <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Reply'), ['reply', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
             <?= Html::a('<i class="fa-solid fa-pen"></i> ' . Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
@@ -156,10 +156,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->ncrs->ncr_status_id ? $model->ncrs->ncrStatus->name : Yii::t('app', 'N/A');
                                 },
                             ],
+                            [
+                                'attribute' => 'ncrs.docs',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs') : Yii::t('app', 'N/A');
+                                },
+                            ],
 
                         ],
                     ]) ?>
-
+                   
                 </div>
             </div>
         </div>
@@ -223,6 +230,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format' => 'html',
                                 'value' => function ($model) {
                                     return $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : Yii::t('app', 'N/A');
+                                },
+                            ],
+                            [
+                                'attribute' => 'docs',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->docs ? $model->listDownloadFiles('docs') : Yii::t('app', 'N/A');
                                 },
                             ],
                             // 'docs:ntext',

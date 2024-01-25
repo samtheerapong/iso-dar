@@ -84,6 +84,7 @@ class NcrController extends Controller
 
                 if ($model->save()) {
                     $ModelReply->ncr_id = $model->id;
+                    $ModelReply->ref = $ref;
                     $ModelAccept->ncr_id = $model->id;
                     $ModelProtection->ncr_id = $model->id;
                     $ModelClosing->ncr_id = $model->id;

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 25, 2024 at 10:01 AM
+-- Generation Time: Jan 25, 2024 at 01:46 PM
 -- Server version: 5.7.39
--- PHP Version: 7.4.9
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('J2401-???', 4, 1, 1704535296),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
-('N-6701-???', 31, 1, 1706149968),
+('N-6701-???', 34, 1, 1706189983),
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
@@ -534,11 +534,7 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_status_id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 3, 'N-6701-027', '2024-01-23', 1, 2, 8, 'Infections', 'cs-007/24', '2024-01-16', 'Or.Mirin 5.5 %-200 ML', 'John Doe', 2, 1, 'ปริมาณเชื้อ Colifrom เกินมาตรฐาน มาตรฐาน Colifrom =0', 7, 15, 'ตรวจซ้ำ', '', '9IAJ7Yhrp-LyKXIt72pryA', '2024-01-23', 12, '2024-01-24', 15),
-(2, 4, 'N-6701-028', '2024-01-24', 1, 2, 8, 'FG,Infections', '028/24', '2024-01-12', 'Organic 10 L', '', 1, 1, 'TN ต่ำกว่ามาตรฐาน : 1.05 (Spec 1.15-1.19),pH ต่ำกว่ามาตรฐาน : 4.51 (Spec 4.70-5.00),Color เข้มกว่ามาตรฐาน : 7 (Spec 9-15)\r\nข้อมูลการไล่ท่อ pH : 4.50, Nacl : 17.05 , Brix : 30.6 , TN : 1.05 , Alc: 1.64 , SG : 1.137, Color : 7', 7, 15, '', '', 'fcyONe-gsWBW9inofWKeNN', '2024-01-24', 12, '2024-01-24', 15),
-(3, 5, 'N-6701-029', '2024-01-24', 1, 2, 8, 'Inprocess,FG', '030/24', '2024-01-22', 'Rich 18 lit', 'QP', 1, 2, 'Color เข้มกว่ามาตรฐาน : 7 (Spec 9-15)\r\nข้อมูลการไล่ท่อ pH : 4.81, Nacl : 17.56 , Brix : 37.4 , TN : 1.80 , Alc: 0.82 , SG : 1.167, Color : 7\r\n', 7, 15, '', '', 'tfeeersqyV6E_x5ZLp2_1n', '2024-01-24', 12, '2024-01-24', 15),
-(4, 4, 'N-6701-030', '2024-01-24', 1, 2, 8, 'Claim,Infections', '071/23', '2024-02-14', 'organic FT soy Sauce 200 ml.', 'John Doe', 3, 2, '', 7, 15, '', '', 'Upzp7Y63qkLUp8w2p_Dx8E', '2024-01-24', 15, '2024-01-24', 15),
-(5, 1, 'N-6701-031', '2024-01-25', 1, 2, 8, 'Incoming,Claim', '123', '2024-01-25', 'Hoisin Sauce', 'Sauce inc.', 1, 1, 'Test', 7, 12, '', '', 'aDuNz3dZqJC3I5YZ_y4hxc', '2024-01-25', 12, NULL, 12);
+(1, 1, 'N-6701-034', '2024-01-25', 1, 2, 8, 'Incoming,FG', '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 11, 12, '', '{\"2afec093109f7e2341cf805817529ee5.pdf\":\"Bakery & Restaurant.pdf\",\"0c75d78519952e56c17c3256ad46d238.jpg\":\"lady-avatar-1632967.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, NULL, 12);
 
 -- --------------------------------------------------------
 
@@ -562,11 +558,7 @@ CREATE TABLE `ncr_accept` (
 --
 
 INSERT INTO `ncr_accept` (`id`, `ncr_id`, `ncr_concession_id`, `customer_name`, `process`, `cause`, `approve_name`, `approve_date`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 2, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 3, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 4, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 5, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -627,11 +619,7 @@ CREATE TABLE `ncr_closing` (
 --
 
 INSERT INTO `ncr_closing` (`id`, `ncr_id`, `accept`, `auditor`, `qmr`, `accept_date`, `ncr_closingcol`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL),
-(2, 2, NULL, NULL, NULL, NULL, NULL),
-(3, 3, NULL, NULL, NULL, NULL, NULL),
-(4, 4, NULL, NULL, NULL, NULL, NULL),
-(5, 5, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -731,11 +719,7 @@ CREATE TABLE `ncr_protection` (
 --
 
 INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_id`, `issue`, `action`, `schedule_date`, `operator`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL),
-(2, 2, NULL, NULL, NULL, NULL, NULL),
-(3, 3, NULL, NULL, NULL, NULL, NULL),
-(4, 4, NULL, NULL, NULL, NULL, NULL),
-(5, 5, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -763,13 +747,7 @@ CREATE TABLE `ncr_reply` (
 --
 
 INSERT INTO `ncr_reply` (`id`, `ncr_id`, `reply_type_id`, `quantity`, `unit`, `method`, `operation_date`, `operation_name`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
-(1, 3, 3, 10, 'พาเลท', '', '2024-01-25', 3, 4, '2024-01-26', '', ''),
-(2, 3, 1, 20, 'ขวด', '', '2024-03-20', 3, 4, '2024-01-10', '', ''),
-(3, 2, 2, 8, 'แพ็ค', '', '2024-01-12', 28, 15, '2024-01-19', '', ''),
-(4, 2, 5, 3, 'ลัง', 'ทดสอบ', '2024-01-18', 6, 11, '2024-01-23', '', ''),
-(5, 3, 6, 44, 'ขวด', 'ส่งทางเรือ w-1234', '2024-01-23', 47, 4, '2024-01-25', '', NULL),
-(6, 4, 5, 5000, 'ลิตร', '', '2024-02-02', 3, 4, '2024-02-08', '', NULL),
-(7, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, 1, 10, 'กล่อง', 'Return to Factory', '2024-01-17', 3, NULL, NULL, '{\"2efcf5c542bd0fe2165ff2785fc6c727.pdf\":\"N-6701-027.pdf\",\"a7437cf1c6035fae7341bd4ed1fdf588.jpg\":\"istockphoto-1360346984-612x612.jpg\",\"0c08342380499123a8f7d1b63f509e25.jpg\":\"istockphoto-1402405836-612x612.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t');
 
 -- --------------------------------------------------------
 
@@ -1828,13 +1806,13 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_accept`
 --
 ALTER TABLE `ncr_accept`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_category`
@@ -1852,7 +1830,7 @@ ALTER TABLE `ncr_cause`
 -- AUTO_INCREMENT for table `ncr_closing`
 --
 ALTER TABLE `ncr_closing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_concession`
@@ -1876,13 +1854,13 @@ ALTER TABLE `ncr_process`
 -- AUTO_INCREMENT for table `ncr_protection`
 --
 ALTER TABLE `ncr_protection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply`
 --
 ALTER TABLE `ncr_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply_type`
