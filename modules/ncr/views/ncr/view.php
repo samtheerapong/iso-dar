@@ -1,7 +1,9 @@
 <?php
 
+use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var app\modules\ncr\models\Ncr $model */
@@ -24,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
                     <?= $model->ncr_number  . ' | ' . Yii::t('app', 'Status') . ' = ' . $model->ncrStatus->name ?>
@@ -164,62 +166,103 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
                     <?= Yii::t('app', 'Files') ?>
                 </div>
                 <div class="card-body table-responsive">
-                    <?= $model->listDownloadFiles('docs') ?>
-                </div>
-            </div>
-
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Logs') ?>
-                </div>
-                <div class="card-body table-responsive">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
-                        'attributes' => [
-
-                            [
-                                'attribute' => 'created_at',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    return $model->created_at ? Yii::$app->formatter->asDate($model->created_at) : Yii::t('app', 'N/A');
-                                },
-                            ],
-
-                            [
-                                'attribute' => 'created_by',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    return $model->created_by ? $model->created->thai_name : 'N/A';
-                                },
-                            ],
-
-                            [
-                                'attribute' => 'updated_at',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    return $model->updated_at ? Yii::$app->formatter->asDate($model->updated_at) : Yii::t('app', 'N/A');
-                                },
-                            ],
-
-                            [
-                                'attribute' => 'updated_by',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    return $model->updated_by ? $model->updated->thai_name : 'N/A';
-                                },
-                            ],
-
-                        ],
-                    ]) ?>
+                    <?= $model->listDownloadFiles('docs', 'auto') ?>
                 </div>
             </div>
         </div>
+
+
+
+        <div class="card border-secondary">
+            <div class="card-header text-white bg-info">
+                <?= Yii::t('app', 'Reply') ?>
+            </div>
+            <div class="card-body table-responsive">
+
+                <?= GridView::widget([
+                    'dataProvider' => new \yii\data\ActiveDataProvider([
+                        'query' => $model->getNcrReplyItem(),
+                    ]),
+                    'hover' => true,
+                    'columns' => [
+                        [
+                            'class' => 'yii\grid\SerialColumn',
+                            'contentOptions' => ['class' => 'text-center', 'style' => 'width:45px;'], //กำหนด ความกว้างของ #
+                        ],
+
+
+                        [
+                            'attribute' => 'reply_type_id',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->reply_type_id ?  Html::a($model->replyType->name, ['/ncr/ncr-reply/view', 'id' => $model->id])  : Yii::t('app', 'N/A');
+                            },
+                        ],
+                        [
+                            'attribute' => 'quantity',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->quantity ? $model->quantity . ' ' . $model->unit : Yii::t('app', 'N/A');
+                            },
+                        ],
+                        [
+                            'attribute' => 'method',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->method . ' <i>' . $model->cause . '</i>';
+                            },
+                        ],
+                        // 'operation_name',
+                        [
+                            'attribute' => 'operation_name',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->operation_name ? $model->operator->thai_name : 'N/A';
+                            },
+                        ],
+                        [
+                            'attribute' => 'operation_date',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : Yii::t('app', 'N/A');
+                            },
+                        ],
+                        // 'approve_name',
+                        [
+                            'attribute' => 'approve_name',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->approve_name ? $model->approver->thai_name : 'N/A';
+                            },
+                        ],
+                        [
+                            'attribute' => 'approve_date',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : Yii::t('app', 'N/A');
+                            },
+                        ],
+                        [
+                            'attribute' => 'docs',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                return $model->docs ? $model->listDownloadFiles('docs', '100px') : Yii::t('app', 'N/A');
+                            },
+                        ],
+
+                    ],
+                ]); ?>
+
+
+            </div>
+
+        </div>
     </div>
+</div>
 </div>

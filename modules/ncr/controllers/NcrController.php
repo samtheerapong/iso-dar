@@ -3,11 +3,9 @@
 namespace app\modules\ncr\controllers;
 
 use app\modules\ncr\models\Ncr;
-use app\modules\ncr\models\NcrAccept;
 use app\modules\ncr\models\NcrClosing;
 use app\modules\ncr\models\NcrProtection;
 use app\modules\ncr\models\NcrReply;
-use app\modules\ncr\models\NcrUploads;
 use app\modules\ncr\models\search\NcrSearch;
 use Exception;
 use mdm\autonumber\AutoNumber;
@@ -17,7 +15,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseFileHelper;
-use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -62,7 +59,6 @@ class NcrController extends Controller
     {
         $model = new Ncr();
         $ModelReply = new NcrReply();
-        $ModelAccept = new NcrAccept();
         $ModelProtection = new NcrProtection();
         $ModelClosing = new NcrClosing();
 
@@ -85,14 +81,12 @@ class NcrController extends Controller
                 if ($model->save()) {
                     $ModelReply->ncr_id = $model->id;
                     $ModelReply->ref = $ref;
-                    $ModelAccept->ncr_id = $model->id;
                     $ModelProtection->ncr_id = $model->id;
                     $ModelClosing->ncr_id = $model->id;
 
                     // Assuming you have appropriate attributes configured for each related model
                     if (
                         $ModelReply->save() &&
-                        $ModelAccept->save() &&
                         $ModelProtection->save() &&
                         $ModelClosing->save()
                     ) {
@@ -105,7 +99,6 @@ class NcrController extends Controller
         return $this->render('create', [
             'model' => $model,
             // 'ModelReply' => $ModelReply,
-            // 'ModelAccept' => $ModelAccept,
             // 'ModelProtection' => $ModelProtection,
             // 'ModelClosing' => $ModelClosing,
         ]);

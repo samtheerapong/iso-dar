@@ -18,8 +18,8 @@ class NcrReplySearch extends NcrReply
     public function rules()
     {
         return [
-            [['id', 'ncr_id', 'reply_type_id', 'quantity', 'operation_name', 'approve_name'], 'integer'],
-            [['unit', 'method', 'operation_date', 'approve_date', 'docs', 'ref'], 'safe'],
+            [['id', 'ncr_id', 'reply_type_id', 'quantity', 'operation_name', 'approve_name', 'concession'], 'integer'],
+            [['unit', 'method', 'operation_date', 'approve_date', 'docs', 'ref', 'cause'], 'safe'],
             [['process'], 'safe'],
         ];
     }
@@ -73,10 +73,12 @@ class NcrReplySearch extends NcrReply
             'operation_name' => $this->operation_name,
             'approve_name' => $this->approve_name,
             'approve_date' => $this->approve_date,
+            'concession' => $this->approve_date,
         ]);
 
         $query->andFilterWhere(['like', 'unit', $this->unit])
             ->andFilterWhere(['like', 'method', $this->method])
+            ->andFilterWhere(['like', 'cause', $this->cause])
             ->andFilterWhere(['like', 'ncrModel.process', $this->method])
             ->andFilterWhere(['like', 'docs', $this->docs])
             ->andFilterWhere(['like', 'ref', $this->ref]);

@@ -2,6 +2,7 @@
 
 use app\models\User;
 use app\modules\ncr\models\Ncr;
+use app\modules\ncr\models\NcrConcession;
 use app\modules\ncr\models\NcrReplyType;
 use kartik\widgets\DatePicker;
 use kartik\widgets\FileInput;
@@ -27,7 +28,7 @@ use yii\widgets\ActiveForm;
             <div class="row">
 
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?= $form->field($model, 'ncr_id')->widget(Select2::class, [
                         'language' => 'th',
                         'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
@@ -59,20 +60,26 @@ use yii\widgets\ActiveForm;
                     ]);
                     ?>
                 </div>
-
-                <div class="col-md-1">
-                    <?= $form->field($model, 'quantity')->textInput() ?>
+                <div class="col-md-2">
+                    <?= $form->field($model, 'concession')->widget(Select2::class, [
+                        'data' => ArrayHelper::map(NcrConcession::find()->where(['active' => 1])->all(), 'id', 'concession_name'),
+                        'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-1">
+                    <?= $form->field($model, 'quantity')->textInput(['type' => 'number']) ?>
+                </div>
+
+                <div class="col-md-1">
                     <?= $form->field($model, 'unit')->textInput(['maxlength' => true]) ?>
                 </div>
 
-                <div class="col-md-12">
-                    <?= $form->field($model, 'method')->textarea(['rows' => 2]) ?>
-                </div>
-
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <?= $form->field($model, 'operation_name')->widget(Select2::class, [
                         'data' => ArrayHelper::map(User::find()->where(['status' => 10, 'role_id' => [3, 4, 5, 6, 10]])->all(), 'id', 'thai_name'),
                         // 'options' => ['placeholder' => Yii::t('app', 'Select...')],
@@ -83,7 +90,7 @@ use yii\widgets\ActiveForm;
                     ?>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-2">
                     <?= $form->field($model, 'operation_date')->widget(
                         DatePicker::class,
                         [
@@ -98,6 +105,16 @@ use yii\widgets\ActiveForm;
                         ]
                     ); ?>
                 </div>
+
+                <div class="col-md-12">
+                    <?= $form->field($model, 'method')->textarea(['rows' => 2]) ?>
+                </div>
+
+                <div class="col-md-12">
+                    <?= $form->field($model, 'cause')->textarea(['rows' => 2]) ?>
+                </div>
+
+
 
                 <div class="col-md-12">
                     <?= $form->field($model, 'docs[]')->widget(FileInput::class, [

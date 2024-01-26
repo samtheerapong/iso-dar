@@ -107,7 +107,7 @@ class Ncr extends \yii\db\ActiveRecord
         return $this->hasOne(Department::class, ['id' => 'department_issue']);
     }
 
-       public function getNcrProcess()
+    public function getNcrProcess()
     {
         return $this->hasOne(NcrProcess::class, ['id' => 'process']);
     }
@@ -192,81 +192,85 @@ class Ncr extends \yii\db\ActiveRecord
         return is_array($value) ? implode(',', $value) : NULL;
     }
 
-   //********** Upload Path*/
-   public static function getUploadPath()
-   {
-       return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER . '/';
-   }
+    //********** Upload Path*/
+    public static function getUploadPath()
+    {
+        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER . '/';
+    }
 
-   public static function getUploadUrl()
-   {
-       return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/';
-   }
+    public static function getUploadUrl()
+    {
+        return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/';
+    }
 
-   //********** List Downloads */
-   public function listDownloadFiles($type)
-   {
-       $docs_file = '';
-       if (in_array($type, ['docs'])) {
-           $data = $type === 'docs' ? $this->docs : '';
-           $files = Json::decode($data);
-           if (is_array($files)) {
-               $docs_file = '<ul>';
-               foreach ($files as $key => $value) {
-                   if (strpos($value, '.jpg') !== false || strpos($value, '.jpeg') !== false || strpos($value, '.png') !== false || strpos($value, '.gif') !== false) {
-                       $thumbnail = Html::img(['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'img-thumbnail', 'alt' => 'Image', 'style' => 'width: 150px']);
-                       $fullSize = Html::a($thumbnail, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['target' => '_blank']);
-                       $docs_file .= '<li class="mb-2">' . $fullSize . '</li>';
-                   } else {
-                       $docs_file .= '<li class="mb-2">' . Html::a($value, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value]) . '</li>';
-                   }
-               }
-               $docs_file .= '</ul>';
-           }
-       }
+    //********** List Downloads */
+    public function listDownloadFiles($type, $width)
+    {
+        $docs_file = '';
+        if (in_array($type, ['docs'])) {
+            $data = $type === 'docs' ? $this->docs : '';
+            $files = Json::decode($data);
+            if (is_array($files)) {
+                $docs_file = '<ul>';
+                foreach ($files as $key => $value) {
+                    if (strpos($value, '.jpg') !== false || strpos($value, '.jpeg') !== false || strpos($value, '.png') !== false || strpos($value, '.gif') !== false) {
+                        $thumbnail = Html::img(['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'img-thumbnail', 'alt' => 'Image', 'style' => 'width:' . $width]);
+                        $fullSize = Html::a($thumbnail, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['target' => '_blank']);
+                        $docs_file .= '<li class="mb-2">' . $fullSize . '</li>';
+                    } else {
+                        $docs_file .= '<li class="mb-2">' . Html::a($value, ['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value]) . '</li>';
+                    }
+                }
+                $docs_file .= '</ul>';
+            }
+        }
 
-       return $docs_file;
-   }
+        return $docs_file;
+    }
 
-   //********** initialPreview */    
-   public function isImage($filePath)
-   {
-       return @is_array(getimagesize($filePath)) ? true : false;
-   }
+    //********** initialPreview */    
+    public function isImage($filePath)
+    {
+        return @is_array(getimagesize($filePath)) ? true : false;
+    }
 
-   public function initialPreview($data, $field, $type = 'file')
-   {
-       $initial = [];
-       $files = Json::decode($data);
-       if (is_array($files)) {
-           foreach ($files as $key => $value) {
-               $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
-               $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
+    public function initialPreview($data, $field, $type = 'file')
+    {
+        $initial = [];
+        $files = Json::decode($data);
+        if (is_array($files)) {
+            foreach ($files as $key => $value) {
+                $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
+                $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
 
-               $isImage = $this->isImage($filePath);
+                $isImage = $this->isImage($filePath);
 
-               if ($isImage = true) {
-                   if ($type == 'file') {
-                       $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
-                   } elseif ($type == 'config') {
-                       $initial[] = [
-                           'caption' => $value,
-                           'width'  => '120px',
-                           'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
-                           'key'    => $key
-                       ];
-                   } else {
-                       if ($isImage) {
-                           $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
-                       } else {
-                           $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
-                       }
-                       $initial[] = $file;
-                   }
-               }
-               
-           }
-       }
-       return $initial;
-   }
+                if ($isImage = true) {
+                    if ($type == 'file') {
+                        $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
+                    } elseif ($type == 'config') {
+                        $initial[] = [
+                            'caption' => $value,
+                            'width'  => '120px',
+                            'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
+                            'key'    => $key
+                        ];
+                    } else {
+                        if ($isImage) {
+                            $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
+                        } else {
+                            $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
+                        }
+                        $initial[] = $file;
+                    }
+                }
+            }
+        }
+        return $initial;
+    }
+
+    public function getNcrReplyItem()
+    {
+        return $this->hasMany(NcrReply::class, ['ncr_id' => 'id']);
+    }
 }

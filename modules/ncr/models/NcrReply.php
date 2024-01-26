@@ -26,8 +26,8 @@ class NcrReply extends \yii\db\ActiveRecord
     {
         return [
             [['ncr_id'], 'required'],
-            [['ncr_id', 'reply_type_id', 'quantity'], 'integer'],
-            [['method'], 'string'],
+            [['ncr_id', 'reply_type_id', 'quantity', 'concession'], 'integer'],
+            [['method', 'cause'], 'string'],
             [['operation_date', 'approve_date', 'operation_name', 'approve_name'], 'safe'],
             [['unit'], 'string', 'max' => 45],
             [['ref'], 'string', 'max' => 255],
@@ -41,10 +41,12 @@ class NcrReply extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'ncr_id' => Yii::t('app', 'NCR'),
+            'concession' => Yii::t('app', 'ผลิตภัณฑ์'),
             'reply_type_id' => Yii::t('app', 'ประเภทการดำเนินการ'),
             'quantity' => Yii::t('app', 'จำนวน'),
             'unit' => Yii::t('app', 'หน่วย'),
             'method' => Yii::t('app', 'วิธีการ'),
+            'cause' => Yii::t('app', 'สาเหตุ'),
             'operation_date' => Yii::t('app', 'วันที่ดำเนินการ'),
             'operation_name' => Yii::t('app', 'ผู้ดำเนินการ'),
             'approve_name' => Yii::t('app', 'ผู้อนุมัติ'),
@@ -63,6 +65,11 @@ class NcrReply extends \yii\db\ActiveRecord
     public function getReplyType()
     {
         return $this->hasOne(NcrReplyType::class, ['id' => 'reply_type_id']);
+    }
+
+    public function getConcession0()
+    {
+        return $this->hasOne(NcrConcession::class, ['id' => 'concession']);
     }
 
     public function getOperator()
@@ -112,7 +119,7 @@ class NcrReply extends \yii\db\ActiveRecord
     }
 
     //********** List Downloads */
-    public function listDownloadFiles($type)
+    public function listDownloadFiles($type, $width)
     {
         $docs_file = '';
         if (in_array($type, ['docs'])) {
@@ -122,7 +129,7 @@ class NcrReply extends \yii\db\ActiveRecord
                 $docs_file = '<ul>';
                 foreach ($files as $key => $value) {
                     if (strpos($value, '.jpg') !== false || strpos($value, '.jpeg') !== false || strpos($value, '.png') !== false || strpos($value, '.gif') !== false) {
-                        $thumbnail = Html::img(['/ncr/ncr-reply/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'img-thumbnail', 'alt' => 'Image', 'style' => 'width: 150px']);
+                        $thumbnail = Html::img(['/ncr/ncr-reply/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'img-thumbnail', 'alt' => 'Image', 'style' => 'width:' . $width]);
                         $fullSize = Html::a($thumbnail, ['/ncr/ncr-reply/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['target' => '_blank']);
                         $docs_file .= '<li class="mb-2">' . $fullSize . '</li>';
                     } else {

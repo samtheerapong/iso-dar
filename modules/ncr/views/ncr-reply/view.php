@@ -160,7 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'ncrs.docs',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs') : Yii::t('app', 'N/A');
+                                    return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs','auto') : Yii::t('app', 'N/A');
                                 },
                             ],
 
@@ -189,6 +189,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 },
                             ],
                             [
+                                'attribute' => 'concession',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->concession ? $model->concession0->concession_name : Yii::t('app', 'N/A');
+                                },
+                            ],
+                            [
                                 'attribute' => 'quantity',
                                 'format' => 'html',
                                 'value' => function ($model) {
@@ -200,6 +207,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format' => 'ntext',
                                 'value' => function ($model) {
                                     return $model->method ? $model->method : Yii::t('app', 'N/A');
+                                },
+                            ],
+                            [
+                                'attribute' => 'cause',
+                                'format' => 'ntext',
+                                'value' => function ($model) {
+                                    return $model->cause ? $model->cause : Yii::t('app', 'N/A');
                                 },
                             ],
                             // 'operation_name',
@@ -236,7 +250,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'docs',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->docs ? $model->listDownloadFiles('docs') : Yii::t('app', 'N/A');
+                                    return $model->docs ? $model->listDownloadFiles('docs','auto') : Yii::t('app', 'N/A');
                                 },
                             ],
                             // 'docs:ntext',

@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Department;
 use app\models\User;
 use app\models\UserRoles;
 use app\models\UserRules;
@@ -63,7 +64,7 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'department_id')->dropDownList(
-                        ArrayHelper::map(Departments::find()->all(), 'id', 'name'),
+                        ArrayHelper::map(Department::find()->all(), 'id', 'name'),
                         [
                             'prompt' => Yii::t('app', 'Select...'),
                             'options' => ['' => ['disabled' => true]], // Optional: Disable the prompt option
