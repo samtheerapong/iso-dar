@@ -245,6 +245,7 @@ class Ncr extends \yii\db\ActiveRecord
                         $initial[] = Html::img(['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'file-preview-image', 'alt' => '']);
                     } elseif ($type == 'config') {
                         $initial[] = [
+                            // 'type' => 'pdf',
                             'caption' => $value,
                             'width'  => '120px',
                             'url'    => Url::to(['/ncr/ncr/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
