@@ -11,7 +11,7 @@ use yii\helpers\Url;
 class NcrReply extends \yii\db\ActiveRecord
 {
 
-    const REPLY_FOLDER = 'uploads/ncr-reply';
+    const REPLY_FOLDER = 'uploads/ncr/ncr-reply';
 
 
     public static function tableName()

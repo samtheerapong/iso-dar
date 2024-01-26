@@ -160,21 +160,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'ncrs.docs',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs','auto') : Yii::t('app', 'N/A');
+                                    return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs', 'auto') : Yii::t('app', 'N/A');
                                 },
                             ],
-
+                            
                         ],
-                    ]) ?>
-                   
-                </div>
-            </div>
-        </div>
+                        ]) ?>
 
-        <div class="col-md-6">
-            <div class="card border-secondary">
-                <div class="card-header text-white bg-warning">
-                    <?= Yii::t('app', 'Reply') ?>
+</div>
+</div>
+</div>
+
+<div class="col-md-6">
+    <div class="card border-secondary">
+        <div class="card-header text-white bg-warning">
+            <?= Yii::t('app', 'Reply') ?>
                 </div>
                 <div class="card-body table-responsive">
                     <?= DetailView::widget([
@@ -250,7 +250,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'docs',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->docs ? $model->listDownloadFiles('docs','auto') : Yii::t('app', 'N/A');
+                                    return $model->docs ? $model->listDownloadFiles('docs', 'auto') : Yii::t('app', 'N/A');
                                 },
                             ],
                             // 'docs:ntext',
@@ -259,6 +259,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]) ?>
 
                 </div>
+
             </div>
         </div>
     </div>

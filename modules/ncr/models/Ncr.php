@@ -14,7 +14,7 @@ use yii\helpers\Url;
 
 class Ncr extends \yii\db\ActiveRecord
 {
-    const UPLOAD_FOLDER = 'uploads/ncr';
+    const UPLOAD_FOLDER = 'uploads/ncr/ncr';
 
     public function behaviors()
     {
@@ -240,14 +240,9 @@ class Ncr extends \yii\db\ActiveRecord
         $files = Json::decode($data);
         if (is_array($files)) {
             foreach ($files as $key => $value) {
-                $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
-                $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
-
-                $isImage = $this->isImage($filePath);
-
                 if ($isImage = true) {
                     if ($type == 'file') {
-                        $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
+                        $initial[] = Html::img(['/ncr/ncr/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'file-preview-image', 'alt' => '']);
                     } elseif ($type == 'config') {
                         $initial[] = [
                             'caption' => $value,
@@ -256,12 +251,7 @@ class Ncr extends \yii\db\ActiveRecord
                             'key'    => $key
                         ];
                     } else {
-                        if ($isImage) {
-                            $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
-                        } else {
-                            $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
-                        }
-                        $initial[] = $file;
+                        $initial[] = "<div class='file-preview-other'><h2><i class='fa fa-file'></i></h2></div>";
                     }
                 }
             }
@@ -269,8 +259,10 @@ class Ncr extends \yii\db\ActiveRecord
         return $initial;
     }
 
+
     public function getNcrReplyItem()
     {
         return $this->hasMany(NcrReply::class, ['ncr_id' => 'id']);
     }
+    
 }
