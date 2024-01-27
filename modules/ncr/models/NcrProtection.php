@@ -2,6 +2,7 @@
 
 namespace app\modules\ncr\models;
 
+use app\models\User;
 use Yii;
 
 /**
@@ -58,23 +59,19 @@ class NcrProtection extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Ncr]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNcr()
+  
+    public function getNcrs()
     {
         return $this->hasOne(Ncr::class, ['id' => 'ncr_id']);
     }
 
-    /**
-     * Gets query for [[NcrCause]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getNcrCause()
     {
         return $this->hasOne(NcrCause::class, ['id' => 'ncr_cause_id']);
+    }
+
+    public function getProtectUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'operator']);
     }
 }

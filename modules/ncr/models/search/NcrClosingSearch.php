@@ -6,38 +6,24 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\ncr\models\NcrClosing;
 
-/**
- * NcrClosingSearch represents the model behind the search form of `app\modules\ncr\models\NcrClosing`.
- */
 class NcrClosingSearch extends NcrClosing
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public function rules()
     {
         return [
             [['id', 'ncr_id', 'accept', 'auditor', 'qmr'], 'integer'],
-            [['accept_date', 'ncr_closingcol'], 'safe'],
+            [['accept_date'], 'safe'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
+ 
     public function search($params)
     {
         $query = NcrClosing::find();
@@ -70,9 +56,6 @@ class NcrClosingSearch extends NcrClosing
             'qmr' => $this->qmr,
             'accept_date' => $this->accept_date,
         ]);
-
-        $query->andFilterWhere(['like', 'ncr_closingcol', $this->ncr_closingcol]);
-
         return $dataProvider;
     }
 }

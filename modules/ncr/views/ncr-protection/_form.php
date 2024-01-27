@@ -1,5 +1,8 @@
 <?php
 
+use app\modules\ncr\models\Ncr;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,7 +15,25 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'ncr_id')->textInput() ?>
+    <?= $form->field($model, 'ncr_id')->widget(Select2::class, [
+                    'language' => 'th',
+                    'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
+                        return
+                            $dataValue->ncr_number
+                            . ' | ' . $dataValue->process
+                            . ' | ' . $dataValue->product_name
+                            . '  | Lot: ' . $dataValue->lot
+                            . '  | ' . Yii::$app->formatter->asDate($dataValue->production_date);
+                    }),
+                    'options' => [
+                        'class' => 'form-control',
+                        'placeholder' => Yii::t('app', 'Select...'),
+                        'disabled' => !$model->isNewRecord, // ถ้าไม่ใช่การเพิ่มข้อมูลใหม่ให้ disable
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]) ?>
 
     <?= $form->field($model, 'ncr_cause_id')->textInput() ?>
 

@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'auditor',
             'qmr',
             'accept_date',
-            'ncr_closingcol',
         ],
     ]) ?>
 

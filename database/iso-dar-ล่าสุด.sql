@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 25, 2024 at 01:46 PM
+-- Generation Time: Jan 27, 2024 at 09:57 AM
 -- Server version: 5.7.39
--- PHP Version: 7.4.33
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('J2401-???', 4, 1, 1704535296),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
-('N-6701-???', 34, 1, 1706189983),
+('N-6701-???', 36, 1, 1706318661),
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
@@ -534,7 +534,9 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_status_id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, 'N-6701-034', '2024-01-25', 1, 2, 8, 'Incoming,FG', '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 11, 12, '', '{\"2afec093109f7e2341cf805817529ee5.pdf\":\"Bakery & Restaurant.pdf\",\"0c75d78519952e56c17c3256ad46d238.jpg\":\"lady-avatar-1632967.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, NULL, 12);
+(1, 5, 'N-6701-034', '2024-01-25', 1, 2, 8, NULL, '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 7, 41, '', '{\"2afec093109f7e2341cf805817529ee5.pdf\":\"Bakery & Restaurant.pdf\",\"38a963ff7a98f1fd2f5bfe54cceb5202.jpg\":\"IMG_7528.jpg\",\"460c03b5e2bd9fcee867efae4816cb33.jpg\":\"IMG_7456.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, '2024-01-27', 29),
+(2, 2, 'N-6701-035', '2024-01-26', 1, 2, 7, 'Incoming,Inprocess', '123', '2024-01-18', '147', '963', 1, 1, 'jkjkkj', 3, 4, 'lllkk', '{\"796409fb0f393394bfb4369cd0dde824.png\":\"Screenshot 2023-08-31 101854.png\",\"82f43716f598271ed7ccbf41d4c2497f.png\":\"Screenshot 2023-08-31 103341.png\",\"780fed43541cfeb08d56e0e14afa4486.png\":\"Screenshot 2023-09-01 152450.png\",\"98e8525ebd6a133c71c404e4bedb3296.png\":\"Screenshot 2023-09-07 105222.png\"}', 'eAKIG8lQjs6ao1PBAmCgXg', '2024-01-26', 4, '2024-01-26', 4),
+(3, 1, 'N-6701-036', '2024-01-27', 1, 2, 1, 'Inprocess', 'asdasd', '2023-12-13', 'sdasdasd', 'asda', 1, 2, '', 8, 29, '', '{\"6fd31015206204ba232b1c74570d67ca.pdf\":\"Organic Soybean Fairtrade - Pratithi Organic Foods.pdf\",\"4896bcd2632385de9927299306d955fd.jpg\":\"Bottling_2.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE', '2024-01-27', 29, NULL, 29);
 
 -- --------------------------------------------------------
 
@@ -558,7 +560,8 @@ CREATE TABLE `ncr_accept` (
 --
 
 INSERT INTO `ncr_accept` (`id`, `ncr_id`, `ncr_concession_id`, `customer_name`, `process`, `cause`, `approve_name`, `approve_date`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 2, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -610,16 +613,17 @@ CREATE TABLE `ncr_closing` (
   `accept` int(11) DEFAULT NULL COMMENT 'การยอมรับ',
   `auditor` int(11) DEFAULT NULL COMMENT 'ผู้ตรวจติดตาม',
   `qmr` int(11) DEFAULT NULL COMMENT 'ผู้อนุมัติปิดการตรวจติดตาม',
-  `accept_date` date DEFAULT NULL COMMENT 'วันที่',
-  `ncr_closingcol` varchar(45) DEFAULT NULL
+  `accept_date` date DEFAULT NULL COMMENT 'วันที่'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ncr_closing`
 --
 
-INSERT INTO `ncr_closing` (`id`, `ncr_id`, `accept`, `auditor`, `qmr`, `accept_date`, `ncr_closingcol`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `ncr_closing` (`id`, `ncr_id`, `accept`, `auditor`, `qmr`, `accept_date`) VALUES
+(1, 1, 1, 41, 4, '2024-01-03'),
+(2, 2, NULL, NULL, NULL, NULL),
+(3, 3, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -719,7 +723,9 @@ CREATE TABLE `ncr_protection` (
 --
 
 INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_id`, `issue`, `action`, `schedule_date`, `operator`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL);
+(1, 1, NULL, NULL, NULL, NULL, NULL),
+(2, 2, NULL, NULL, NULL, NULL, NULL),
+(3, 3, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -730,10 +736,12 @@ INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_id`, `issue`, `action`,
 CREATE TABLE `ncr_reply` (
   `id` int(11) NOT NULL,
   `ncr_id` int(11) DEFAULT NULL COMMENT 'NCR',
+  `concession` int(11) DEFAULT NULL COMMENT 'ผลิตภัณฑ์',
   `reply_type_id` int(11) DEFAULT NULL COMMENT 'ประเภทการดำเนินการ',
   `quantity` int(11) DEFAULT NULL COMMENT 'จำนวน',
   `unit` varchar(45) DEFAULT NULL COMMENT 'หน่วย',
   `method` text COMMENT 'วิธีการ',
+  `cause` text COMMENT 'สาเหตุ',
   `operation_date` date DEFAULT NULL COMMENT 'วันที่ดำเนินการ',
   `operation_name` int(11) DEFAULT NULL COMMENT 'ผู้ดำเนินการ',
   `approve_name` int(11) DEFAULT NULL COMMENT 'ผู้อนุมัติ',
@@ -746,8 +754,11 @@ CREATE TABLE `ncr_reply` (
 -- Dumping data for table `ncr_reply`
 --
 
-INSERT INTO `ncr_reply` (`id`, `ncr_id`, `reply_type_id`, `quantity`, `unit`, `method`, `operation_date`, `operation_name`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
-(1, 1, 1, 10, 'กล่อง', 'Return to Factory', '2024-01-17', 3, NULL, NULL, '{\"2efcf5c542bd0fe2165ff2785fc6c727.pdf\":\"N-6701-027.pdf\",\"a7437cf1c6035fae7341bd4ed1fdf588.jpg\":\"istockphoto-1360346984-612x612.jpg\",\"0c08342380499123a8f7d1b63f509e25.jpg\":\"istockphoto-1402405836-612x612.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t');
+INSERT INTO `ncr_reply` (`id`, `ncr_id`, `concession`, `reply_type_id`, `quantity`, `unit`, `method`, `cause`, `operation_date`, `operation_name`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
+(1, 1, NULL, 1, 10, 'กล่อง', 'Return to Factory', '', '2024-01-17', 3, 4, '2024-01-26', '{\"2efcf5c542bd0fe2165ff2785fc6c727.pdf\":\"N-6701-027.pdf\",\"ca49c7e2967190ab407b94ac21c03572.jpg\":\"IMG_2125.jpg\",\"04a04b66a3c76395790b90859f3b44fa.jpg\":\"IMG_7524.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t'),
+(2, 2, 1, 7, 10, 'กระปุก', '', 'ถูกบังคับด้วยกฎหมาย', '2024-01-20', 29, 11, '2024-01-23', '{\"570a838bbe1db484253eccf4e9cfcfb3.pdf\":\"TNAR01029c.pdf\",\"02d7eac35322b7a5bc09e8588debd8f6.jpg\":\"IMG_7433.jpg\"}', 'eAKIG8lQjs6ao1PBAmCgXg'),
+(3, 2, 2, 4, 4, 'ลัง', 'เผา', '', '2024-01-18', 14, 4, '2024-01-19', '{\"e7455607cc80fbe3093772741309eae4.jpg\":\"NFC PLANT_3 - Copy.jpg\"}', '0JB4qB1KXlkd0WzphlXdzA'),
+(4, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '8sOIL8J9vTPuoIpwI8hQBE');
 
 -- --------------------------------------------------------
 
@@ -772,7 +783,8 @@ INSERT INTO `ncr_reply_type` (`id`, `name`, `color`, `active`) VALUES
 (3, 'แก้ไข (Rework)', NULL, 1),
 (4, 'ทำลาย (Scrap)', NULL, 1),
 (5, 'เปลี่ยนสินค้า', NULL, 1),
-(6, 'ลดเกรด (Down Grade)   ', NULL, 1);
+(6, 'ลดเกรด (Down Grade)   ', NULL, 1),
+(7, 'การยอมรับเป็นกรณีพิเศษ', '#FF9551', 1);
 
 -- --------------------------------------------------------
 
@@ -1173,15 +1185,15 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `thai_name`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `verification_token`, `role_id`, `rule_id`, `department_id`) VALUES
 (1, 'admin', 'ผู้ดูแลระบบ', '2tzscTHLNpS0rJlIJx_Uz1qZnvi6yS_q', '$2y$13$YjwG6MXUIcpOyoMmzX9fDuXo854gmWBxG8SuzInWi4MSr9jZ.91Di', NULL, 'admin@admin.com', 10, 1689666356, 1699670204, 'SA3gozOob2BBbQR0Ue5t4mJQpoyb0gcp_1689666356', 2, 8, 1),
 (2, 'demo', 'ทดสอบระบบ', 'lJsMEFiO-XjqJrVhH2aDcjXyrP0oC0vy', '$2y$13$bbMdrjq8fjTTMuEs43DPIuOVIhx1.AzYZQ6WUnJFLqggjRrqxaCme', NULL, 'demo1@demo.com', 9, 1689756005, 1699692001, 'sfLH5psKTa0wMf7dH-kiSrkNcSPqn9OD_1689756005', 1, 2, 1),
-(3, 'onanong', 'อรอนงค์ ชมภู', '2bj5VmZ1PEwJDerqRsj3fhE8i2zvsVZq', '$2y$13$08zXpjOdJu83tT84JNqebe3SMFVctXSfynLDfss3sFMiveC7tPEUS', NULL, 'chumphu2538@gmail.com', 10, 1689759317, 1699671283, '9NqfkSJcx8KkIodMLNCeH9HLqhOUmcxw_1689759317', 6, 8, 9),
-(4, 'phitchai', 'พิชญ์ชัย พิชญ์ชานุวัฒน์', 'yJwBMulOJv3IDmDkCXrdYZ-VMEw_zwLZ', '$2y$13$wGZx2YliuaqG5mjrTzY4AupjPJBT15DBgnkqqj8MiCcwCT6z1PJl.', NULL, 'qc.northernfoodcomplex@gmail.com', 10, 1689759339, 1699671304, '4Zgy1uVGJvXg2nZOAHcFCSj0NK0Ll3Ze_1689759339', 5, 8, 8),
+(3, 'onanong', 'อรอนงค์ ชมภู', '2bj5VmZ1PEwJDerqRsj3fhE8i2zvsVZq', '$2y$13$74uWJc.fpRzx2rTrowVDYOsIYWK0Qa0h9An3DKiM1iRx4LM4qMcoO', NULL, 'chumphu2538@gmail.com', 10, 1689759317, 1706236687, '9NqfkSJcx8KkIodMLNCeH9HLqhOUmcxw_1689759317', 6, 1, 7),
+(4, 'phitchai', 'พิชญ์ชัย พิชญ์ชานุวัฒน์', 'yJwBMulOJv3IDmDkCXrdYZ-VMEw_zwLZ', '$2y$13$Q.1smIJmmAJ28OJ9v2F1wupBzXmYum8Fx79DgyBozTi8OoGNx03Lq', NULL, 'qc.northernfoodcomplex@gmail.com', 10, 1689759339, 1706236584, '4Zgy1uVGJvXg2nZOAHcFCSj0NK0Ll3Ze_1689759339', 5, 1, 3),
 (5, 'prakaiwan', 'ประกายวรรณ เทพมณี', 'y2RYhV3E1NG68CUaa8svzBknRdbCTO79', '$2y$13$Skm6AuVq/Qi/E2r6BouzBOn.3GR8aJT5.iaHIpr2KCDsJLUPKU8B2', NULL, 'prakaiwan4213@gmail.com', 10, 1689759362, 1699671330, '2qNZk71gb01_K-bdCiscD38z36G9exZH_1689759362', 3, 7, 8),
 (6, 'sale', 'ฝ่ายขาย', 'EHSvx6uElywR8fG2XRQ_xKE4sups-8cO', '$2y$13$0UZFJxx7tUAPdy972cvXEejPhldI17L0Ld7C3KnSKUk7KTLYVUP0y', NULL, 'sale@nfc.com', 10, 1689759388, 1699671371, '9ZnxmSRzPpvLgxD0MPSamdokpcp_eMul_1689759388', 10, 5, 13),
 (7, 'planning', 'ฝ่ายวางแผน', 'JWT4BgIkYF4TIN62mLaKv5iL0uLMn7C9', '$2y$13$g08zQ7xjXISzs99kS2yApuOCRcV6QpMOfdzNAwYY8fP9N96pEuAye', NULL, 'planning@localhost.com', 9, 1689759413, 1698802241, '7xCjBXE9xNLx1gWqKX2LaVex2ah0IWt4_1689759413', 1, 1, 1),
 (8, 'production', 'ฝ่ายผลิต', 'FjE8vrSWJ1uVTanpvQJDnpq_OiUySrzg', '$2y$13$Oa3U4rEqDwN8W0ytkDHCjuPw8CW4d44l9tEWbi3N3myBogr4mmzBy', NULL, 'production@localhost.com', 9, 1689759430, 1698802250, 'qNJ-e9RkWlfqvHqmvmSsItU1rlpb_D3j_1689759430', 1, 1, 1),
 (9, 'watsara', 'วรรษรา หลวงเป็ง', 'XEPSPmb7Bt0oI_tklPUc5Uh4Jq4HM4Ig', '$2y$13$5iA/KWda5k7mbunRRwdNUOXn62jWJ/Ipoc.CzW3XYr69iVHThV1yC', NULL, 'watsara.nfc@gmail.com', 10, 1690430330, 1699671531, 't1iesBNA9TNHWotQHvGzbLCVhrK6LF9O_1690430330', 4, 7, 14),
 (10, 'somsak', 'สมศักดิ์ ชาญเกียรติก้อง', '3tiUcswenYgRTZTfuvfv_Tv4V7BXwAcn', '$2y$13$RaVMZpvieW5IfdwpInG4JejNTn8rb7rTCluwPUDO6R8kAJBj1l7D.', NULL, 'somsak@northernfoodcomplex.com', 10, 1691631165, 1699671579, 'Pj5G3y6R8VeykAb0cyXVIHChtnlpquo9_1691631165', 3, 8, 1),
-(11, 'peeranai', 'พีรนัย โสทรทวีพงศ์', 'G3b3XCgv3uFzzly7jDX0cJXzNm45qoUV', '$2y$13$5gM/232mFQdlLwbqiQOdE.n2zbN3cLuDGdhIsTK0USk.ASVILRPZy', NULL, 'peeranai@northernfoodcomplex.com', 10, 1691631423, 1699671596, 'HmjAFfcWByo3VbwpZDD9qeBA-shqds8q_1691631423', 3, 8, 1),
+(11, 'peeranai', 'พีรนัย โสทรทวีพงศ์', 'G3b3XCgv3uFzzly7jDX0cJXzNm45qoUV', '$2y$13$5gM/232mFQdlLwbqiQOdE.n2zbN3cLuDGdhIsTK0USk.ASVILRPZy', NULL, 'peeranai@northernfoodcomplex.com', 10, 1691631423, 1699671596, 'HmjAFfcWByo3VbwpZDD9qeBA-shqds8q_1691631423', 13, 8, 1),
 (12, 'theerapong', 'ธีรพงศ์ ขันตา', 'tWXwJZ5JEXbWCN0M-0zpCouAUJcL5BwZ', '$2y$13$WG5mTZIZ4ZcL3BoA/vA/7urFzlU2xQ2g4NU29gJegyCCcIte0TCP.', NULL, 'theerapong.khan@gmail.com', 10, 1691639318, 1699684736, NULL, 2, 8, 11),
 (13, 'chonlatee', 'ชลธี ลือเลิศ', 'EOXd5DKbM2Jcs6aK9sD62YxeP7VboVhg', '$2y$13$DuO5fXzy/9xaD9VOoJXU2OcqxdQngl30FQjoqrcN6mLNGY/XjzXGO', NULL, 'chonlatee.l@local.com', 10, 1699687514, 1699687514, NULL, 1, 1, 11),
 (14, 'yosaporn', 'ยศพร พยัคฆญาติ', 'GOI-0AQj0nAYGBIpppuSe-O3IK4OSs2h', '$2y$13$gnj.Vuf7hYLvMcPCesdU4eXqC4GAZR0iwhYbvBcVxlPNnTvB9mmji', NULL, 'ypayakayat@yahoo.com', 10, 1692180393, 1699671626, NULL, 3, 8, 4),
@@ -1199,7 +1211,7 @@ INSERT INTO `user` (`id`, `username`, `thai_name`, `auth_key`, `password_hash`, 
 (26, 'sutahatai', 'ศุทธหทัย ชุูกำลัง', 'LFeQidH3yohyJ3Qc1MOKuZJm27IAZFH0', '$2y$13$kNAosJDYUybr2UHmB02W.edEc8AoY8XJqWs7/FcpbF./0wtnPwZVO', NULL, 'rd.northernfoodcomplex@gmail.com', 10, 1698801460, 1699671954, NULL, 4, 7, 10),
 (27, 'phannipha', 'พรรณ์นิภา พิพัฒน์ธัชพร', 'I4QgffOFLAp2wWgH0d5rBIWF-CCeG_4k', '$2y$13$1WGGnfxnKfgORW2jhudi4e9Nbh0ZhZOgrpXjaWnjba82XZQFwHyhK', NULL, 'pipat.pannipa@gmail.com', 10, 1698801550, 1699671992, NULL, 3, 8, 5),
 (28, 'jiraporn', 'จิราภรณ์ กาบแก้ว', 'w0GFJQICSa2Ad9453hYPNUMf6Svm1WdX', '$2y$13$hiVIDOSOelsK3/XPYDH0KOFvgUFHLK9uDkZ814owQSIRvnBw.idFi', NULL, 'planning@northernfoodcomplex.com', 10, 1698801621, 1699672249, NULL, 4, 7, 7),
-(29, 'taweekiat', 'ทวีเกียรติ คำเทพ', 'tjJu-rUAKYmyXN6v5wZxaESahe2EYKwx', '$2y$13$829fqk8R5kYhEHoVcozHP.RXSixc9NkkSWQU5X.Vo12E.AUstI9S2', NULL, 'd.taweekiat@gmail.com', 10, 1698801681, 1699672095, NULL, 3, 8, 4),
+(29, 'taweekiat', 'ทวีเกียรติ คำเทพ', 'tjJu-rUAKYmyXN6v5wZxaESahe2EYKwx', '$2y$13$Jv9fDurwLELQkAnnEL2Ls.64nAqleP/Ys0/zuFfcDbVVSgrQWo0fe', NULL, 'd.taweekiat@gmail.com', 10, 1698801681, 1706236751, NULL, 3, 8, 8),
 (30, 'kunrathon', 'กุลธร ดอนมูล', 'qD0mmuOHZ6ZNXs81dppLg3VBB1fQTrcn', '$2y$13$ox0loKGJwrz6bVgn8/MHne1/E8G5AMoTkiqSaVoNpyxGA5cUitIbG', NULL, 'pd03.nfc@gmail.com', 10, 1698801766, 1699684673, NULL, 12, 1, 4),
 (31, 'manop', 'มานพ ศรีจุมปา', 'skTB0VTY-7RcVfokMQRjtZjsic0xFo5e', '$2y$13$vCwFZ69vuJKmxzb0wLq73eJjuHFCMJwpOPBUBqf6ERVJqYlIsJTKW', NULL, 'manop.s@local.com', 10, 1699672763, 1699673252, NULL, 11, 1, 6),
 (32, 'natthaphon', 'ณัฐพล ขันเขียว', 'agve9wCBQNQsnst59xpLAFBW6Cq7IRLd', '$2y$13$PpNjwUwiwA5ir249i7QGEe6u6BL9TviklOe7LO8e/66M5Km.w0EAO', NULL, 'natthaphon.k@local.com', 10, 1699672822, 1699672822, NULL, 4, 7, 6),
@@ -1211,7 +1223,7 @@ INSERT INTO `user` (`id`, `username`, `thai_name`, `auth_key`, `password_hash`, 
 (38, 'panuwat', 'ภานุวัฒน์ ยางรัมย์', 'KlXe_M-3gpwuMycTgSa3b2cHG4sszYbu', '$2y$13$jJOfZ6JxXLACSauDohJCWOaMMbeqT0vcx.P9u2OyViCMkNCAd6MVm', NULL, 'panuwat.y@local.com', 10, 1699673713, 1699673713, NULL, 11, 1, 6),
 (39, 'ratsamee', 'รัศมี ศศิยศพงศ์', 'ZwwiwqfFPKF3Qyw0RCufsRwieogeqkKA', '$2y$13$yL81Y4Cw45VCKTU5EZqZr.jWIoZGT2RrCOxshvfPljAvK9Jk6mDvO', NULL, 'ratsamee.s@local.com', 10, 1699684280, 1699684280, NULL, 1, 1, 11),
 (40, 'kanprapha', 'กาญจน์ประภา ไพยราช', 'WDv33rQp0vRaL5mKrkznfJ268027UF5a', '$2y$13$/OeA8PeP.Vj6U3oZ5PKxpOk5fbtGD0xu.U4tioVEVnMPUovRK4Z0e', NULL, 'kanprapha.p@local.com', 10, 1699684322, 1699684322, NULL, 1, 1, 11),
-(41, 'chanika', 'ชนิกา เรือนมูล', 'sA-NLySBUOSDB8XSWsh1AqoCQrKjroAX', '$2y$13$mWHXF4/l1LV3Ion3DIe2MuZy9OVQf4.x09BOqCRCrDr9oN.IZ5EDK', NULL, 'chanika.r@local.com', 10, 1699684367, 1699684367, NULL, 1, 1, 7),
+(41, 'chanika', 'ชนิกา เรือนมูล', 'sA-NLySBUOSDB8XSWsh1AqoCQrKjroAX', '$2y$13$CMEcJ43Gi8LQKtF8y/MVEeWVohN4PdVEKJ8DfW6LEjc3kngWFloZy', NULL, 'chanika.r@local.com', 10, 1699684367, 1706236710, NULL, 1, 1, 7),
 (42, 'tanyarat', 'ธัญญารัตน์ นิ่มวงษ์', 'BAPZkF-0tqu3qK6uVtDff5FZwWHby_lY', '$2y$13$sdHoyCV5cbYP3XU4ZXaX2u0Cvq7spJmxMG35PQCMcoltC0fYJji5y', NULL, 'tanyarat.n@local.com', 10, 1699684417, 1699684417, NULL, 1, 1, 7),
 (43, 'kannika', 'กรรณิกา คำภีระ', 'ggE1RcJqk0OyaVS9mj-zB8J37fqtvbq7', '$2y$13$f0HOv./6JmeM.J7dKEWfuOSzqrqk7DlURbJM.MFxoMwvDarAFfKe6', NULL, 'kannika.k@local.com', 10, 1699684493, 1699684493, NULL, 1, 1, 2),
 (44, 'sasicha', 'ศศิชา นัตสิทธิ์', 'haaNM8Y3gwJCsL2RvvpP7RioUNVkLCoy', '$2y$13$hAzgJSVrKlqP.TRpOn8q2OuSjkJoz/uSjGqDBPqceY62vOmfOIi..', NULL, 'sasicha.n@local.com', 10, 1699684519, 1699684519, NULL, 1, 1, 2),
@@ -1321,7 +1333,7 @@ INSERT INTO `user_roles` (`id`, `code`, `name`, `color`, `active`) VALUES
 (10, 'sale', 'ขาย', '#3C6255', 1),
 (11, 'technician', 'ช่างเทคนิค', '#12486B', 1),
 (12, 'administrative', 'ธุรการ', '#E55604', 1),
-(13, 'recorder', 'ผู้บันทึก', '#451952', 1);
+(13, 'GM', 'ผู้จัดการทั่วไป', '#451952', 1);
 
 -- --------------------------------------------------------
 
@@ -1806,13 +1818,13 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ncr_accept`
 --
 ALTER TABLE `ncr_accept`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ncr_category`
@@ -1830,7 +1842,7 @@ ALTER TABLE `ncr_cause`
 -- AUTO_INCREMENT for table `ncr_closing`
 --
 ALTER TABLE `ncr_closing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ncr_concession`
@@ -1854,19 +1866,19 @@ ALTER TABLE `ncr_process`
 -- AUTO_INCREMENT for table `ncr_protection`
 --
 ALTER TABLE `ncr_protection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply`
 --
 ALTER TABLE `ncr_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply_type`
 --
 ALTER TABLE `ncr_reply_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `ncr_status`

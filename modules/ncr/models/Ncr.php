@@ -265,5 +265,15 @@ class Ncr extends \yii\db\ActiveRecord
     {
         return $this->hasMany(NcrReply::class, ['ncr_id' => 'id']);
     }
+
+    public function getNcrProtectItem()
+    {
+        return $this->hasMany(NcrProtection::class, ['ncr_id' => 'id']);
+    }
+
+    public function getNcrClosingItem()
+    {
+        return $this->hasMany(NcrClosing::class, ['ncr_id' => 'id']);
+    }
     
 }

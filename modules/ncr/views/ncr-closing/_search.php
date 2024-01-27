@@ -27,7 +27,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'accept_date') ?>
 
-    <?php // echo $form->field($model, 'ncr_closingcol') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
