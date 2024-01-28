@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 27, 2024 at 09:57 AM
+-- Generation Time: Jan 28, 2024 at 02:17 PM
 -- Server version: 5.7.39
--- PHP Version: 7.4.9
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -534,9 +534,9 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_status_id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 5, 'N-6701-034', '2024-01-25', 1, 2, 8, NULL, '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 7, 41, '', '{\"2afec093109f7e2341cf805817529ee5.pdf\":\"Bakery & Restaurant.pdf\",\"38a963ff7a98f1fd2f5bfe54cceb5202.jpg\":\"IMG_7528.jpg\",\"460c03b5e2bd9fcee867efae4816cb33.jpg\":\"IMG_7456.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, '2024-01-27', 29),
-(2, 2, 'N-6701-035', '2024-01-26', 1, 2, 7, 'Incoming,Inprocess', '123', '2024-01-18', '147', '963', 1, 1, 'jkjkkj', 3, 4, 'lllkk', '{\"796409fb0f393394bfb4369cd0dde824.png\":\"Screenshot 2023-08-31 101854.png\",\"82f43716f598271ed7ccbf41d4c2497f.png\":\"Screenshot 2023-08-31 103341.png\",\"780fed43541cfeb08d56e0e14afa4486.png\":\"Screenshot 2023-09-01 152450.png\",\"98e8525ebd6a133c71c404e4bedb3296.png\":\"Screenshot 2023-09-07 105222.png\"}', 'eAKIG8lQjs6ao1PBAmCgXg', '2024-01-26', 4, '2024-01-26', 4),
-(3, 1, 'N-6701-036', '2024-01-27', 1, 2, 1, 'Inprocess', 'asdasd', '2023-12-13', 'sdasdasd', 'asda', 1, 2, '', 8, 29, '', '{\"6fd31015206204ba232b1c74570d67ca.pdf\":\"Organic Soybean Fairtrade - Pratithi Organic Foods.pdf\",\"4896bcd2632385de9927299306d955fd.jpg\":\"Bottling_2.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE', '2024-01-27', 29, NULL, 29);
+(1, 5, 'N-6701-034', '2024-01-25', 1, 2, 8, 'Inprocess', '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 1, 1, '', '{\"738708b7c41e485def698feddb5f8886.jpg\":\"pexels-satyam-verma-4439740.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, '2024-01-28', 1),
+(2, 2, 'N-6701-035', '2024-01-26', 1, 2, 7, 'Incoming,Inprocess', '123', '2024-01-18', '147', '963', 1, 1, 'jkjkkj', 1, 1, 'lllkk', '{\"4a998014f541329236ab9523877a9367.jpg\":\"pexels-jonathan-borba-3622479.jpg\",\"684170bb48685396ace15c2a19683bba.pdf\":\"Bakery & Restaurant.pdf\"}', 'eAKIG8lQjs6ao1PBAmCgXg', '2024-01-26', 4, '2024-01-28', 1),
+(3, 1, 'N-6701-036', '2024-01-27', 1, 2, 1, 'Inprocess', 'asdasd', '2023-12-13', 'sdasdasd', 'asda', 1, 2, '', 1, 1, '', '{\"aa355d859748f7b4d21261e5cd3b47a7.jpg\":\"pexels-isaiah-quindo-1839882.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE', '2024-01-27', 29, '2024-01-28', 1);
 
 -- --------------------------------------------------------
 
@@ -622,8 +622,8 @@ CREATE TABLE `ncr_closing` (
 
 INSERT INTO `ncr_closing` (`id`, `ncr_id`, `accept`, `auditor`, `qmr`, `accept_date`) VALUES
 (1, 1, 1, 41, 4, '2024-01-03'),
-(2, 2, NULL, NULL, NULL, NULL),
-(3, 3, NULL, NULL, NULL, NULL);
+(2, 2, 1, NULL, NULL, NULL),
+(3, 3, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -755,10 +755,10 @@ CREATE TABLE `ncr_reply` (
 --
 
 INSERT INTO `ncr_reply` (`id`, `ncr_id`, `concession`, `reply_type_id`, `quantity`, `unit`, `method`, `cause`, `operation_date`, `operation_name`, `approve_name`, `approve_date`, `docs`, `ref`) VALUES
-(1, 1, NULL, 1, 10, 'กล่อง', 'Return to Factory', '', '2024-01-17', 3, 4, '2024-01-26', '{\"2efcf5c542bd0fe2165ff2785fc6c727.pdf\":\"N-6701-027.pdf\",\"ca49c7e2967190ab407b94ac21c03572.jpg\":\"IMG_2125.jpg\",\"04a04b66a3c76395790b90859f3b44fa.jpg\":\"IMG_7524.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t'),
-(2, 2, 1, 7, 10, 'กระปุก', '', 'ถูกบังคับด้วยกฎหมาย', '2024-01-20', 29, 11, '2024-01-23', '{\"570a838bbe1db484253eccf4e9cfcfb3.pdf\":\"TNAR01029c.pdf\",\"02d7eac35322b7a5bc09e8588debd8f6.jpg\":\"IMG_7433.jpg\"}', 'eAKIG8lQjs6ao1PBAmCgXg'),
-(3, 2, 2, 4, 4, 'ลัง', 'เผา', '', '2024-01-18', 14, 4, '2024-01-19', '{\"e7455607cc80fbe3093772741309eae4.jpg\":\"NFC PLANT_3 - Copy.jpg\"}', '0JB4qB1KXlkd0WzphlXdzA'),
-(4, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '8sOIL8J9vTPuoIpwI8hQBE');
+(1, 1, NULL, 1, 10, 'กล่อง', 'Return to Factory', '', '2024-01-17', 3, 4, '2024-01-26', '{\"9559964b454e643389c01ba7fc4f75db.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t'),
+(2, 2, 1, 7, 10, 'กระปุก', '', 'ถูกบังคับด้วยกฎหมาย', '2024-01-20', 29, 11, '2024-01-23', '{\"45266882eeb5048e36c6f414b94516dd.jpg\":\"pexels-terje-sollie-586369.jpg\"}', 'eAKIG8lQjs6ao1PBAmCgXg'),
+(3, 2, 2, 4, 4, 'ลัง', 'เผา', '', '2024-01-18', 14, 4, '2024-01-19', '{\"d087a8084ac022c07e0dfa081801db13.jpg\":\"pexels-mareefe-674483.jpg\"}', '0JB4qB1KXlkd0WzphlXdzA'),
+(4, 3, 1, 1, 2, 'กล่อง', '', '', '2024-01-29', 3, NULL, NULL, '{\"30461dea370042c9dfc360d332ed5829.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE');
 
 -- --------------------------------------------------------
 

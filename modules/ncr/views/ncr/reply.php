@@ -11,10 +11,10 @@ use kartik\grid\GridView;
         // 'filterModel' => [$searchModel],
         'summary' => '',
         'columns' => [
-            [
-                'class' => 'yii\grid\SerialColumn',
-                'contentOptions' => ['class' => 'text-center', 'style' => 'width:45px;'],
-            ],
+            // [
+            //     'class' => 'yii\grid\SerialColumn',
+            //     'contentOptions' => ['class' => 'text-center', 'style' => 'width:45px;'],
+            // ],
             [
                 'attribute' => 'reply_type_id',
                 'format' => 'html',

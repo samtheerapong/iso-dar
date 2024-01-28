@@ -154,7 +154,7 @@ use yii\widgets\DetailView;
                                 'attribute' => 'ncrs.docs',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs') : Yii::t('app', 'N/A');
+                                    return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs', 'auto') : Yii::t('app', 'N/A');
                                 },
                             ],
 
@@ -230,7 +230,7 @@ use yii\widgets\DetailView;
                                 'attribute' => 'docs',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->docs ? $model->listDownloadFiles('docs','150px') : Yii::t('app', 'N/A');
+                                    return $model->docs ? $model->listDownloadFiles('docs', '100px') : Yii::t('app', 'N/A');
                                 },
                             ],
                             // 'docs:ntext',
