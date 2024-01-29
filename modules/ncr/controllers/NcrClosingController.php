@@ -97,6 +97,7 @@ class NcrClosingController extends Controller
     {
         $model = $this->findModel($id);
         $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
+        $modelNcr->process  = $model->getArray($modelNcr->process);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $modelNcr->ncr_status_id = 4;

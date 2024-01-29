@@ -96,4 +96,9 @@ class NcrProtection extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'operator']);
     }
+
+    public function getArray($value)
+    {
+        return explode(',', $value);
+    }
 }

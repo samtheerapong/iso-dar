@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 29, 2024 at 10:04 AM
+-- Generation Time: Jan 29, 2024 at 04:57 PM
 -- Server version: 5.7.39
--- PHP Version: 7.4.9
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -534,11 +534,11 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_status_id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 3, 'N-6701-034', '2024-01-25', 1, 2, 8, '', '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 1, 1, '', '{\"738708b7c41e485def698feddb5f8886.jpg\":\"pexels-satyam-verma-4439740.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, '2024-01-29', 11),
-(2, 1, 'N-6701-035', '2024-01-26', 1, 2, 7, NULL, '123', '2024-01-18', '147', '963', 1, 1, 'กกกกกก', 1, 1, 'lllkk', '{\"4a998014f541329236ab9523877a9367.jpg\":\"pexels-jonathan-borba-3622479.jpg\",\"684170bb48685396ace15c2a19683bba.pdf\":\"Bakery & Restaurant.pdf\"}', 'eAKIG8lQjs6ao1PBAmCgXg', '2024-01-26', 4, '2024-01-29', 11),
-(3, 1, 'N-6701-036', '2024-01-27', 1, 2, 1, NULL, 'asdasd', '2023-12-13', 'sdasdasd', 'asda', 1, 2, '', 1, 1, '', '{\"aa355d859748f7b4d21261e5cd3b47a7.jpg\":\"pexels-isaiah-quindo-1839882.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE', '2024-01-27', 29, '2024-01-29', 11),
-(4, 1, 'N-6701-037', '2024-01-29', 1, 2, 8, NULL, '071/23', '2024-01-29', 'Hoisin Sauce', 'Sauce inc.', 5, 2, '', 7, 11, '', '{\"18a02ce8c7c834705f0a4d4dc9648667.jpg\":\"IMG_7528.jpg\"}', 'd2oGz8vlOFteWo8e1Bbe1K', '2024-01-29', 11, '2024-01-29', 11),
-(5, 4, 'N-6701-038', '2024-01-29', 2, 2, 2, '', 'asdasd', '2024-01-17', 'Hoisin Sauce', 'asda', 3, 1, '', 1, 11, '', '{\"13bd1114ca784ffbe62bbb345f3b3b30.jpg\":\"images5.jpg\"}', 'tWhvJCbtUn0b7fRF9ZRp3q', '2024-01-29', 11, '2024-01-29', 11);
+(1, 4, 'N-6701-034', '2024-01-25', 1, 2, 8, 'Incoming,Inprocess,FG,Claim,Infections', '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 1, 1, '', '{\"738708b7c41e485def698feddb5f8886.jpg\":\"pexels-satyam-verma-4439740.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, '2024-01-29', 1),
+(2, 4, 'N-6701-035', '2024-01-26', 1, 2, 7, 'Inprocess,FG', '123', '2024-01-18', '147', '963', 1, 1, 'กกกกกก', 1, 1, 'lllkk', '{\"4a998014f541329236ab9523877a9367.jpg\":\"pexels-jonathan-borba-3622479.jpg\",\"684170bb48685396ace15c2a19683bba.pdf\":\"Bakery & Restaurant.pdf\"}', 'eAKIG8lQjs6ao1PBAmCgXg', '2024-01-26', 4, '2024-01-29', 1),
+(3, 4, 'N-6701-036', '2024-01-27', 1, 2, 1, 'Infections', 'asdasd', '2023-12-13', 'sdasdasd', 'asda', 1, 2, '', 1, 1, '', '{\"aa355d859748f7b4d21261e5cd3b47a7.jpg\":\"pexels-isaiah-quindo-1839882.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE', '2024-01-27', 29, '2024-01-29', 1),
+(4, 4, 'N-6701-037', '2024-01-29', 1, 2, 8, 'Claim', '071/23', '2024-01-29', 'Hoisin Sauce', 'Sauce inc.', 5, 2, '', 1, 1, '', '{\"18a02ce8c7c834705f0a4d4dc9648667.jpg\":\"IMG_7528.jpg\"}', 'd2oGz8vlOFteWo8e1Bbe1K', '2024-01-29', 11, '2024-01-29', 1),
+(5, 4, 'N-6701-038', '2024-01-29', 2, 2, 2, 'Incoming,FG', 'asdasd', '2024-01-17', 'Hoisin Sauce', 'asda', 3, 1, '', 1, 1, '', '{\"13bd1114ca784ffbe62bbb345f3b3b30.jpg\":\"images5.jpg\"}', 'tWhvJCbtUn0b7fRF9ZRp3q', '2024-01-29', 11, '2024-01-29', 1);
 
 -- --------------------------------------------------------
 
@@ -739,10 +739,10 @@ CREATE TABLE `ncr_protection` (
 
 INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_item`, `issue`, `action`, `schedule_date`, `operator`) VALUES
 (1, 1, 'วัตถุดิบ', '888', '89999', '2024-01-24', 5),
-(2, 2, 'วัตถุดิบ,เครื่องจักร,วิธีการ', 'asdasd', 'asdasd', '2024-01-26', 3),
-(3, 3, NULL, NULL, NULL, NULL, NULL),
-(4, 4, NULL, NULL, NULL, NULL, NULL),
-(5, 5, '', 'ttttt', 'ttt', '2024-01-31', 22);
+(2, 2, 'สิ่งแวดล้อม', 'asdasd', 'asdasd', '2024-01-26', 3),
+(3, 3, 'วิธีการ', '', '', '2024-01-29', 3),
+(4, 4, 'พนักงาน,วิธีการ', '', '', '2024-01-29', 3),
+(5, 5, 'วัตถุดิบ,พนักงาน', 'ttttt', 'ttt', '2024-01-31', 22);
 
 -- --------------------------------------------------------
 
@@ -775,8 +775,8 @@ INSERT INTO `ncr_reply` (`id`, `ncr_id`, `concession`, `reply_type_id`, `quantit
 (1, 1, NULL, 1, 10, 'กล่อง', 'Return to Factory', '', '2024-01-17', 3, 4, '2024-01-26', '{\"9559964b454e643389c01ba7fc4f75db.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t'),
 (2, 2, 1, 7, 10, 'กระปุก', '', 'ถูกบังคับด้วยกฎหมาย', '2024-01-20', 29, 11, '2024-01-23', '{\"45266882eeb5048e36c6f414b94516dd.jpg\":\"pexels-terje-sollie-586369.jpg\"}', 'eAKIG8lQjs6ao1PBAmCgXg'),
 (3, 2, 2, 4, 4, 'ลัง', 'เผา', '', '2024-01-18', 14, 4, '2024-01-19', '{\"d087a8084ac022c07e0dfa081801db13.jpg\":\"pexels-mareefe-674483.jpg\"}', '0JB4qB1KXlkd0WzphlXdzA'),
-(4, 3, 1, 1, 2, 'กล่อง', '', '', '2024-01-29', 3, NULL, NULL, '{\"30461dea370042c9dfc360d332ed5829.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE'),
-(5, 4, 3, 3, 5, 'ชิ้น', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'd2oGz8vlOFteWo8e1Bbe1K'),
+(4, 3, 1, 1, 2, 'กล่อง', '', '', '2024-01-29', 3, 4, '2024-01-26', '{\"30461dea370042c9dfc360d332ed5829.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE'),
+(5, 4, 3, 3, 5, 'ชิ้น', NULL, NULL, NULL, NULL, 4, '2024-01-03', NULL, 'd2oGz8vlOFteWo8e1Bbe1K'),
 (6, 5, 1, 7, 6, 'กล่อง', '6666666666', '77777777777', '2024-02-01', 3, 4, '2024-02-03', '{\"af9bf914d1b703712ec7a6c401bf82df.jpg\":\"IMG_7473.jpg\"}', 'tWhvJCbtUn0b7fRF9ZRp3q'),
 (7, 1, 2, 6, 4, 'กล่อง', 'วิธีการวิธีการวิธีการวิธีการวิธีการ', 'สาเหตุสาเหตุสาเหตุ', '2024-01-30', 3, 4, '2024-01-31', '{\"f97f23858c00fda5b65838fae89f9a4b.jpg\":\"IMG_7393.jpg\"}', 'CNL5y8um0S1kkAUnNyhMUp');
 

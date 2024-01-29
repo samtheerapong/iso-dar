@@ -46,4 +46,9 @@ class NcrClosing extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'auditor']);
     }
+
+    public function getArray($value)
+    {
+        return explode(',', $value);
+    }
 }
