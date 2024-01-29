@@ -43,6 +43,8 @@ class NcrClosingController extends Controller
         $searchModel = new NcrClosingSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
+        $dataProvider->query->andWhere(['ncr_closing.ncr_id' => Ncr::find()->select('id')->where(['ncr_status_id' => 3])]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

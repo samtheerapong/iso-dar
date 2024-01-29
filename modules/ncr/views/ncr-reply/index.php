@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Select2::widget([
                             'model' => $searchModel,
                             'attribute' => 'ncr_id',
-                            'data' => ArrayHelper::map(Ncr::find()->orderBy(['id' => SORT_DESC])->all(), 'id', function ($dataValue, $defaultValue) {
+                            'data' => ArrayHelper::map(Ncr::find()->orderBy(['id' => SORT_DESC])->where(['ncr_status_id' => 1])->all(), 'id', function ($dataValue, $defaultValue) {
                                 return
                                     $dataValue->ncr_number . ' | ' . $dataValue->product_name . ' (' . Yii::$app->formatter->asDate($dataValue->production_date) . ')';
                             }),
@@ -80,8 +80,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'reply_type_id',
                         'format' => 'html',
                         'value' => function ($model) {
-                            $value = $model->reply_type_id ? $model->replyType->name : 'ยังไม่ได้ดำเนินการ';
-                            $color = $model->reply_type_id ? 'black' : 'red';
+                            $value = $model->reply_type_id ? $model->replyType->name : Yii::t('app', 'Pending');
+                            $color = $model->reply_type_id ? '#000000' : '#DC5F00';
                             return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                         'filter' => Select2::widget([
@@ -99,8 +99,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'quantity',
                         'format' => 'html',
                         'value' => function ($model) {
-                            $value = $model->quantity ? $model->quantity . ' ' . $model->unit  : 'N/A';
-                            $color = $model->quantity ? 'black' : 'red';
+                            $value = $model->quantity ? $model->quantity . ' ' . $model->unit : Yii::t('app', 'Pending');
+                            $color = $model->quantity ? '#000000' : '#DC5F00';
                             return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                         'filter' => Select2::widget([
@@ -116,16 +116,36 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     [
                         'attribute' => 'operation_date',
-                        'headerOptions' => ['style' => 'width:200px;'],
+                        'headerOptions' => ['style' => 'width:250px;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : 'ยังไม่ได้ดำเนินการ';
-                            $color = $model->operation_date ? 'black' : 'red';
+                            $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : Yii::t('app', 'Pending');
+                            $color = $model->operation_date ? '#000000' : '#DC5F00';
                             return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                         'filter' => DatePicker::widget([
                             'model' => $searchModel,
                             'attribute' => 'operation_date',
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'pluginOptions' => [
+                                'format' => 'yyyy-mm-dd',
+                                'autoclose' => true,
+                            ]
+                        ]),
+                    ],
+                    
+                    [
+                        'attribute' => 'approve_date',
+                        'format' => 'html',
+                        'headerOptions' => ['style' => 'width:250px;'],
+                        'value' => function ($model) {
+                            $value = $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : Yii::t('app', 'Pending');
+                            $color = $model->approve_date ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
+                        },
+                        'filter' => DatePicker::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'approve_date',
                             'options' => ['placeholder' => Yii::t('app', 'Select...')],
                             'pluginOptions' => [
                                 'format' => 'yyyy-mm-dd',

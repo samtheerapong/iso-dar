@@ -34,7 +34,7 @@ class NcrClosing extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getNcr()
+    public function getNcrs()
     {
         return $this->hasOne(Ncr::class, ['id' => 'ncr_id']);
     }

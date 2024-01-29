@@ -48,6 +48,7 @@ class NcrAcceptController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
 
     /**
      * Displays a single NcrAccept model.

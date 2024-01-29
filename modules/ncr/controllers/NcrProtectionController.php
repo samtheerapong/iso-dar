@@ -38,16 +38,30 @@ class NcrProtectionController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
-    {
-        $searchModel = new NcrProtectionSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+    // public function actionIndex()
+    // {
+    //     $searchModel = new NcrProtectionSearch();
+    //     $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+    //     return $this->render('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
+
+    public function actionIndex()
+{
+    $searchModel = new NcrProtectionSearch();
+    $dataProvider = $searchModel->search($this->request->queryParams);
+
+    // Add a condition to filter only records where ncr_status_id is reply
+    $dataProvider->query->andWhere(['ncr_protection.ncr_id' => Ncr::find()->select('id')->where(['ncr_status_id' => 2])]);
+
+    return $this->render('index', [
+        'searchModel' => $searchModel,
+        'dataProvider' => $dataProvider,
+    ]);
+}
 
     /**
      * Displays a single NcrProtection model.

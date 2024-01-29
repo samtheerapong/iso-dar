@@ -51,6 +51,9 @@ class NcrReplyController extends Controller
         $dataProvider = $searchModel->search($this->request->queryParams);
         $dataNcr = $searchNcr->search($this->request->queryParams);
 
+        $dataProvider->query->andWhere(['ncr_reply.ncr_id' => Ncr::find()->select('id')->where(['ncr_status_id' => 1])]);
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

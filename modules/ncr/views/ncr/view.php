@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-8">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= $model->ncr_number  . ' | ' . Yii::t('app', 'Status') . ' = ' . $model->ncrStatus->name ?>
+                    <?= Yii::t('app', 'NCR') . ' : ' .$model->ncr_number ?>
                 </div>
                 <div class="card-body table-responsive">
 
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'ncr_number',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncr_number ? $model->ncr_number : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->ncr_number ? $model->ncr_number : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'created_date',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->created_date ? Yii::$app->formatter->asDate($model->created_date) : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->created_date ? Yii::$app->formatter->asDate($model->created_date) : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'monthly',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->year  ?  $model->month0->month . ' (' . $model->year0->year . ')' : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->year  ?  $model->month0->month . ' (' . $model->year0->year . ')' : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'department',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->department ? $model->toDepartment->name . ' (' . $model->toDepartment->code . ')' : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->department ? $model->toDepartment->name . ' (' . $model->toDepartment->code . ')' : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'process',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->process ? $model->process : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->process ? $model->process : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'lot',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->lot ? $model->lot : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->lot ? $model->lot : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -88,14 +88,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'production_date',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->production_date ? Yii::$app->formatter->asDate($model->production_date) : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->production_date ? Yii::$app->formatter->asDate($model->production_date) : Yii::t('app', 'Pending');
                                 },
                             ],
                             [
                                 'attribute' => 'product_name',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->product_name ? $model->product_name : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->product_name ? $model->product_name : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'customer_name',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->customer_name ? $model->customer_name : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->customer_name ? $model->customer_name : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'category_id',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->category_id ? $model->category->name : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->category_id ? $model->category->name : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -119,14 +119,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'sub_category_id',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->sub_category_id ? $model->subCategory->name : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->sub_category_id ? $model->subCategory->name : Yii::t('app', 'Pending');
                                 },
                             ],
                             [
                                 'attribute' => 'datail',
                                 'format' => 'ntext',
                                 'value' => function ($model) {
-                                    return $model->datail ? $model->datail : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->datail ? $model->datail : Yii::t('app', 'Pending');
                                 },
                             ],
                             [
@@ -147,14 +147,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'action',
                                 'format' => 'ntext',
                                 'value' => function ($model) {
-                                    return $model->action ? $model->action : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->action ? $model->action : Yii::t('app', 'Pending');
                                 },
                             ],
                             [
                                 'attribute' => 'ncr_status_id',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncr_status_id ? $model->ncrStatus->name : Yii::t('app', Yii::t('app', 'Pending'));
+                                    return $model->ncr_status_id ? $model->ncrStatus->name : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -192,58 +192,42 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hover' => true,
                 'summary' => '',
                 'columns' => [
-                    // [
-                    //     'class' => 'kartik\grid\ActionColumn',
-                    //     'header'=>'View',
-                    //     'headerOptions' => ['style' => 'width:450px;'],
-                    //     'contentOptions' => ['class' => 'text-center'],
-                    //     'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                    //     'template' => '<div class="btn-group btn-group-xs" role="group">{view}</div>',
-                    //     'buttons' => [
-                    //         'view' => function ($url, $model, $key) {
-                    //             return Html::a('<i class="fa fa-eye"></i>', ['/ncr/ncr-reply/view', 'id' => $model->id], [
-                    //                 'title' => Yii::t('app', 'View'),
-                    //                 'class' => 'btn btn-outline-dark btn-sm',
-                    //             ]);
-                    //         },
-                    //     ],
-                    // ],
-
-
+                  
                     [
                         'attribute' => 'reply_type_id',
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->reply_type_id ?  Html::a($model->replyType->name, ['/ncr/ncr-reply/view', 'id' => $model->id])  : Yii::t('app', Yii::t('app', 'Pending'));
+                            $value = $model->reply_type_id ? $model->replyType->name : Yii::t('app', 'Pending');
+                            $color = $model->reply_type_id ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
                         'attribute' => 'quantity',
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->quantity ? $model->quantity . ' ' . $model->unit : Yii::t('app', Yii::t('app', 'Pending'));
+                            $value = $model->quantity ? $model->quantity . ' ' . $model->unit : Yii::t('app', 'Pending');
+                            $color = $model->quantity ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
-                    [
-                        'attribute' => 'method',
-                        'format' => 'html',
-                        'value' => function ($model) {
-                            return $model->method . ' <i>' . $model->cause . '</i>';
-                        },
-                    ],
-                    // 'operation_name',
+                  
                     [
                         'attribute' => 'operation_name',
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->operation_name ? $model->operator->thai_name : Yii::t('app', 'Pending');
+                            $value = $model->operation_name ? $model->operator->thai_name : Yii::t('app', 'Pending');
+                            $color = $model->operation_name ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
                         'attribute' => 'operation_date',
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : Yii::t('app', Yii::t('app', 'Pending'));
+                            $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : Yii::t('app', 'Pending');
+                            $color = $model->operation_date ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     // 'approve_name',
@@ -251,14 +235,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'approve_name',
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->approve_name ? $model->approver->thai_name : Yii::t('app', 'Pending');
+                            $value = $model->approve_name ? $model->approver->thai_name : Yii::t('app', 'Pending');
+                            $color = $model->approve_name ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
                         'attribute' => 'approve_date',
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : Yii::t('app', Yii::t('app', 'Pending'));
+                            $value = $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : Yii::t('app', 'Pending');
+                            $color = $model->approve_date ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
@@ -266,7 +254,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         // 'headerOptions' => ['style' => 'width:10%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->docs ? $model->listDownloadFiles('docs', '100px') : Yii::t('app', Yii::t('app', 'Pending'));
+                            $value = $model->docs ? $model->listDownloadFiles('docs', '100px') : Yii::t('app', 'Pending');
+                            $color = $model->docs ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
 
@@ -290,28 +280,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hover' => true,
                 'summary' => '',
                 'columns' => [
-                    // [
-                    //     'class' => 'kartik\grid\ActionColumn',
-                    //     'headerOptions' => ['style' => 'width:450px;'],
-                    //     'contentOptions' => ['class' => 'text-center'],
-                    //     'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                    //     'template' => '<div class="btn-group btn-group-xs" role="group">{view}</div>',
-                    //     'buttons' => [
-                    //         'view' => function ($url, $model, $key) {
-                    //             return Html::a('<i class="fa fa-eye"></i>', ['update', 'id' => $model->id], [
-                    //                 'title' => Yii::t('app', 'View'),
-                    //                 'class' => 'btn btn-outline-dark btn-sm',
-                    //             ]);
-                    //         },
-                    //     ],
-                    // ],
-
+                  
                     [
                         'attribute' => 'ncr_cause_id',
                         'headerOptions' => ['style' => 'width:20%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->ncr_cause_id ? $model->ncrCause->name : Yii::t('app', 'Pending');
+                            $value = $model->ncr_cause_id ? $model->ncrCause->name : Yii::t('app', 'Pending');
+                            $color = $model->ncr_cause_id ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
@@ -319,7 +296,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:20%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->issue ? $model->issue : Yii::t('app', 'Pending');
+                            $value = $model->issue ? $model->issue : Yii::t('app', 'Pending');
+                            $color = $model->issue ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
@@ -327,7 +306,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:20%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->action ? $model->action : Yii::t('app', 'Pending');
+                            $value = $model->action ? $model->action : Yii::t('app', 'Pending');
+                            $color = $model->action ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
@@ -335,7 +316,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:20%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->schedule_date ? Yii::$app->formatter->asDate($model->schedule_date) : Yii::t('app', 'Pending');
+                            $value = $model->schedule_date ? Yii::$app->formatter->asDate($model->schedule_date) : Yii::t('app', 'Pending');
+                            $color = $model->schedule_date ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
@@ -343,7 +326,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:20%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->operator ? $model->getProtectUser()->thai_name : Yii::t('app', 'Pending');
+                            $value = $model->operator ? $model->getProtectUser()->thai_name : Yii::t('app', 'Pending');
+                            $color = $model->operator ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
 
@@ -365,28 +350,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hover' => true,
                 'summary' => '',
                 'columns' => [
-                    // [
-                    //     'class' => 'kartik\grid\ActionColumn',
-                    //     'headerOptions' => ['style' => 'width:450px;'],
-                    //     'contentOptions' => ['class' => 'text-center'],
-                    //     'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                    //     'template' => '<div class="btn-group btn-group-xs" role="group">{view}</div>',
-                    //     'buttons' => [
-                    //         'view' => function ($url, $model, $key) {
-                    //             return Html::a('<i class="fa fa-eye"></i>', ['/ncr/ncr-closing/view', 'id' => $model->id], [
-                    //                 'title' => Yii::t('app', 'View'),
-                    //                 'class' => 'btn btn-outline-dark btn-sm',
-                    //             ]);
-                    //         },
-                    //     ],
-                    // ],
-                    // 'accept',
+                   
                     [
                         'attribute' => 'accept',
-                        'headerOptions' => ['style' => 'width:25%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->accept == 1 ? Yii::t('app', 'ยอมรับ') : Yii::t('app', 'ไม่ยอมรับ');
+                            if ($model->accept === 1) {
+                                $status = '<span style="color: #1A5D1A;">' . Yii::t('app', 'Accepted') . '</span>';
+                            } elseif ($model->accept === null) {
+                                $status = '<span style="color: #DC5F00;">' . Yii::t('app', 'Pending') . '</span>';
+                            } else {
+                                $status = '<span style="color: #D80032;">' . Yii::t('app', 'Not approved') . '</span>';
+                            }
+                            return $status;
                         },
                     ],
                     // 'auditor',
@@ -396,7 +372,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:25%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->auditor ? $model->auditApprove->thai_name : Yii::t('app', 'Pending');
+                            $value = $model->auditor ? $model->auditApprove->thai_name : Yii::t('app', 'Pending');
+                            $color = $model->auditor ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
@@ -404,7 +382,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:25%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->qmr ? $model->qmrApprove->thai_name : Yii::t('app', 'Pending');
+                            $value = $model->qmr ? $model->qmrApprove->thai_name : Yii::t('app', 'Pending');
+                            $color = $model->qmr ? '#000000' : '#DC5F00';
+                            return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
                     [
@@ -412,8 +392,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:25%;'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            $value = $model->accept_date ? Yii::$app->formatter->asDate($model->accept_date) : 'ยังไม่ได้ดำเนินการ';
-                            $color = $model->accept_date ? 'black' : 'red';
+                            $value = $model->accept_date ? Yii::$app->formatter->asDate($model->accept_date) : Yii::t('app', 'Pending');
+                            $color = $model->accept_date ? '#000000' : '#DC5F00';
                             return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],

@@ -1,7 +1,10 @@
 <?php
 
+use app\modules\ncr\models\Ncr;
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use kartik\widgets\Select2;
+use yii\helpers\ArrayHelper;
 
 $this->title = Yii::t('app', 'Ncr Closings');
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,8 +32,42 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'class' => 'yii\grid\SerialColumn',
+                        'contentOptions' => ['class' => 'text-center', 'style' => 'width:45px;'], //กำหนด ความกว้างของ #
+                    ],
+                    [
+                        'attribute' => 'ncr_id',
+                        'format' => 'html',
+                        'value' => function ($model) {
+                            return $model->ncr_id ? Html::a($model->ncrs->ncr_number, ['/ncr/ncr/view', 'id' => $model->ncrs->id]) : 'N/A';
+                        },
 
+                        'value' => function ($model) {
+                            $rpValule = $model->ncr_id ?
+                                $model->ncrs->ncr_number . ' ' .
+                                '<span class="badge bg-danger">' . $model->ncrs->process . '</span>' . ' ' .
+                                '<span class="badge bg-warning text-dark">' . $model->ncrs->product_name . '</span>'  . ' ' .
+                                '<span class="badge bg-dark">' . $model->ncrs->lot . '</span>'   . ' ' .
+                                '<span class="badge bg-info text-dark">' .  Yii::$app->formatter->asDate($model->ncrs->production_date) . '</span>' :
+                                Yii::t('app', 'N/A');
+
+                            return  Html::a($rpValule, ['/ncr/ncr/view', 'id' => $model->ncrs->id]);
+                        },
+                        'filter' => Select2::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'ncr_id',
+                            'data' => ArrayHelper::map(Ncr::find()->orderBy(['id' => SORT_DESC])->where(['ncr_status_id' => 3])->all(), 'id', function ($dataValue, $defaultValue) {
+                                return
+                                    $dataValue->ncr_number . ' | ' . $dataValue->product_name . ' (' . Yii::$app->formatter->asDate($dataValue->production_date) . ')';
+                            }),
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'language' => 'th',
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ])
+                    ],
                     [
                         'attribute' => 'accept',
                         'format' => 'html',
@@ -45,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return $status;
                         },
                     ],
-                
+
                     [
                         'attribute' => 'auditor',
                         'format' => 'html',

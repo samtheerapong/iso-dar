@@ -4,6 +4,7 @@ use app\models\Department;
 use app\modules\ncr\models\NcrMonth;
 use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrStatus;
+use app\modules\ncr\models\search\NcrProtectionSearch;
 use app\modules\ncr\models\search\NcrReplySearch;
 use kartik\widgets\Select2;
 use yii\bootstrap5\LinkPager;
@@ -40,25 +41,66 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => LinkPager::class,
                     ],
                     'columns' => [
-                        [
-                            'class' => 'kartik\grid\ExpandRowColumn',
-                            'value' => function ($model, $key, $index, $column) {
-                                return GridView::ROW_COLLAPSED;
-                            },
-                            'detail' => function ($model, $key, $index, $column) {
-                                $searchModel = new NcrReplySearch();
-                                $searchModel->ncr_id = $model->id;
-                                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    
-                                return Yii::$app->controller->renderPartial('reply', [
-                                    'searchModel' => $searchModel,
-                                    'dataProvider' => $dataProvider,
-                                ]);
-                            },
-                        ],
+                        // [
+                        //     'class' => 'kartik\grid\ExpandRowColumn',
+                        //     'value' => function ($model, $key, $index, $column) {
+                        //         return GridView::ROW_COLLAPSED;
+                        //     },
+                        //     'detail' => function ($model, $key, $index, $column) {
+                        //         $searchModel = new NcrReplySearch();
+                        //         $searchModel->ncr_id = $model->id;
+                        //         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-                        ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'width:40px;']],
-                        // ['class' => 'yii\grid\CheckboxColumn','headerOptions' => ['style' => 'width:40px;']],
+                        //         return Yii::$app->controller->renderPartial('reply', [
+                        //             'searchModel' => $searchModel,
+                        //             'dataProvider' => $dataProvider,
+                        //         ]);
+                        //     },
+                        //     // 'headerOptions' => ['class' => 'kartik-sheet-style', 'style' => 'color: #337ab7;'], // You can customize the header style here
+                        //     // 'header' => 'Reply', // Set the header label here
+                        // ],
+
+
+
+
+                        // [
+                        //     'class' => 'kartik\grid\ExpandRowColumn',
+                        //     'value' => function ($model, $key, $index, $column) {
+                        //         return GridView::ROW_COLLAPSED;
+                        //     },
+                        //     'detail' => function ($model, $key, $index, $column) {
+                        //         $searchModel = new NcrProtectionSearch();
+                        //         $searchModel->ncr_id = $model->id;
+                        //         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                        //         return Yii::$app->controller->renderPartial('protection', [
+                        //             'searchModel' => $searchModel,
+                        //             'dataProvider' => $dataProvider,
+                        //         ]);
+                        //     },
+                        // ],
+
+                        // [
+                        //     'class' => 'kartik\grid\ExpandRowColumn',
+                        //     'value' => function ($model, $key, $index, $column) {
+                        //         return GridView::ROW_COLLAPSED;
+                        //     },
+                        //     'detail' => function ($model, $key, $index, $column) {
+                        //         $searchModel = new NcrProtectionSearch();
+                        //         $searchModel->ncr_id = $model->id;
+                        //         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                        //         return Yii::$app->controller->renderPartial('closing', [
+                        //             'searchModel' => $searchModel,
+                        //             'dataProvider' => $dataProvider,
+                        //         ]);
+                        //     },
+                        // ],
+
+                        [
+                            'class' => 'yii\grid\SerialColumn',
+                            'contentOptions' => ['class' => 'text-center', 'style' => 'width:45px;'], //กำหนด ความกว้างของ #
+                        ],
 
                         [
                             'attribute' => 'ncr_number',
@@ -127,7 +169,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return $model->product_name ? $model->product_name : 'N/A';
                             },
                         ],
-                       
+
                         [
                             'attribute' => 'ncr_status_id',
                             'format' => 'html',
