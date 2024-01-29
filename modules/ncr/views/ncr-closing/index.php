@@ -73,11 +73,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'html',
                         'value' => function ($model) {
                             if ($model->accept === 1) {
-                                $status = '<span style="color: #004225;">' . Yii::t('app', 'Accepted') . '</span>';
+                                $status = '<span style="color: #1A5D1A;">' . Yii::t('app', 'Accepted') . '</span>';
                             } elseif ($model->accept === null) {
-                                $status = '<span style="color: #CD5C08;">' . Yii::t('app', 'Pending') . '</span>';
+                                $status = '<span style="color: #DC5F00;">' . Yii::t('app', 'Pending') . '</span>';
                             } else {
-                                $status = '<span style="color: #FE0000;">' . Yii::t('app', 'Not approved') . '</span>';
+                                $status = '<span style="color: #D80032;">' . Yii::t('app', 'Not approved') . '</span>';
                             }
                             return $status;
                         },

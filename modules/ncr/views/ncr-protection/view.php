@@ -3,40 +3,83 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/** @var yii\web\View $this */
-/** @var app\modules\ncr\models\NcrProtection $model */
-
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncr Protections'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="ncr-protection-view">
+    <div style="display: flex; justify-content: space-between;">
+        <p>
+            <?= Html::a('<i class="fa-solid fa-house-circle-exclamation"></i> ' . Yii::t('app', 'Protection Home'), ['/ncr/ncr-protection/index'], ['class' => 'btn btn-info']) ?>
+        </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <p style="text-align: right;">
+            <?= Html::a('<i class="fa-solid fa-pen"></i> ' . Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
+            <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'NCR Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
+        </p>
+    </div>
+    <div class="row">
+        <div class="card border-secondary">
+            <div class="card-header text-white bg-secondary">
+                <?= Yii::t('app', 'NCR') ?>
+            </div>
+            <div class="card-body table-responsive">
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+                <?= DetailView::widget([
+                    'model' => $model,
+                    'template' => '<tr><th style="width: 190px;">{label}</th><td> {value}</td></tr>',
+                    'attributes' => [
+                        // 'id',
+                        [
+                            'attribute' => 'ncr_cause_id',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                $value = $model->ncr_cause_id ? $model->ncrCause->name : Yii::t('app', 'Pending');
+                                $color = $model->ncr_cause_id ? '#000000' : '#DC5F00';
+                                return '<span style="color:' . $color . ';">' . $value . '</span>';
+                            },
+                        ],
+                        [
+                            'attribute' => 'issue',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                $value = $model->issue ? $model->issue : Yii::t('app', 'Pending');
+                                $color = $model->issue ? '#000000' : '#DC5F00';
+                                return '<span style="color:' . $color . ';">' . $value . '</span>';
+                            },
+                        ],
+                        [
+                            'attribute' => 'action',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                $value = $model->action ? $model->action : Yii::t('app', 'Pending');
+                                $color = $model->action ? '#000000' : '#DC5F00';
+                                return '<span style="color:' . $color . ';">' . $value . '</span>';
+                            },
+                        ],
+                        [
+                            'attribute' => 'schedule_date',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                $value = $model->schedule_date ? Yii::$app->formatter->asDate($model->schedule_date) : Yii::t('app', 'Pending');
+                                $color = $model->schedule_date ? '#000000' : '#DC5F00';
+                                return '<span style="color:' . $color . ';">' . $value . '</span>';
+                            },
+                        ],
+                        [
+                            'attribute' => 'operator',
+                            'format' => 'html',
+                            'value' => function ($model) {
+                                $value = $model->operator ? $model->getProtectUser()->thai_name : Yii::t('app', 'Pending');
+                                $color = $model->operator ? '#000000' : '#DC5F00';
+                                return '<span style="color:' . $color . ';">' . $value . '</span>';
+                            },
+                        ],
+                    ],
+                ]) ?>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'ncr_id',
-            'ncr_cause_id',
-            'issue:ntext',
-            'action:ntext',
-            'schedule_date',
-            'operator',
-        ],
-    ]) ?>
-
+            </div>
+        </div>
+    </div>
 </div>

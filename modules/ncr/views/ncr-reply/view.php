@@ -163,18 +163,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->ncrs->docs ? $model->ncrs->listDownloadFiles('docs', 'auto') : Yii::t('app', 'N/A');
                                 },
                             ],
-                            
+
                         ],
-                        ]) ?>
+                    ]) ?>
 
-</div>
-</div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<div class="col-md-6">
-    <div class="card border-secondary">
-        <div class="card-header text-white bg-warning">
-            <?= Yii::t('app', 'Reply') ?>
+        <div class="col-md-6">
+            <div class="card border-secondary">
+                <div class="card-header text-white bg-warning">
+                    <?= Yii::t('app', 'Reply') ?>
                 </div>
                 <div class="card-body table-responsive">
                     <?= DetailView::widget([

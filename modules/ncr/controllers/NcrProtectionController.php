@@ -33,42 +33,21 @@ class NcrProtectionController extends Controller
         );
     }
 
-    /**
-     * Lists all NcrProtection models.
-     *
-     * @return string
-     */
-    // public function actionIndex()
-    // {
-    //     $searchModel = new NcrProtectionSearch();
-    //     $dataProvider = $searchModel->search($this->request->queryParams);
-
-    //     return $this->render('index', [
-    //         'searchModel' => $searchModel,
-    //         'dataProvider' => $dataProvider,
-    //     ]);
-    // }
 
     public function actionIndex()
-{
-    $searchModel = new NcrProtectionSearch();
-    $dataProvider = $searchModel->search($this->request->queryParams);
+    {
+        $searchModel = new NcrProtectionSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
-    // Add a condition to filter only records where ncr_status_id is reply
-    $dataProvider->query->andWhere(['ncr_protection.ncr_id' => Ncr::find()->select('id')->where(['ncr_status_id' => 2])]);
+        // Add a condition to filter only records where ncr_status_id is reply
+        $dataProvider->query->andWhere(['ncr_protection.ncr_id' => Ncr::find()->select('id')->where(['ncr_status_id' => 2])]);
 
-    return $this->render('index', [
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
-    ]);
-}
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
-    /**
-     * Displays a single NcrProtection model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -76,11 +55,6 @@ class NcrProtectionController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new NcrProtection model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new NcrProtection();
@@ -98,20 +72,14 @@ class NcrProtectionController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing NcrProtection model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
         $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $modelNcr->ncr_status_id = 4;
+            $modelNcr->ncr_status_id = 3;
             if ($model->save()) {
                 $modelNcr->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -132,13 +100,7 @@ class NcrProtectionController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing NcrProtection model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -146,13 +108,6 @@ class NcrProtectionController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the NcrProtection model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return NcrProtection the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = NcrProtection::findOne(['id' => $id])) !== null) {
