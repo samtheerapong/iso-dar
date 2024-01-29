@@ -9,7 +9,7 @@ use yii\widgets\LinkPager;
 /** @var app\modules\ncr\models\Ncr $model */
 
 $this->title = $model->ncr_number;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncrs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'NCR'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div style="display: flex; justify-content: space-between;">
         <p>
             <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('<i class="fa-solid fa-house-circle-exclamation"></i> ' . Yii::t('app', 'Reply'), ['/ncr/ncr-reply/index'], ['class' => 'btn btn-info']) ?>
         </p>
 
         <p style="text-align: right;">
@@ -28,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-8">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'NCR') . ' : ' .$model->ncr_number ?>
+                    <?= '<i class="fa-solid fa-location-crosshairs"></i> ' . Yii::t('app', 'NCR') . ' : ' . $model->ncr_number ?>
                 </div>
                 <div class="card-body table-responsive">
 
@@ -168,7 +167,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-4">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= Yii::t('app', 'Files') ?>
+                    <?= '<i class="fa-solid fa-file"></i> ' . Yii::t('app', 'Files') ?>
                 </div>
                 <div class="card-body table-responsive">
                     <?= $model->listDownloadFiles('docs', 'auto') ?>
@@ -181,7 +180,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-warning">
-            <?= Yii::t('app', 'Reply') ?>
+            <?= '<i class="fa-solid fa-reply"></i> ' . Yii::t('app', 'Reply') ?>
         </div>
         <div class="card-body table-responsive">
 
@@ -192,7 +191,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hover' => true,
                 'summary' => '',
                 'columns' => [
-                  
+
                     [
                         'attribute' => 'reply_type_id',
                         'format' => 'html',
@@ -211,7 +210,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
                     ],
-                  
+
                     [
                         'attribute' => 'operation_name',
                         'format' => 'html',
@@ -269,7 +268,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-primary">
-            <?= Yii::t('app', 'Protection') ?>
+            <?= '<i class="fa-solid fa-shield"></i> ' . Yii::t('app', 'Protection') ?>
         </div>
         <div class="card-body table-responsive">
 
@@ -280,7 +279,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hover' => true,
                 'summary' => '',
                 'columns' => [
-                  
+
                     [
                         'attribute' => 'ncr_cause_id',
                         'headerOptions' => ['style' => 'width:20%;'],
@@ -339,7 +338,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card border-secondary">
         <div class="card-header text-white bg-success">
-            <?= Yii::t('app', 'Closing') ?>
+            <?= '<i class="fa-solid fa-check"></i> ' . Yii::t('app', 'Closing') ?>
         </div>
         <div class="card-body table-responsive">
 
@@ -350,7 +349,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hover' => true,
                 'summary' => '',
                 'columns' => [
-                   
+
                     [
                         'attribute' => 'accept',
                         'format' => 'html',

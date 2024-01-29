@@ -1,31 +1,30 @@
 <?php
 
-use app\models\Department;
 use app\modules\ncr\models\Ncr;
-use app\modules\ncr\models\NcrMonth;
-use app\modules\ncr\models\NcrProcess;
 use app\modules\ncr\models\NcrReply;
 use app\modules\ncr\models\NcrReplyType;
-use app\modules\ncr\models\NcrStatus;
 use kartik\widgets\Select2;
-use yii\bootstrap5\LinkPager;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use kartik\widgets\DatePicker;
 use yii\helpers\ArrayHelper;
 
-$this->title = Yii::t('app', 'Ncrs');
+$this->title = Yii::t('app', 'Reply');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ncr-index">
     <div style="display: flex; justify-content: space-between;">
         <p>
-            <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'NCR Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
             <?= Html::a('<i class="fa fa-circle-plus text-yellow"></i> ' . Yii::t('app', 'Create New'), ['create'], ['class' => 'btn btn-danger']) ?>
         </p>
 
         <p style="text-align: right;">
-            <?= Html::a('<i class="fa fa-screwdriver-wrench"></i> ' . Yii::t('app', 'Settings'), ['/ncr/ncr/setings-menu'], ['class' => 'btn btn-warning']) ?>
+            <?= Html::a('<i class="fa-solid fa-location-crosshairs"></i> ', ['/ncr/ncr/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
+            <?= Html::a('<i class="fa-solid fa-reply"></i> ', ['/ncr/ncr-reply/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
+            <?= Html::a('<i class="fa-solid fa-shield"></i> ', ['/ncr/ncr-protection/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
+            <?= Html::a('<i class="fa-solid fa-circle-check"></i> ', ['/ncr/ncr-closing/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
+            <?= Html::a('<i class="fa fa-refresh"></i> ', ['index'], ['class' => 'btn btn-warning btn-sm']) ?>
         </p>
     </div>
 
@@ -79,6 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'reply_type_id',
                         'format' => 'html',
+                        'contentOptions' => ['style' => 'width:300px;'],
                         'value' => function ($model) {
                             $value = $model->reply_type_id ? $model->replyType->name : Yii::t('app', 'Pending');
                             $color = $model->reply_type_id ? '#000000' : '#DC5F00';
@@ -98,6 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'quantity',
                         'format' => 'html',
+                        'contentOptions' => ['style' => 'width:120px;'],
                         'value' => function ($model) {
                             $value = $model->quantity ? $model->quantity . ' ' . $model->unit : Yii::t('app', 'Pending');
                             $color = $model->quantity ? '#000000' : '#DC5F00';
@@ -133,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]
                         ]),
                     ],
-                    
+
                     [
                         'attribute' => 'approve_date',
                         'format' => 'html',

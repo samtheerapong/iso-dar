@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\modules\ncr\models\NcrReply $model */
 
-$this->title = Yii::t('app', 'Create Ncr Reply');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncr Replies'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Reply');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reply'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ncr-reply-create">

@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\modules\ncr\models\NcrReply $model */
 
-$this->title = $model->ncrs->ncr_number;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncr Reply'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Reply') . ' : ' . $model->ncrs->ncr_number;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reply'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -15,13 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div style="display: flex; justify-content: space-between;">
         <p>
-            <?= Html::a('<i class="fa-solid fa-house-circle-exclamation"></i> ' . Yii::t('app', 'Reply Home'), ['/ncr/ncr-reply/index'], ['class' => 'btn btn-info']) ?>
+            <?= Html::a('<i class="fa-solid fa-house-circle-exclamation"></i> ' . Yii::t('app', 'Home'), ['/ncr/ncr-reply/index'], ['class' => 'btn btn-info']) ?>
+            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Reply'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
         </p>
 
         <p style="text-align: right;">
-            <?= Html::a('<i class="fa-solid fa-location-arrow"></i> ' . Yii::t('app', 'Reply'), ['reply', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
-            <?= Html::a('<i class="fa-solid fa-pen"></i> ' . Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
-            <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'NCR Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="fa fa-circle-plus text-yellow"></i> ' . Yii::t('app', 'Create New'), ['create'], ['class' => 'btn btn-danger']) ?>
         </p>
     </div>
     <div class="row">

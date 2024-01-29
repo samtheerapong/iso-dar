@@ -149,34 +149,60 @@ class NcrReply extends \yii\db\ActiveRecord
         return @is_array(getimagesize($filePath)) ? true : false;
     }
 
+    // public function initialPreview($data, $field, $type = 'file')
+    // {
+    //     $initial = [];
+    //     $files = Json::decode($data);
+    //     if (is_array($files)) {
+    //         foreach ($files as $key => $value) {
+    //             $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
+    //             $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
+
+    //             $isImage = $this->isImage($filePath);
+
+    //             if ($isImage = true) {
+    //                 if ($type == 'file') {
+    //                     $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
+    //                 } elseif ($type == 'config') {
+    //                     $initial[] = [
+    //                         'caption' => $value,
+    //                         'width'  => '120px',
+    //                         'url'    => Url::to(['/ncr/ncr-reply/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
+    //                         'key'    => $key
+    //                     ];
+    //                 } else {
+    //                     if ($isImage) {
+    //                         $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
+    //                     } else {
+    //                         $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
+    //                     }
+    //                     $initial[] = $file;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return $initial;
+    // }
+
     public function initialPreview($data, $field, $type = 'file')
     {
         $initial = [];
         $files = Json::decode($data);
         if (is_array($files)) {
             foreach ($files as $key => $value) {
-                $filePath = self::getUploadUrl() . $this->ref . '/' . $value;
-                $filePathDownload = self::getUploadUrl() . $this->ref . '/' . $value;
-
-                $isImage = $this->isImage($filePath);
-
-                if ($isImage = true) {
+                                if ($isImage = true) {
                     if ($type == 'file') {
-                        $initial[] = Html::img($filePathDownload, ['class' => 'file-preview-image', 'alt' => $this->id, 'title' => $this->id]);
+                        $initial[] = Html::img(['/ncr/ncr-reply/download', 'id' => $this->id, 'file' => $key, 'fullname' => $value], ['class' => 'file-preview-image', 'alt' => '']);
                     } elseif ($type == 'config') {
                         $initial[] = [
+                            // 'type' => 'pdf',
                             'caption' => $value,
                             'width'  => '120px',
                             'url'    => Url::to(['/ncr/ncr-reply/deletefile', 'id' => $this->id, 'fileName' => $key, 'field' => $field]),
                             'key'    => $key
                         ];
                     } else {
-                        if ($isImage) {
-                            $file = Html::img($filePath, ['class' => 'file-preview-image', 'alt' => $this->file_name, 'title' => $this->file_name]);
-                        } else {
-                            $file = Html::a('View File', $filePathDownload, ['target' => '_blank']);
-                        }
-                        $initial[] = $file;
+                        $initial[] = "<div class='file-preview-other'><h2><i class='fa fa-file'></i></h2></div>";
                     }
                 }
             }

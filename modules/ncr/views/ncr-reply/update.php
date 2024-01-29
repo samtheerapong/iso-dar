@@ -5,11 +5,9 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\modules\ncr\models\NcrReply $model */
 
-$this->title = Yii::t('app', 'Update Ncr Reply: {name}', [
-    'name' => $model->id,
-]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ncr Replies'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->title = Yii::t('app', 'Reply'). ' : ' . $model->ncrs->ncr_number;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reply'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->ncrs->ncr_number, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="ncr-reply-update">
