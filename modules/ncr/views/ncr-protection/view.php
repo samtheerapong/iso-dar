@@ -32,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attributes' => [
                         // 'id',
                         [
-                            'attribute' => 'ncr_cause_id',
+                            'attribute' => 'ncr_cause_item',
                             'format' => 'html',
                             'value' => function ($model) {
-                                $value = $model->ncr_cause_id ? $model->ncrCause->name : Yii::t('app', 'Pending');
-                                $color = $model->ncr_cause_id ? '#000000' : '#DC5F00';
+                                $value = $model->ncr_cause_item ? $model->ncr_cause_item : Yii::t('app', 'Pending');
+                                $color = $model->ncr_cause_item ? '#000000' : '#DC5F00';
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
                         ],
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'operator',
                             'format' => 'html',
                             'value' => function ($model) {
-                                $value = $model->operator ? $model->getProtectUser()->thai_name : Yii::t('app', 'Pending');
+                                $value = $model->operator ? $model->operator0->thai_name : Yii::t('app', 'Pending');
                                 $color = $model->operator ? '#000000' : '#DC5F00';
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },

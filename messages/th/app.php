@@ -161,7 +161,7 @@
          'Protection'=> 'การป้องกัน',
          'Closing'=> 'ตรวจติดตาม',
          'Pending'=> 'รอดำเนินการ',
-         'Accepted'=> 'อนุมัติ',
-         'Not approved'=> 'ไม่อนุมัติ',
+         'Accepted'=> 'ยอมรับ',
+         'Not approved'=> 'ไม่ยอมรับ',
          'Files'=> 'ไฟล์แนบ',
 ];

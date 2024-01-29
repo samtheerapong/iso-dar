@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 28, 2024 at 02:17 PM
+-- Generation Time: Jan 29, 2024 at 10:04 AM
 -- Server version: 5.7.39
--- PHP Version: 7.4.33
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,7 @@ INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) 
 ('J2401-???', 4, 1, 1704535296),
 ('MM-HR\n-???', 2, 1, 1703578390),
 ('MM-PC\n-???', 1, 1, 1703576567),
-('N-6701-???', 36, 1, 1706318661),
+('N-6701-???', 38, 1, 1706500204),
 ('PM-GR-???', 1, 1, 1703496816),
 ('ST-PC\n-???', 1, 1, 1703497240),
 ('ST-QC\n-???', 4, 1, 1703575429),
@@ -534,9 +534,11 @@ CREATE TABLE `ncr` (
 --
 
 INSERT INTO `ncr` (`id`, `ncr_status_id`, `ncr_number`, `created_date`, `month`, `year`, `department`, `process`, `lot`, `production_date`, `product_name`, `customer_name`, `category_id`, `sub_category_id`, `datail`, `department_issue`, `report_by`, `action`, `docs`, `ref`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 5, 'N-6701-034', '2024-01-25', 1, 2, 8, 'Inprocess', '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 1, 1, '', '{\"738708b7c41e485def698feddb5f8886.jpg\":\"pexels-satyam-verma-4439740.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, '2024-01-28', 1),
-(2, 2, 'N-6701-035', '2024-01-26', 1, 2, 7, 'Incoming,Inprocess', '123', '2024-01-18', '147', '963', 1, 1, 'jkjkkj', 1, 1, 'lllkk', '{\"4a998014f541329236ab9523877a9367.jpg\":\"pexels-jonathan-borba-3622479.jpg\",\"684170bb48685396ace15c2a19683bba.pdf\":\"Bakery & Restaurant.pdf\"}', 'eAKIG8lQjs6ao1PBAmCgXg', '2024-01-26', 4, '2024-01-28', 1),
-(3, 1, 'N-6701-036', '2024-01-27', 1, 2, 1, 'Inprocess', 'asdasd', '2023-12-13', 'sdasdasd', 'asda', 1, 2, '', 1, 1, '', '{\"aa355d859748f7b4d21261e5cd3b47a7.jpg\":\"pexels-isaiah-quindo-1839882.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE', '2024-01-27', 29, '2024-01-28', 1);
+(1, 3, 'N-6701-034', '2024-01-25', 1, 2, 8, '', '071/23', '2024-01-01', 'organic FT soy Sauce 200 ml.', 'John Doe', 1, 2, '', 1, 1, '', '{\"738708b7c41e485def698feddb5f8886.jpg\":\"pexels-satyam-verma-4439740.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t', '2024-01-25', 12, '2024-01-29', 11),
+(2, 1, 'N-6701-035', '2024-01-26', 1, 2, 7, NULL, '123', '2024-01-18', '147', '963', 1, 1, 'กกกกกก', 1, 1, 'lllkk', '{\"4a998014f541329236ab9523877a9367.jpg\":\"pexels-jonathan-borba-3622479.jpg\",\"684170bb48685396ace15c2a19683bba.pdf\":\"Bakery & Restaurant.pdf\"}', 'eAKIG8lQjs6ao1PBAmCgXg', '2024-01-26', 4, '2024-01-29', 11),
+(3, 1, 'N-6701-036', '2024-01-27', 1, 2, 1, NULL, 'asdasd', '2023-12-13', 'sdasdasd', 'asda', 1, 2, '', 1, 1, '', '{\"aa355d859748f7b4d21261e5cd3b47a7.jpg\":\"pexels-isaiah-quindo-1839882.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE', '2024-01-27', 29, '2024-01-29', 11),
+(4, 1, 'N-6701-037', '2024-01-29', 1, 2, 8, NULL, '071/23', '2024-01-29', 'Hoisin Sauce', 'Sauce inc.', 5, 2, '', 7, 11, '', '{\"18a02ce8c7c834705f0a4d4dc9648667.jpg\":\"IMG_7528.jpg\"}', 'd2oGz8vlOFteWo8e1Bbe1K', '2024-01-29', 11, '2024-01-29', 11),
+(5, 4, 'N-6701-038', '2024-01-29', 2, 2, 2, '', 'asdasd', '2024-01-17', 'Hoisin Sauce', 'asda', 3, 1, '', 1, 11, '', '{\"13bd1114ca784ffbe62bbb345f3b3b30.jpg\":\"images5.jpg\"}', 'tWhvJCbtUn0b7fRF9ZRp3q', '2024-01-29', 11, '2024-01-29', 11);
 
 -- --------------------------------------------------------
 
@@ -601,6 +603,17 @@ CREATE TABLE `ncr_cause` (
   `active` int(11) DEFAULT '1' COMMENT 'สถานะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ncr_cause`
+--
+
+INSERT INTO `ncr_cause` (`id`, `name`, `color`, `active`) VALUES
+(1, 'วัตถุดิบ', NULL, 1),
+(2, 'พนักงาน', NULL, 1),
+(3, 'เครื่องจักร', NULL, 1),
+(4, 'วิธีการ', NULL, 1),
+(5, 'สิ่งแวดล้อม', NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -622,8 +635,10 @@ CREATE TABLE `ncr_closing` (
 
 INSERT INTO `ncr_closing` (`id`, `ncr_id`, `accept`, `auditor`, `qmr`, `accept_date`) VALUES
 (1, 1, 1, 41, 4, '2024-01-03'),
-(2, 2, 1, NULL, NULL, NULL),
-(3, 3, 1, NULL, NULL, NULL);
+(2, 2, 1, 3, 4, NULL),
+(3, 3, 1, 3, 4, NULL),
+(4, 4, NULL, 3, 4, NULL),
+(5, 5, NULL, 3, 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -711,7 +726,7 @@ INSERT INTO `ncr_process` (`id`, `name`, `color`, `active`) VALUES
 CREATE TABLE `ncr_protection` (
   `id` int(11) NOT NULL,
   `ncr_id` int(11) DEFAULT NULL COMMENT 'NCR',
-  `ncr_cause_id` int(11) DEFAULT NULL COMMENT 'การวิเคราะห์สาเหตุ',
+  `ncr_cause_item` varchar(255) DEFAULT NULL COMMENT 'การวิเคราะห์สาเหตุ',
   `issue` text COMMENT 'สาเหตุปัญหา',
   `action` text COMMENT 'การแก้ไขและป้องกัน',
   `schedule_date` date DEFAULT NULL COMMENT 'กำหนดการแก้ไข',
@@ -722,10 +737,12 @@ CREATE TABLE `ncr_protection` (
 -- Dumping data for table `ncr_protection`
 --
 
-INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_id`, `issue`, `action`, `schedule_date`, `operator`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL),
-(2, 2, NULL, NULL, NULL, NULL, NULL),
-(3, 3, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `ncr_protection` (`id`, `ncr_id`, `ncr_cause_item`, `issue`, `action`, `schedule_date`, `operator`) VALUES
+(1, 1, 'วัตถุดิบ', '888', '89999', '2024-01-24', 5),
+(2, 2, 'วัตถุดิบ,เครื่องจักร,วิธีการ', 'asdasd', 'asdasd', '2024-01-26', 3),
+(3, 3, NULL, NULL, NULL, NULL, NULL),
+(4, 4, NULL, NULL, NULL, NULL, NULL),
+(5, 5, '', 'ttttt', 'ttt', '2024-01-31', 22);
 
 -- --------------------------------------------------------
 
@@ -758,7 +775,10 @@ INSERT INTO `ncr_reply` (`id`, `ncr_id`, `concession`, `reply_type_id`, `quantit
 (1, 1, NULL, 1, 10, 'กล่อง', 'Return to Factory', '', '2024-01-17', 3, 4, '2024-01-26', '{\"9559964b454e643389c01ba7fc4f75db.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '6-g1yi_QeA80RCXc3uxE0t'),
 (2, 2, 1, 7, 10, 'กระปุก', '', 'ถูกบังคับด้วยกฎหมาย', '2024-01-20', 29, 11, '2024-01-23', '{\"45266882eeb5048e36c6f414b94516dd.jpg\":\"pexels-terje-sollie-586369.jpg\"}', 'eAKIG8lQjs6ao1PBAmCgXg'),
 (3, 2, 2, 4, 4, 'ลัง', 'เผา', '', '2024-01-18', 14, 4, '2024-01-19', '{\"d087a8084ac022c07e0dfa081801db13.jpg\":\"pexels-mareefe-674483.jpg\"}', '0JB4qB1KXlkd0WzphlXdzA'),
-(4, 3, 1, 1, 2, 'กล่อง', '', '', '2024-01-29', 3, NULL, NULL, '{\"30461dea370042c9dfc360d332ed5829.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE');
+(4, 3, 1, 1, 2, 'กล่อง', '', '', '2024-01-29', 3, NULL, NULL, '{\"30461dea370042c9dfc360d332ed5829.jpg\":\"pexels-cottonbro-studio-3832348.jpg\"}', '8sOIL8J9vTPuoIpwI8hQBE'),
+(5, 4, 3, 3, 5, 'ชิ้น', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'd2oGz8vlOFteWo8e1Bbe1K'),
+(6, 5, 1, 7, 6, 'กล่อง', '6666666666', '77777777777', '2024-02-01', 3, 4, '2024-02-03', '{\"af9bf914d1b703712ec7a6c401bf82df.jpg\":\"IMG_7473.jpg\"}', 'tWhvJCbtUn0b7fRF9ZRp3q'),
+(7, 1, 2, 6, 4, 'กล่อง', 'วิธีการวิธีการวิธีการวิธีการวิธีการ', 'สาเหตุสาเหตุสาเหตุ', '2024-01-30', 3, 4, '2024-01-31', '{\"f97f23858c00fda5b65838fae89f9a4b.jpg\":\"IMG_7393.jpg\"}', 'CNL5y8um0S1kkAUnNyhMUp');
 
 -- --------------------------------------------------------
 
@@ -807,9 +827,8 @@ INSERT INTO `ncr_status` (`id`, `name`, `color`, `active`) VALUES
 (1, 'Open', '#B31312', 1),
 (2, 'Reply', '#EE7214', 1),
 (3, 'Protect', '#11009E', 1),
-(4, 'Accept', '#D24545', 1),
-(5, 'Success', '#65B741', 1),
-(6, 'Cancel', '#050505', 1);
+(4, 'Success', '#65B741', 1),
+(5, 'Cancel', '#050505', 1);
 
 -- --------------------------------------------------------
 
@@ -1557,7 +1576,6 @@ ALTER TABLE `ncr_process`
 --
 ALTER TABLE `ncr_protection`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_ncr_protect_ncr_cause1_idx` (`ncr_cause_id`),
   ADD KEY `fk_ncr_protect_ncr1_idx` (`ncr_id`);
 
 --
@@ -1818,7 +1836,7 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `ncr`
 --
 ALTER TABLE `ncr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_accept`
@@ -1836,13 +1854,13 @@ ALTER TABLE `ncr_category`
 -- AUTO_INCREMENT for table `ncr_cause`
 --
 ALTER TABLE `ncr_cause`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_closing`
 --
 ALTER TABLE `ncr_closing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_concession`
@@ -1866,13 +1884,13 @@ ALTER TABLE `ncr_process`
 -- AUTO_INCREMENT for table `ncr_protection`
 --
 ALTER TABLE `ncr_protection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply`
 --
 ALTER TABLE `ncr_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `ncr_reply_type`
@@ -1884,7 +1902,7 @@ ALTER TABLE `ncr_reply_type`
 -- AUTO_INCREMENT for table `ncr_status`
 --
 ALTER TABLE `ncr_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ncr_sub_category`
@@ -2056,8 +2074,7 @@ ALTER TABLE `ncr_closing`
 -- Constraints for table `ncr_protection`
 --
 ALTER TABLE `ncr_protection`
-  ADD CONSTRAINT `fk_ncr_protect_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_ncr_protect_ncr_cause1` FOREIGN KEY (`ncr_cause_id`) REFERENCES `ncr_cause` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_ncr_protect_ncr1` FOREIGN KEY (`ncr_id`) REFERENCES `ncr` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `ncr_reply`

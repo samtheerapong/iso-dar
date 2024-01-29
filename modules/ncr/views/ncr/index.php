@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="ncr-index">
         <div style="display: flex; justify-content: space-between;">
             <p>
+                <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('<i class="fa fa-circle-plus text-yellow"></i> ' . Yii::t('app', 'Create New'), ['create'], ['class' => 'btn btn-danger']) ?>
             </p>
 

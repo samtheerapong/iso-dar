@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ncr_id') ?>
 
-    <?= $form->field($model, 'ncr_cause_id') ?>
+    <?= $form->field($model, 'ncr_cause_item') ?>
 
     <?= $form->field($model, 'issue') ?>
 

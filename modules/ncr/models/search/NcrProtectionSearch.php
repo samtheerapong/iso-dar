@@ -17,8 +17,8 @@ class NcrProtectionSearch extends NcrProtection
     public function rules()
     {
         return [
-            [['id', 'ncr_id', 'ncr_cause_id', 'operator'], 'integer'],
-            [['issue', 'action', 'schedule_date'], 'safe'],
+            [['id', 'ncr_id', 'operator'], 'integer'],
+            [['issue', 'action', 'schedule_date', 'ncr_cause_item'], 'safe'],
         ];
     }
 
@@ -65,12 +65,12 @@ class NcrProtectionSearch extends NcrProtection
         $query->andFilterWhere([
             'id' => $this->id,
             'ncr_id' => $this->ncr_id,
-            'ncr_cause_id' => $this->ncr_cause_id,
             'schedule_date' => $this->schedule_date,
             'operator' => $this->operator,
         ]);
 
         $query->andFilterWhere(['like', 'issue', $this->issue])
+            ->andFilterWhere(['like', 'ncr_cause_item', $this->ncr_cause_item])
             ->andFilterWhere(['like', 'action', $this->action]);
 
         return $dataProvider;

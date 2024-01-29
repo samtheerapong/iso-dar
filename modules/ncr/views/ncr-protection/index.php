@@ -72,11 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     // 'id',
                     [
-                        'attribute' => 'ncr_cause_id',
+                        'attribute' => 'ncr_cause_item',
                         'format' => 'html',
                         'headerOptions' => ['style' => 'width:250px;'],
                         'value' => function ($model) {
-                            return $model->ncr_cause_id ? $model->ncrCause->name : Yii::t('app', 'Pending');
+                            return $model->ncr_cause_item ? $model->ncr_cause_item : Yii::t('app', 'Pending');
                         },
                     ],
                     // [
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'html',
                         'headerOptions' => ['style' => 'width:250px;'],
                         'value' => function ($model) {
-                            return $model->operator ? $model->getProtectUser()->thai_name : Yii::t('app', 'Pending');
+                            return $model->operator ? $model->operator0->thai_name : Yii::t('app', 'Pending');
                         },
                     ],
                     [

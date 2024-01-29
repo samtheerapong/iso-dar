@@ -181,7 +181,7 @@ class Ncr extends \yii\db\ActiveRecord
     }
 
 
-    // upload files
+    //********** Array
     public function getArray($value)
     {
         return explode(',', $value);
