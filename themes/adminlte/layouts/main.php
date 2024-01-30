@@ -11,8 +11,7 @@ AppAsset::register($this);
 \hail812\adminlte3\assets\AdminLteAsset::register($this);
 \hail812\adminlte3\assets\PluginAsset::register($this)->add('sweetalert2');
 
-
-// \wbraganca\dynamicform\DynamicFormWidgetAsset::register($this);
+// DynamicFormAsset::register($this);
 
 // $bundle = \hail812\adminlte3\assets\PluginAsset::register($this);
 // $bundle->css[] = 'sweetalert2-theme-bootstrap-4/bootstrap-4.min.css';
@@ -20,7 +19,6 @@ AppAsset::register($this);
 
 
 $this->registerCssFile('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Kanit&family=Sriracha&family=Sarabun:wght@500&display=swap');
-
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 $publishedRes = Yii::$app->assetManager->publish('@vendor/hail812/yii2-adminlte3/src/web/js');
@@ -49,9 +47,6 @@ $this->registerJsFile($publishedRes[1] . '/control_sidebar.js', ['depends' => '\
        
     </style>
 </head>
-<!-- <body class="hold-transition sidebar-mini sidebar-collapse layout-navbar-fixed layout-fixed"> -->
-<!-- <body class="sidebar-collapse sidebar-collapse layout-navbar-fixed layout-footer-fixed"> -->
-<!-- <body class="hold-transition sidebar-mini sidebar-collapse layout-navbar-fixed layout-fixed"> -->
 
 <body class="hold-transition sidebar-mini">
     <?php $this->beginBody() ?>
@@ -79,7 +74,6 @@ $this->registerJsFile($publishedRes[1] . '/control_sidebar.js', ['depends' => '\
 
     <?php $this->endBody() ?>
     
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 </body>
 
 </html>

@@ -37,11 +37,18 @@ $config = [
             'class' => 'app\modules\nfc\Module',
         ],
         'gridview' =>  [
-            'class' => '\kartik\grid\Module',
-            // 'i18n' => []
+            'class' => '\kartik\grid\Module'
         ],
     ],
     'components' => [
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@app/themes/adminlte/'
+                ],
+            ],
+        ],
+       
         'view' => [
             'theme' => [
                 'pathMap' => [
@@ -61,6 +68,13 @@ $config = [
         'image' => [
             'class' => 'yii\image\ImageDriver',
             'driver' => 'GD',  //GD or Imagick
+        ],
+        'assetManager' => [
+            'bundles' => [
+                'kartik\form\ActiveFormAsset' => [
+                    'bsDependencyEnabled' => false // do not load bootstrap assets for a specific asset bundle
+                ],
+            ],
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation

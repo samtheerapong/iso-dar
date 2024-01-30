@@ -76,7 +76,10 @@ class NcrProtectionController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelNcr = $this->findModelNcr($model->ncr_id);  // มาจาก protected function findModelNcr($id)
+        $model->ncr_cause_item  = $model->getArray($model->ncr_cause_item);
+
+        // process จาก NCR
+        $modelNcr = $this->findModelNcr($model->ncr_id);
         $modelNcr->process  = $model->getArray($modelNcr->process);
 
         if ($this->request->isPost && $model->load($this->request->post())) {

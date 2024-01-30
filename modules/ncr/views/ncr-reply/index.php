@@ -9,6 +9,7 @@ use kartik\grid\GridView;
 use kartik\widgets\DatePicker;
 use yii\helpers\ArrayHelper;
 
+
 $this->title = Yii::t('app', 'Reply');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -52,9 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function ($model) {
                             $rpValule = $model->ncr_id ?
                                 $model->ncrs->ncr_number . ' ' .
-                                '<span class="badge bg-danger">' . $model->ncrs->process . '</span>' . ' ' .
+                                '<br><span class="badge bg-danger">'. $model->ncrs->process . '</span>' . ' ' .
                                 '<span class="badge bg-warning text-dark">' . $model->ncrs->product_name . '</span>'  . ' ' .
-                                '<span class="badge bg-dark">' . $model->ncrs->lot . '</span>'   . ' ' .
+                                '<span class="badge bg-dark">' .' lot: '. $model->ncrs->lot . '</span>'   . ' ' .
                                 '<span class="badge bg-info text-dark">' .  Yii::$app->formatter->asDate($model->ncrs->production_date) . '</span>' :
                                 Yii::t('app', 'N/A');
 
@@ -65,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'ncr_id',
                             'data' => ArrayHelper::map(Ncr::find()->orderBy(['id' => SORT_DESC])->where(['ncr_status_id' => 1])->all(), 'id', function ($dataValue, $defaultValue) {
                                 return
-                                    $dataValue->ncr_number . ' | ' . $dataValue->product_name . ' (' . Yii::$app->formatter->asDate($dataValue->production_date) . ')';
+                                    $dataValue->ncr_number . ' | ' . $dataValue->process . ' | '. $dataValue->product_name . ' (' . Yii::$app->formatter->asDate($dataValue->production_date) . ')';
                             }),
                             'options' => ['placeholder' => Yii::t('app', 'Select...')],
                             'language' => 'th',

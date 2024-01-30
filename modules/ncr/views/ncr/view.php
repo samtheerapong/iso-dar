@@ -3,10 +3,6 @@
 use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\widgets\LinkPager;
-
-/** @var yii\web\View $this */
-/** @var app\modules\ncr\models\Ncr $model */
 
 $this->title = $model->ncr_number;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'NCR'), 'url' => ['index']];
@@ -27,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-8">
             <div class="card border-secondary">
                 <div class="card-header text-white bg-secondary">
-                    <?= '<i class="fa-solid fa-location-crosshairs"></i> ' . Yii::t('app', 'NCR') . ' : ' . $model->ncr_number ?>
+                    <?= '<i class="fa-solid fa-location-crosshairs"></i> ' . Yii::t('app', 'NCR') . ' : ' . $model->ncr_number. ' ' .'<span class="badge" style="background-color:' . $model->ncrStatus->color . '">' . $model->ncrStatus->name.'</span>' ?>
                 </div>
                 <div class="card-body table-responsive">
 
@@ -39,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'ncr_number',
                                 'format' => 'html',
                                 'value' => function ($model) {
-                                    return $model->ncr_number ? $model->ncr_number : Yii::t('app', 'Pending');
+                                    return $model->ncr_number ? $model->ncr_number  : Yii::t('app', 'Pending');
                                 },
                             ],
 
@@ -149,13 +145,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->action ? $model->action : Yii::t('app', 'Pending');
                                 },
                             ],
-                            [
-                                'attribute' => 'ncr_status_id',
-                                'format' => 'html',
-                                'value' => function ($model) {
-                                    return $model->ncr_status_id ? $model->ncrStatus->name : Yii::t('app', 'Pending');
-                                },
-                            ],
+                            // [
+                            //     'attribute' => 'ncr_status_id',
+                            //     'format' => 'html',
+                            //     'value' => function ($model) {
+                            //         return $model->ncr_status_id ? '<span style="color:' . $model->ncrStatus->color . '">' . $model->ncrStatus->name.'</span>' : Yii::t('app', 'Pending');
+                            //     },
+                            // ],
 
                         ],
                     ]) ?>
@@ -166,11 +162,54 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="col-md-4">
             <div class="card border-secondary">
-                <div class="card-header text-white bg-secondary">
-                    <?= '<i class="fa-solid fa-file"></i> ' . Yii::t('app', 'Files') ?>
+                <div class="card-header text-white bg-dark">
+                    <?= '<i class="fa-solid fa-file"></i> ' . Yii::t('app', 'Attach file') ?>
                 </div>
                 <div class="card-body table-responsive">
                     <?= $model->listDownloadFiles('docs', 'auto') ?>
+                </div>
+            </div>
+
+            <div class="card border-secondary">
+                <div class="card-header text-white bg-info">
+                    <?= '<i class="fa-solid fa-history"></i> ' . Yii::t('app', 'Logs') ?>
+                </div>
+                <div class="card-body table-responsive">
+                    <?= DetailView::widget([
+                        'model' => $model,
+                        'template' => '<tr><th style="width: 180px;">{label}</th><td> {value}</td></tr>',
+                        'attributes' => [
+
+                            [
+                                'attribute' => 'created_by',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->created_by ? $model->reporter->thai_name : Yii::t('app', 'Pending');
+                                },
+                            ],
+                            [
+                                'attribute' => 'created_at',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->created_at ? Yii::$app->formatter->asDate($model->created_at) : Yii::t('app', 'Pending');
+                                },
+                            ],
+                            [
+                                'attribute' => 'updated_by',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->updated_by ? $model->reporter->thai_name : Yii::t('app', 'Pending');
+                                },
+                            ],
+                            [
+                                'attribute' => 'updated_at',
+                                'format' => 'html',
+                                'value' => function ($model) {
+                                    return $model->updated_at ? Yii::$app->formatter->asDate($model->updated_at) : Yii::t('app', 'Pending');
+                                },
+                            ],
+                        ],
+                    ]) ?>
                 </div>
             </div>
         </div>

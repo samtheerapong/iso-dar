@@ -144,6 +144,17 @@ class NcrController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
+    public function actionExport()
+    {
+        $searchModel = new NcrSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('export', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
      /***************** action Deletefile ******************/
      public function actionDeletefile($id, $field, $fileName)
      {

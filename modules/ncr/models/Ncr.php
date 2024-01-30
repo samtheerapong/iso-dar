@@ -4,6 +4,7 @@ namespace app\modules\ncr\models;
 
 use app\models\Department;
 use app\models\User;
+use kartik\export\ExportMenu;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -53,11 +54,9 @@ class Ncr extends \yii\db\ActiveRecord
             [['ncr_number'], 'string', 'max' => 100],
             [['lot', 'product_name', 'customer_name'], 'string', 'max' => 255],
             [['ref'], 'string', 'max' => 45],
-
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrCategory::class, 'targetAttribute' => ['category_id' => 'id']],
             [['department_issue'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['department_issue' => 'id']],
             [['month'], 'exist', 'skipOnError' => true, 'targetClass' => NcrMonth::class, 'targetAttribute' => ['month' => 'id']],
-            // [['process'], 'exist', 'skipOnError' => true, 'targetClass' => NcrProcess::class, 'targetAttribute' => ['process' => 'id']],
             [['ncr_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrStatus::class, 'targetAttribute' => ['ncr_status_id' => 'id']],
             [['sub_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NcrSubCategory::class, 'targetAttribute' => ['sub_category_id' => 'id']],
             [['year'], 'exist', 'skipOnError' => true, 'targetClass' => NcrYear::class, 'targetAttribute' => ['year' => 'id']],
@@ -69,31 +68,30 @@ class Ncr extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'ncr_number' => Yii::t('app', 'เลขที่ NCR'),
-            'created_date' => Yii::t('app', 'วันที่'),
-            'monthly' => Yii::t('app', 'ประจำเดือน'),
-            'month' => Yii::t('app', 'เดือน'),
-            'year' => Yii::t('app', 'ปี'),
-            'department' => Yii::t('app', 'ถึงแผนก'),
-            'process' => Yii::t('app', 'กระบวนการ'),
-            'progress' => Yii::t('app', 'กระบวนการ'),
-            'lot' => Yii::t('app', 'หมายเลขล็อต'),
-            'production_date' => Yii::t('app', 'วันที่ผลิต'),
-            'product_name' => Yii::t('app', 'ชื่อสินค้า'),
-            'customer_name' => Yii::t('app', 'ชื่อลูกค้า'),
-            'category_id' => Yii::t('app', 'หมวดหมู่'),
-            'sub_category_id' => Yii::t('app', 'หมวดหมู่ย่อย'),
-            'datail' => Yii::t('app', 'รายละเอียดปัญหา'),
-            'department_issue' => Yii::t('app', 'แผนกที่พบปัญหา'),
-            'report_by' => Yii::t('app', 'ผู้รายงาน'),
-            'action' => Yii::t('app', 'การดำเนินการเบื้องต้น'),
-            'docs' => Yii::t('app', 'ไฟล์แนบ'),
-            'ref' => Yii::t('app', 'อ้างอิง'),
-            'ncr_status_id' => Yii::t('app', 'สถานะ'),
-            'created_at' => Yii::t('app', 'สร้างเมื่อ'),
-            'created_by' => Yii::t('app', 'สร้างโดย'),
-            'updated_at' => Yii::t('app', 'ล่าสุดเมื่อ'),
-            'updated_by' => Yii::t('app', 'ล่าสุดโดย'),
+            'ncr_number' => Yii::t('app', 'NCR Number'),
+            'created_date' => Yii::t('app', 'Created Date'),
+            'monthly' => Yii::t('app', 'Monthly'),
+            'month' => Yii::t('app', 'Month'),
+            'year' => Yii::t('app', 'Year'),
+            'department' => Yii::t('app', 'To Department'),
+            'process' => Yii::t('app', 'Process'),
+            'lot' => Yii::t('app', 'Lot'),
+            'production_date' => Yii::t('app', 'Production Date'),
+            'product_name' => Yii::t('app', 'Product Name'),
+            'customer_name' => Yii::t('app', 'Customer Name'),
+            'category_id' => Yii::t('app', 'Category'),
+            'sub_category_id' => Yii::t('app', 'Sub Category'),
+            'datail' => Yii::t('app', 'Datail'),
+            'department_issue' => Yii::t('app', 'Department Issue'),
+            'report_by' => Yii::t('app', 'Reporter'),
+            'action' => Yii::t('app', 'Start Action'),
+            'docs' => Yii::t('app', 'Attach file'),
+            'ref' => Yii::t('app', 'Refer'),
+            'ncr_status_id' => Yii::t('app', 'Ncr Status'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_by' => Yii::t('app', 'Updated By'),
         ];
     }
 
@@ -275,5 +273,5 @@ class Ncr extends \yii\db\ActiveRecord
     {
         return $this->hasMany(NcrClosing::class, ['ncr_id' => 'id']);
     }
-    
+  
 }

@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'ncr_cause_item',
                             'format' => 'html',
                             'value' => function ($model) {
-                                $value = $model->ncr_cause_item ? $model->ncr_cause_item : Yii::t('app', 'Pending');
+                                $value = $model->ncr_cause_item ? $model->ncr_cause_item : Yii::t('app', 'N/A');
                                 $color = $model->ncr_cause_item ? '#000000' : '#DC5F00';
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'issue',
                             'format' => 'html',
                             'value' => function ($model) {
-                                $value = $model->issue ? $model->issue : Yii::t('app', 'Pending');
+                                $value = $model->issue ? $model->issue : Yii::t('app', 'N/A');
                                 $color = $model->issue ? '#000000' : '#DC5F00';
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'action',
                             'format' => 'html',
                             'value' => function ($model) {
-                                $value = $model->action ? $model->action : Yii::t('app', 'Pending');
+                                $value = $model->action ? $model->action : Yii::t('app', 'N/A');
                                 $color = $model->action ? '#000000' : '#DC5F00';
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'schedule_date',
                             'format' => 'html',
                             'value' => function ($model) {
-                                $value = $model->schedule_date ? Yii::$app->formatter->asDate($model->schedule_date) : Yii::t('app', 'Pending');
+                                $value = $model->schedule_date ? Yii::$app->formatter->asDate($model->schedule_date) : Yii::t('app', 'N/A');
                                 $color = $model->schedule_date ? '#000000' : '#DC5F00';
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'operator',
                             'format' => 'html',
                             'value' => function ($model) {
-                                $value = $model->operator ? $model->operator0->thai_name : Yii::t('app', 'Pending');
+                                $value = $model->operator ? $model->operator0->thai_name : Yii::t('app', 'N/A');
                                 $color = $model->operator ? '#000000' : '#DC5F00';
                                 return '<span style="color:' . $color . ';">' . $value . '</span>';
                             },

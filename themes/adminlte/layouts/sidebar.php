@@ -92,7 +92,25 @@ use yii\helpers\Url;
                     //     ]
 
                     // ],
+                  
+                    [
+                        'label' => Yii::t('app', 'Export'),
+                        'iconStyle' => 'fa', 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-download text-green',
+                        'items' => [
 
+                            ['label' => Yii::t('app', 'NCR'),          'url' => ['/ncr/export/export-ncr'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-file-export'],
+                            ['label' => Yii::t('app', 'Reply'),   'url' => ['/ncr/export/export-reply'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-file-export'],
+                            ['label' => Yii::t('app', 'Protection'),       'url' => ['/ncr/export/export-protection'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-file-export'],
+                            ['label' => Yii::t('app', 'Closing'),   'url' => ['/ncr/export/export-closing'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-file-export'],
+                            // [
+                            //     'label' => Yii::t('app', 'Configuration'),
+                            //     'iconStyle' => 'fa', 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-cogs',
+                            //     'items' => [
+                            //         ['label' => Yii::t('app', 'Profile'), 'url' => ['/user/profile'], 'iconStyle' => 'fa', 'icon' => 'fa-solid fa-user-edit'],
+                            //     ]
+                            // ],
+                        ]
+                    ],
                     // Systems
                     [
                         'label' => Yii::t('app', 'Data Files'),

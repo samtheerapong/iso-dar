@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'ncr_cause_item')->widget(Select2::class, [
-                        'theme' => Select2::THEME_KRAJEE_BS5,
+                        // 'theme' => Select2::THEME_KRAJEE_BS5,
                         'data' => ArrayHelper::map(NcrCause::find()->where(['active' => 1])->all(), 'name', 'name'),
                         'options' => ['multiple' => true, 'placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
