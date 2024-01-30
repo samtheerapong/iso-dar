@@ -46,10 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'ncr_id',
                         'format' => 'html',
-                        'value' => function ($model) {
-                            return $model->ncr_id ? Html::a($model->ncrs->ncr_number, ['/ncr/ncr/view', 'id' => $model->ncrs->id]) : 'N/A';
-                        },
-
+                        'headerOptions' => ['style' => 'width:450px;'],
                         'value' => function ($model) {
                             $rpValule = $model->ncr_id ?
                                 $model->ncrs->ncr_number . ' ' .
@@ -79,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'reply_type_id',
                         'format' => 'html',
-                        'contentOptions' => ['style' => 'width:300px;'],
+                        'contentOptions' => ['style' => 'width:200px;'],
                         'value' => function ($model) {
                             $value = $model->reply_type_id ? $model->replyType->name : Yii::t('app', 'Pending');
                             $color = $model->reply_type_id ? '#000000' : '#DC5F00';
@@ -118,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     [
                         'attribute' => 'operation_date',
-                        'headerOptions' => ['style' => 'width:250px;'],
+                        // 'headerOptions' => ['style' => 'width:200px;'],
                         'format' => 'html',
                         'value' => function ($model) {
                             $value = $model->operation_date ? Yii::$app->formatter->asDate($model->operation_date) : Yii::t('app', 'Pending');
@@ -139,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'approve_date',
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width:250px;'],
+                        // 'headerOptions' => ['style' => 'width:200px;'],
                         'value' => function ($model) {
                             $value = $model->approve_date ? Yii::$app->formatter->asDate($model->approve_date) : Yii::t('app', 'Pending');
                             $color = $model->approve_date ? '#000000' : '#DC5F00';

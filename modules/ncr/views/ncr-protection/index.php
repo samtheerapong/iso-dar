@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'ncr_id',
                         'format' => 'html',
+                        'headerOptions' => ['style' => 'width:450px;'],
                         'value' => function ($model) {
                             return $model->ncr_id ? Html::a($model->ncrs->ncr_number, ['/ncr/ncr/view', 'id' => $model->ncrs->id]) : 'N/A';
                         },
@@ -48,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function ($model) {
                             $rpValule = $model->ncr_id ?
                                 $model->ncrs->ncr_number . ' ' .
-                                '<span class="badge bg-danger">' . $model->ncrs->process . '</span>' . ' ' .
+                                '<br><span class="badge bg-danger">' . $model->ncrs->process . '</span>' . ' ' .
                                 '<span class="badge bg-warning text-dark">' . $model->ncrs->product_name . '</span>'  . ' ' .
                                 '<span class="badge bg-dark">' . $model->ncrs->lot . '</span>'   . ' ' .
                                 '<span class="badge bg-info text-dark">' .  Yii::$app->formatter->asDate($model->ncrs->production_date) . '</span>' :
@@ -74,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'ncr_cause_item',
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width:250px;'],
+                        // 'headerOptions' => ['style' => 'width:250px;'],
                         'value' => function ($model) {
                             return $model->ncr_cause_item ? $model->ncr_cause_item : Yii::t('app', 'Pending');
                         },
@@ -96,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'schedule_date',
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width:250px;'],
+                        // 'headerOptions' => ['style' => 'width:250px;'],
                         'value' => function ($model) {
                             return $model->schedule_date ? Yii::$app->formatter->asDate($model->schedule_date) : Yii::t('app', 'Pending');
                         },
@@ -104,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'operator',
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width:250px;'],
+                        // 'headerOptions' => ['style' => 'width:250px;'],
                         'value' => function ($model) {
                             return $model->operator ? $model->operator0->thai_name : Yii::t('app', 'Pending');
                         },
@@ -114,7 +115,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerOptions' => ['style' => 'width:250px;'],
                         'contentOptions' => ['class' => 'text-center'],
                         'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                        // 'template' => '<div class="btn-group btn-group-xs" role="group">{view} {update} {delete} {action} {approve} </div>',
                         'template' => '<div class="btn-group btn-group-xs" role="group">{view} {action}</div>',
                         'buttons' => [
                             'action' => function ($url, $model, $key) {

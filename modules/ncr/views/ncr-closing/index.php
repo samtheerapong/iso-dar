@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'ncr_id',
                         'format' => 'html',
+                        'contentOptions' => ['style' => 'width:450px;'],
                         'value' => function ($model) {
                             return $model->ncr_id ? Html::a($model->ncrs->ncr_number, ['/ncr/ncr/view', 'id' => $model->ncrs->id]) : 'N/A';
                         },
@@ -49,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function ($model) {
                             $rpValule = $model->ncr_id ?
                                 $model->ncrs->ncr_number . ' ' .
-                                '<span class="badge bg-danger">' . $model->ncrs->process . '</span>' . ' ' .
+                                '<br><span class="badge bg-danger">' . $model->ncrs->process . '</span>' . ' ' .
                                 '<span class="badge bg-warning text-dark">' . $model->ncrs->product_name . '</span>'  . ' ' .
                                 '<span class="badge bg-dark">' . $model->ncrs->lot . '</span>'   . ' ' .
                                 '<span class="badge bg-info text-dark">' .  Yii::$app->formatter->asDate($model->ncrs->production_date) . '</span>' :
