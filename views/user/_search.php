@@ -1,6 +1,6 @@
 <?php
 
-use app\modules\nfc\models\Department;
+use app\models\Department;
 use app\models\UserRoles;
 use app\models\UserRules;
 use kartik\widgets\Select2;
@@ -43,7 +43,7 @@ use yii\widgets\ActiveForm;
                 <div class="col-md-4">
                     <?= $form->field($model, 'department_id')->widget(Select2::class, [
                         'language' => 'th',
-                        'data' => ArrayHelper::map(Department::find()->all(), 'department_id', 'name'),
+                        'data' => ArrayHelper::map(Department::find()->all(), 'id', 'name'),
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
                         'pluginOptions' => [
                             'allowClear' => true
