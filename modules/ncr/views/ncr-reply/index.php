@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 $this->title = Yii::t('app', 'Reply');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ncr-index">
+<div class="reply-index">
     <div style="display: flex; justify-content: space-between;">
         <p>
             <?= Html::a('<i class="fas fa-home"></i> ' . Yii::t('app', 'Home'), ['/ncr/ncr/index'], ['class' => 'btn btn-primary']) ?>
@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
+        <?= Html::a('<i class="fa-solid fa-download"></i> ', ['/ncr/export/export-reply'], ['class' => 'btn btn-primary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-location-crosshairs"></i> ', ['/ncr/ncr/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-reply"></i> ', ['/ncr/ncr-reply/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-shield"></i> ', ['/ncr/ncr-protection/index'], ['class' => 'btn btn-secondary btn-sm']) ?>

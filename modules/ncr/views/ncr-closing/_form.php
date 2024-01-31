@@ -45,19 +45,14 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <div class="col-md-4 form-check">
-                        <?= $form->field($model, 'accept')->radioList([
-                            '1' => Yii::t('app', 'ยอมรับ'),
-                            '2' => Yii::t('app', 'ไม่ยอมรับ'),
-                        ], [
-                            'item' => function ($index, $label, $name, $checked, $value) {
-                                $html = '<div class="form-check">';
-                                $html .= '<input type="radio" id="' . $name . $index . '" name="' . $name . '" value="' . $value . '" ' . ($checked ? 'checked' : '') . ' class="form-check-input">';
-                                $html .= '<label class="form-check-label" for="' . $name . $index . '">' . $label . '</label>';
-                                $html .= '</div>';
-                                return $html;
-                            },
-                            'unselect' => null,
-                        ]); ?>
+                    <?= $form->field($model, 'accept')->dropDownList([
+                        '1' => Yii::t('app', 'ยอมรับ'),
+                        '2' => Yii::t('app', 'ไม่ยอมรับ'),
+                    ], [
+                        // 'prompt' => Yii::t('app', 'Select...'),
+                        'required' => true,
+                    ]); ?>
+
                 </div>
 
                 <div class="col-md-4">

@@ -1,5 +1,6 @@
 <?php
 
+use app\models\User;
 use app\modules\ncr\models\Ncr;
 use yii\helpers\Html;
 use kartik\grid\GridView;
@@ -17,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
+            <?= Html::a('<i class="fa-solid fa-download"></i> ', ['/ncr/export/export-closing'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-location-crosshairs"></i> ', ['/ncr/ncr/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-reply"></i> ', ['/ncr/ncr-reply/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-shield"></i> ', ['/ncr/ncr-protection/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
@@ -44,10 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'html',
                         'contentOptions' => ['style' => 'width:450px;'],
                         'value' => function ($model) {
-                            return $model->ncr_id ? Html::a($model->ncrs->ncr_number, ['/ncr/ncr/view', 'id' => $model->ncrs->id]) : 'N/A';
-                        },
-
-                        'value' => function ($model) {
                             $rpValule = $model->ncr_id ?
                                 $model->ncrs->ncr_number . ' ' .
                                 '<br><span class="badge bg-danger">' . $model->ncrs->process . '</span>' . ' ' .
@@ -61,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Select2::widget([
                             'model' => $searchModel,
                             'attribute' => 'ncr_id',
-                            'data' => ArrayHelper::map(Ncr::find()->orderBy(['id' => SORT_DESC])->where(['ncr_status_id' => 3])->all(), 'id', function ($dataValue, $defaultValue) {
+                            'data' => ArrayHelper::map(Ncr::find()->orderBy(['id' => SORT_DESC])->where(['ncr_status_id' => [3]])->all(), 'id', function ($dataValue, $defaultValue) {
                                 return
                                     $dataValue->ncr_number . ' | ' . $dataValue->product_name . ' (' . Yii::$app->formatter->asDate($dataValue->production_date) . ')';
                             }),
@@ -75,6 +73,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'accept',
                         'format' => 'html',
+                        'filter' => [
+                            // '' => Yii::t('app', 'Pending'),
+                            '1' => Yii::t('app', 'Accepted'),
+                            '0' => Yii::t('app', 'Not approved'),
+                        ],
                         'value' => function ($model) {
                             if ($model->accept === 1) {
                                 $status = '<span style="color: #1A5D1A;">' . Yii::t('app', 'Accepted') . '</span>';
@@ -95,6 +98,19 @@ $this->params['breadcrumbs'][] = $this->title;
                             $color = $model->auditor ? '#0F0F0F' : '#CD5C08';
                             return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
+                        'filter' => Select2::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'auditor',
+                            'data' => ArrayHelper::map(User::find()->orderBy(['id' => SORT_DESC])->where(['rule_id' => 1])->all(), 'id', function ($dataValue, $defaultValue) {
+                                return
+                                    $dataValue->thai_name;
+                            }),
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'language' => 'th',
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ])
                     ],
                     [
                         'attribute' => 'qmr',
@@ -104,6 +120,19 @@ $this->params['breadcrumbs'][] = $this->title;
                             $color = $model->auditor ? '#0F0F0F' : '#CD5C08';
                             return '<span style="color:' . $color . ';">' . $value . '</span>';
                         },
+                        'filter' => Select2::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'qmr',
+                            'data' => ArrayHelper::map(User::find()->orderBy(['id' => SORT_DESC])->where(['role_id' => 5])->all(), 'id', function ($dataValue, $defaultValue) {
+                                return
+                                    $dataValue->thai_name;
+                            }),
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'language' => 'th',
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ])
                     ],
                     [
                         'attribute' => 'accept_date',

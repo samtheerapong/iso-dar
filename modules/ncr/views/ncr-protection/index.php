@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
+            <?= Html::a('<i class="fa-solid fa-download"></i> ', ['/ncr/export/export-protection'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-location-crosshairs"></i> ', ['/ncr/ncr/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-reply"></i> ', ['/ncr/ncr-reply/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
             <?= Html::a('<i class="fa-solid fa-shield"></i> ', ['/ncr/ncr-protection/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
@@ -42,10 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'ncr_id',
                         'format' => 'html',
                         'headerOptions' => ['style' => 'width:450px;'],
-                        'value' => function ($model) {
-                            return $model->ncr_id ? Html::a($model->ncrs->ncr_number, ['/ncr/ncr/view', 'id' => $model->ncrs->id]) : 'N/A';
-                        },
-
                         'value' => function ($model) {
                             $rpValule = $model->ncr_id ?
                                 $model->ncrs->ncr_number . ' ' .
