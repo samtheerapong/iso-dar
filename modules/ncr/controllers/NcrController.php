@@ -28,12 +28,26 @@ class NcrController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
-            ]
+                'access' => [
+                    'class' => \yii\filters\AccessControl::class,
+                    'only' => ['create', 'update', 'delete', 'view'],
+                    'rules' => [
+
+                        // allow authenticated users
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                        // everything else is denied
+                    ],
+                ],
+            ],
+
         );
     }
 
@@ -70,10 +84,10 @@ class NcrController extends Controller
             if ($model->load($this->request->post())) {
 
                 $model->ncr_number = AutoNumber::generate('N-' . (date('y') + 43) . date('m') . '-???'); // Auto Number EX N-6612-0001
-                
+
                 $model->ref =  $ref;
                 $this->CreateDir($model->ref); // create Directory 6701-12
-                
+
                 $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller
 
                 $model->ncr_status_id = $defaultValue;
@@ -90,6 +104,7 @@ class NcrController extends Controller
                         $ModelProtection->save() &&
                         $ModelClosing->save()
                     ) {
+                        $this->LineNotify($model);
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
                 }
@@ -155,25 +170,25 @@ class NcrController extends Controller
         ]);
     }
 
-     /***************** action Deletefile ******************/
-     public function actionDeletefile($id, $field, $fileName)
-     {
-         $status = ['success' => false];
-         if (in_array($field, ['docs'])) {
-             $model = $this->findModel($id);
-             $files =  Json::decode($model->{$field});
-             if (array_key_exists($fileName, $files)) {
-                 if ($this->deleteFile('file', $model->ref, $fileName)) {
-                     $status = ['success' => true];
-                     unset($files[$fileName]);
-                     $model->{$field} = Json::encode($files);
-                     $model->save();
-                 }
-             }
-         }
-         echo json_encode($status);
-     }
-        
+    /***************** action Deletefile ******************/
+    public function actionDeletefile($id, $field, $fileName)
+    {
+        $status = ['success' => false];
+        if (in_array($field, ['docs'])) {
+            $model = $this->findModel($id);
+            $files =  Json::decode($model->{$field});
+            if (array_key_exists($fileName, $files)) {
+                if ($this->deleteFile('file', $model->ref, $fileName)) {
+                    $status = ['success' => true];
+                    unset($files[$fileName]);
+                    $model->{$field} = Json::encode($files);
+                    $model->save();
+                }
+            }
+        }
+        echo json_encode($status);
+    }
+
     /***************** deleteFile ******************/
     private function deleteFile($type = 'file', $ref, $fileName)
     {
@@ -244,7 +259,7 @@ class NcrController extends Controller
     }
 
 
-    
+
     //**********  ฟังก์ชันส่ง Line
     public function LineNotify($model)
     {
@@ -255,10 +270,10 @@ class NcrController extends Controller
         $massage =
             Yii::t('app', 'เลขที่ NCR') . " : " . $model->ncr_number . "\n" .
             Yii::t('app', 'วันที่') . " : " .  Yii::$app->formatter->asDate($model->created_date) . "\n" .
-            Yii::t('app', 'ถึงแผนก') . " : " . $model->toDepartment->department_code . "\n" .
-            Yii::t('app', 'กระบวนการ') . " : " . $model->ncrProcess->process_name . "\n" .
+            Yii::t('app', 'ถึงแผนก') . " : " . $model->toDepartment->name . "\n" .
+            Yii::t('app', 'กระบวนการ') . " : " . $model->process . "\n" .
             Yii::t('app', 'ชื่อสินค้า') . " : " . $model->product_name . "\n" .
-            Yii::t('app', 'สถานะ') . " : " . $model->ncrStatus->status_name . "\n" .
+            Yii::t('app', 'สถานะ') . " : " . $model->ncrStatus->name . "\n" .
             Yii::t('app', 'Link') . " : " . Url::to(['view', 'id' => $model->id], true);
 
         $mms = trim($massage);
@@ -285,5 +300,4 @@ class NcrController extends Controller
         }
         curl_close($chOne);
     }
-
 }
