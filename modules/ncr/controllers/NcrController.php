@@ -133,6 +133,7 @@ class NcrController extends Controller
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
             if ($model->save()) {
+                $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -268,13 +269,17 @@ class NcrController extends Controller
 
         //ข้อคว่าม
         $massage =
-            Yii::t('app', 'เลขที่ NCR') . " : " . $model->ncr_number . "\n" .
-            Yii::t('app', 'วันที่') . " : " .  Yii::$app->formatter->asDate($model->created_date) . "\n" .
-            Yii::t('app', 'ถึงแผนก') . " : " . $model->toDepartment->name . "\n" .
-            Yii::t('app', 'กระบวนการ') . " : " . $model->process . "\n" .
-            Yii::t('app', 'ชื่อสินค้า') . " : " . $model->product_name . "\n" .
-            Yii::t('app', 'สถานะ') . " : " . $model->ncrStatus->name . "\n" .
-            Yii::t('app', 'Link') . " : " . Url::to(['view', 'id' => $model->id], true);
+            '1) ' . Yii::t('app', 'NCR Number') .       " : " . $model->ncr_number . "\n" .
+            '2) ' . Yii::t('app', 'Created Date') .     " : " .  Yii::$app->formatter->asDate($model->created_date) . "\n" .
+            '3) ' . Yii::t('app', 'To Department') .    " : " . $model->toDepartment->name . "\n" .
+            '4) ' . Yii::t('app', 'Process') .          " : " . $model->process . "\n" .
+            '5) ' . Yii::t('app', 'Product Name') .     " : " . $model->product_name . "\n" .
+            '6) ' . Yii::t('app', 'Lot') .              " : " . $model->lot . "\n" .
+            '7) ' . Yii::t('app', 'Production Date') .  " : " . Yii::$app->formatter->asDate($model->production_date) . "\n" .
+            '8) ' . Yii::t('app', 'ชื่อลูกค้า') .           " : " . $model->customer_name . "\n" .
+            '9) ' . Yii::t('app', 'Reporter') .         " : " . $model->reporter->thai_name . "\n" .
+            '10) ' . Yii::t('app', 'สถานะ') .           " : " . $model->ncrStatus->name . "\n" .
+            '11) ' . Yii::t('app', 'URL Link') .        " : " . Url::to(['view', 'id' => $model->id], true);
 
         $mms = trim($massage);
 
