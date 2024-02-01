@@ -3,6 +3,7 @@
 namespace app\modules\ncr\models;
 
 use app\models\Department;
+use app\models\Env;
 use app\models\User;
 use kartik\export\ExportMenu;
 use Yii;
@@ -15,7 +16,7 @@ use yii\helpers\Url;
 
 class Ncr extends \yii\db\ActiveRecord
 {
-    const UPLOAD_FOLDER = 'uploads/ncr/ncr';
+    // const UPLOAD_FOLDER = 'uploads/ncr/ncr';
 
     public function behaviors()
     {
@@ -193,12 +194,12 @@ class Ncr extends \yii\db\ActiveRecord
     //********** Upload Path*/
     public static function getUploadPath()
     {
-        return Yii::getAlias('@webroot') . '/' . self::UPLOAD_FOLDER . '/';
+        return Yii::getAlias('@webroot') . '/' . Env::UPLOAD_FOLDER_NCR . '/';
     }
 
     public static function getUploadUrl()
     {
-        return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/';
+        return Url::base(true) . '/' . Env::UPLOAD_FOLDER_NCR  . '/';
     }
 
     //********** List Downloads */
@@ -273,5 +274,4 @@ class Ncr extends \yii\db\ActiveRecord
     {
         return $this->hasMany(NcrClosing::class, ['ncr_id' => 'id']);
     }
-  
 }
