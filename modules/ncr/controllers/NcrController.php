@@ -133,7 +133,7 @@ class NcrController extends Controller
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
             if ($model->save()) {
-                $this->LineNotify($model);
+                // $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
