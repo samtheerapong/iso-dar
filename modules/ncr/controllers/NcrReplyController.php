@@ -2,6 +2,7 @@
 
 namespace app\modules\ncr\controllers;
 
+use app\models\Env;
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\NcrReply;
 use app\modules\ncr\models\search\NcrReplySearch;
@@ -14,6 +15,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 
 /**
@@ -125,6 +127,7 @@ class NcrReplyController extends Controller
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
             if ($model->save()) {
+                $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -152,6 +155,7 @@ class NcrReplyController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
             $modelNcr->ncr_status_id = 2;
             if ($modelNcr->save() && $model->save()) {
+                $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -279,5 +283,57 @@ class NcrReplyController extends Controller
         } else {
             $this->redirect(['/ncr/ncr-reply/view', 'id' => $id]);
         }
+    }
+
+    //**********  ฟังก์ชันส่ง Line
+    private function LineNotify($model)
+    {
+        // Line Tokens
+        $lineapi = Env::LINE_TOKEN;
+
+        //ข้อคว่าม
+        $massage =
+            "1) " . Yii::t('app', 'สถานะ') .           " : " . $model->ncrs->ncrStatus->name . "\n" .
+            "2) " . Yii::t('app', 'NCR Link') .        " : " . Url::to(['/ncr/ncr/view', 'id' => $model->ncrs->id], true) . "\n" .
+            "3) " . Yii::t('app', 'ผลิตภัณฑ์') .       " : " . $model->concession0->concession_name . "\n" .
+            "4) " . Yii::t('app', 'ประเภทการดำเนินการ') .       " : " . $model->replyType->name . "\n" .
+            "5) " . Yii::t('app', 'จำนวน') .       " : " . $model->quantity . " " . $model->unit . "\n" .
+            "6) " . Yii::t('app', 'วิธีการ') .       " : " . $model->method . "\n" .
+            "7) " . Yii::t('app', 'ผู้ดำเนินการ') .       " : " . $model->operator->thai_name . "\n" .
+            "8) " . Yii::t('app', 'วันที่ดำเนินการ') .       " : " . Yii::$app->formatter->asDate($model->operation_date);
+
+        // Conditional content based on the value of ncrStatus->id
+        if ($model->ncrs->ncrStatus->id == 1) {
+            $massage .= "\n" ."9) " . Yii::t('app', 'Reply') .        " : " . Url::to(['view', 'id' => $model->id], true);
+            $massage .= "\n" ."10) " . Yii::t('app', 'Approve') .     " : " . Url::to(['approve', 'id' => $model->id], true);
+        } elseif ($model->ncrs->ncrStatus->id == 2) {
+            $massage .= "\n" ."10) " . Yii::t('app', 'approve_name') . " : " . $model->approver->thai_name;
+            $massage .= "\n" ."11) " . Yii::t('app', 'approve_date') . " : " . Yii::$app->formatter->asDate($model->approve_date);
+            $massage .= "\n" ."12) " . Yii::t('app', 'Reply') .        " : " . Url::to(['view', 'id' => $model->id], true);
+        }
+
+        $mms = trim($massage);
+
+        //การทำงานของระบบ
+        date_default_timezone_set("Asia/Bangkok");
+        $chOne = curl_init();
+        curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+        curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($chOne, CURLOPT_POST, 1);
+        curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$mms");
+        curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $lineapi . '',);
+        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($chOne);
+        if (curl_error($chOne)) {
+            echo 'error:' . curl_error($chOne);
+        } else {
+            $result_ = json_decode($result, true);
+            echo "status : " . $result_['status'];
+            echo "message : " . $result_['message'];
+        }
+        curl_close($chOne);
     }
 }

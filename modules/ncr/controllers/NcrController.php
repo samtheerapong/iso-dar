@@ -2,6 +2,7 @@
 
 namespace app\modules\ncr\controllers;
 
+use app\models\Env;
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\NcrClosing;
 use app\modules\ncr\models\NcrProtection;
@@ -133,7 +134,7 @@ class NcrController extends Controller
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
             if ($model->save()) {
-                // $this->LineNotify($model);
+                $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -218,7 +219,7 @@ class NcrController extends Controller
                 try {
                     $oldFileName = $file->basename . '.' . $file->extension;
                     $newFileName = md5($file->basename . time()) . '.' . $file->extension;
-                    $file->saveAs(Ncr::UPLOAD_FOLDER . '/' . $model->ref . '/' . $newFileName);
+                    $file->saveAs(Env::UPLOAD_FOLDER_NCR . '/' . $model->ref . '/' . $newFileName);
                     $files[$newFileName] = $oldFileName;
                 } catch (Exception $e) {
                 }
@@ -262,10 +263,10 @@ class NcrController extends Controller
 
 
     //**********  ฟังก์ชันส่ง Line
-    public function LineNotify($model)
+    private function LineNotify($model)
     {
         // Line Tokens
-        $lineapi = "Eon0aRHg9A3Y8j4RH1F1hYvdgGYhhnyiTBfNAKQrDmX";
+        $lineapi = Env::LINE_TOKEN;
 
         //ข้อคว่าม
         $massage =

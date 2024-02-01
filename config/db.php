@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Env;
+
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=iso-dar',
