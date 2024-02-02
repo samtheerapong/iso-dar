@@ -50,11 +50,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <div class="card-body">
-
-
                                 <p class="card-text"><b><?= Yii::t('app', 'Username') ?></b> : <?= Html::encode($model->username) ?></p>
                                 <p class="card-text"><b><?= Yii::t('app', 'Thai Name') ?></b> : <?= Html::encode($model->thai_name) ?></p>
-                                <p class="card-text"><b><?= Yii::t('app', 'Email') ?></b> : <?= \yii\helpers\Html::a($model->email, 'mailto:' . $model->email) ?></p>
+                                <!-- <p class="card-text"><b><?= Yii::t('app', 'Email') ?></b> : <?= \yii\helpers\Html::a($model->email, 'mailto:' . $model->email) ?></p>
                                 <p class="card-text"><b><?= Yii::t('app', 'Department') ?></b> :
                                     <?= $model->department ? '<span class="text" style="color: ' . $model->department->color . ';">' . $model->department->name . '</span>' : ' '; ?>
                                 </p>
@@ -70,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <span class="text" style="color: <?= $model->status === User::STATUS_ACTIVE ? '#1A5D1A' : '#FE0000' ?>;"><?= $model->status === User::STATUS_ACTIVE ? Yii::t('app', 'Active') : Yii::t('app', 'Inactive') ?></span>
                                 </p>
 
-                                <p class="card-text"><b><?= Yii::t('app', 'Created At') ?></b> : <?= Html::encode(Yii::$app->formatter->asDate($model->created_at, 'dd MMMM YYYY')) ?></p>
+                                <p class="card-text"><b><?= Yii::t('app', 'Created At') ?></b> : <?= Html::encode(Yii::$app->formatter->asDate($model->created_at, 'dd MMMM YYYY')) ?></p> -->
 
                             </div>
 
