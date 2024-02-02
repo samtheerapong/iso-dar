@@ -26,26 +26,28 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="card-body">
             <div class="row">
-                <?= $form->field($model, 'ncr_id')->widget(Select2::class, [
-                    'language' => 'th',
-                    'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
-                        return
-                            $dataValue->ncr_number
-                            . ' | ' . $dataValue->process
-                            . ' | ' . $dataValue->product_name
-                            . '  | Lot: ' . $dataValue->lot
-                            . '  | ' . Yii::$app->formatter->asDate($dataValue->production_date);
-                    }),
-                    'options' => [
-                        'class' => 'form-control',
-                        'placeholder' => Yii::t('app', 'Select...'),
-                        'disabled' => !$model->isNewRecord, // ถ้าไม่ใช่การเพิ่มข้อมูลใหม่ให้ disable
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]) ?>
-
+                <div class="col-md-12">
+                    <?= $form->field($model, 'ncr_id')->widget(Select2::class, [
+                        'language' => 'th',
+                        'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
+                            return
+                                $dataValue->ncr_number
+                                . ' | ' . $dataValue->process
+                                . ' | ' . $dataValue->product_name
+                                . '  | Lot: ' . $dataValue->lot
+                                . '  | ' . Yii::$app->formatter->asDate($dataValue->production_date);
+                        }),
+                        'options' => [
+                            'class' => 'form-control',
+                            'placeholder' => Yii::t('app', 'Select...'),
+                            'disabled' => !$model->isNewRecord, // ถ้าไม่ใช่การเพิ่มข้อมูลใหม่ให้ disable
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]) ?>
+                </div>
+                
                 <div class="col-md-3">
                     <?= $form->field($model, 'reply_type_id')->widget(Select2::class, [
                         'data' => ArrayHelper::map(NcrReplyType::find()->where(['active' => 1])->all(), 'id', 'name'),
