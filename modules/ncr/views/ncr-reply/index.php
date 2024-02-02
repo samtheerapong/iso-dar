@@ -21,12 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
 
         <p style="text-align: right;">
-        <?= Html::a('<i class="fa-solid fa-download"></i> ', ['/ncr/export/export-reply'], ['class' => 'btn btn-primary btn-sm']) ?>
-            <?= Html::a('<i class="fa-solid fa-location-crosshairs"></i> ', ['/ncr/ncr/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
-            <?= Html::a('<i class="fa-solid fa-reply"></i> ', ['/ncr/ncr-reply/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
-            <?= Html::a('<i class="fa-solid fa-shield"></i> ', ['/ncr/ncr-protection/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
-            <?= Html::a('<i class="fa-solid fa-circle-check"></i> ', ['/ncr/ncr-closing/index'], ['class' => 'btn btn-secondary btn-sm']) ?>
-            <?= Html::a('<i class="fa fa-refresh"></i> ', ['index'], ['class' => 'btn btn-warning btn-sm']) ?>
+        <?= Html::a('<i class="fa-solid fa-location-crosshairs"></i> ', ['/ncr/ncr/index'], ['class' => 'btn btn-secondary btn-sm', 'title' => Yii::t('app', 'NCR'), 'data-toggle' => 'tooltip']) ?>
+            <?= Html::a('<i class="fa-solid fa-reply"></i> ', ['/ncr/ncr-reply/index'], ['class' => 'btn btn-secondary btn-sm', 'title' => Yii::t('app', 'Reply'), 'data-toggle' => 'tooltip']) ?>
+            <?= Html::a('<i class="fa-solid fa-shield"></i> ', ['/ncr/ncr-protection/index'], ['class' => 'btn btn-secondary btn-sm', 'title' => Yii::t('app', 'Protection'), 'data-toggle' => 'tooltip']) ?>
+            <?= Html::a('<i class="fa-solid fa-circle-check"></i> ', ['/ncr/ncr-closing/index'], ['class' => 'btn btn-secondary btn-sm', 'title' => Yii::t('app', 'Closing'), 'data-toggle' => 'tooltip']) ?>
+            <?= Html::a('<i class="fa fa-refresh"></i>', ['index'], ['class' => 'btn btn-warning btn-sm', 'title' => Yii::t('app', 'Refresh'), 'data-toggle' => 'tooltip']) ?>
+            <?= Html::a('<i class="fa-solid fa-download"></i> ', ['/ncr/export/export-reply'], ['class' => 'btn btn-danger btn-sm', 'title' => Yii::t('app', 'Export'), 'data-toggle' => 'tooltip']) ?>
         </p>
     </div>
 
