@@ -58,7 +58,7 @@ use yii\widgets\ActiveForm;
                     ]);
                     ?>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <?= $form->field($model, 'concession')->widget(Select2::class, [
                         'data' => ArrayHelper::map(NcrConcession::find()->where(['active' => 1])->all(), 'id', 'concession_name'),
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
@@ -77,7 +77,7 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'unit')->textInput(['maxlength' => true]) ?>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <?= $form->field($model, 'operation_name')->widget(Select2::class, [
                         'data' => ArrayHelper::map(User::find()->where(['status' => 10, 'role_id' => [3, 4, 5, 6, 10]])->all(), 'id', 'thai_name'),
                         // 'options' => ['placeholder' => Yii::t('app', 'Select...')],
@@ -104,11 +104,11 @@ use yii\widgets\ActiveForm;
                     ); ?>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <?= $form->field($model, 'method')->textarea(['rows' => 2]) ?>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <?= $form->field($model, 'cause')->textarea(['rows' => 2]) ?>
                 </div>
 
