@@ -2,6 +2,7 @@
 
 namespace app\modules\ncr\controllers;
 
+use app\models\Env;
 use app\modules\ncr\models\Ncr;
 use app\modules\ncr\models\NcrClosing;
 use app\modules\ncr\models\NcrProtection;
@@ -28,12 +29,26 @@ class NcrController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
-            ]
+                'access' => [
+                    'class' => \yii\filters\AccessControl::class,
+                    'only' => ['create', 'update', 'delete', 'view'],
+                    'rules' => [
+
+                        // allow authenticated users
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                        // everything else is denied
+                    ],
+                ],
+            ],
+
         );
     }
 
@@ -70,10 +85,10 @@ class NcrController extends Controller
             if ($model->load($this->request->post())) {
 
                 $model->ncr_number = AutoNumber::generate('N-' . (date('y') + 43) . date('m') . '-???'); // Auto Number EX N-6612-0001
-                
+
                 $model->ref =  $ref;
                 $this->CreateDir($model->ref); // create Directory 6701-12
-                
+
                 $model->docs = $this->uploadMultipleFile($model); // เรียกใช้ Function uploadMultipleFile ใน Controller
 
                 $model->ncr_status_id = $defaultValue;
@@ -90,6 +105,7 @@ class NcrController extends Controller
                         $ModelProtection->save() &&
                         $ModelClosing->save()
                     ) {
+                        $this->LineNotify($model);
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
                 }
@@ -118,6 +134,7 @@ class NcrController extends Controller
             $model->docs = $this->uploadMultipleFile($model, $tempDocs);
 
             if ($model->save()) {
+                $this->LineNotify($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -155,25 +172,25 @@ class NcrController extends Controller
         ]);
     }
 
-     /***************** action Deletefile ******************/
-     public function actionDeletefile($id, $field, $fileName)
-     {
-         $status = ['success' => false];
-         if (in_array($field, ['docs'])) {
-             $model = $this->findModel($id);
-             $files =  Json::decode($model->{$field});
-             if (array_key_exists($fileName, $files)) {
-                 if ($this->deleteFile('file', $model->ref, $fileName)) {
-                     $status = ['success' => true];
-                     unset($files[$fileName]);
-                     $model->{$field} = Json::encode($files);
-                     $model->save();
-                 }
-             }
-         }
-         echo json_encode($status);
-     }
-        
+    /***************** action Deletefile ******************/
+    public function actionDeletefile($id, $field, $fileName)
+    {
+        $status = ['success' => false];
+        if (in_array($field, ['docs'])) {
+            $model = $this->findModel($id);
+            $files =  Json::decode($model->{$field});
+            if (array_key_exists($fileName, $files)) {
+                if ($this->deleteFile('file', $model->ref, $fileName)) {
+                    $status = ['success' => true];
+                    unset($files[$fileName]);
+                    $model->{$field} = Json::encode($files);
+                    $model->save();
+                }
+            }
+        }
+        echo json_encode($status);
+    }
+
     /***************** deleteFile ******************/
     private function deleteFile($type = 'file', $ref, $fileName)
     {
@@ -202,7 +219,7 @@ class NcrController extends Controller
                 try {
                     $oldFileName = $file->basename . '.' . $file->extension;
                     $newFileName = md5($file->basename . time()) . '.' . $file->extension;
-                    $file->saveAs(Ncr::UPLOAD_FOLDER . '/' . $model->ref . '/' . $newFileName);
+                    $file->saveAs(Env::UPLOAD_FOLDER_NCR . '/' . $model->ref . '/' . $newFileName);
                     $files[$newFileName] = $oldFileName;
                 } catch (Exception $e) {
                 }
@@ -244,22 +261,26 @@ class NcrController extends Controller
     }
 
 
-    
+
     //**********  ฟังก์ชันส่ง Line
-    public function LineNotify($model)
+    private function LineNotify($model)
     {
         // Line Tokens
-        $lineapi = "Eon0aRHg9A3Y8j4RH1F1hYvdgGYhhnyiTBfNAKQrDmX";
+        $lineapi = Env::LINE_TOKEN;
 
         //ข้อคว่าม
         $massage =
-            Yii::t('app', 'เลขที่ NCR') . " : " . $model->ncr_number . "\n" .
-            Yii::t('app', 'วันที่') . " : " .  Yii::$app->formatter->asDate($model->created_date) . "\n" .
-            Yii::t('app', 'ถึงแผนก') . " : " . $model->toDepartment->department_code . "\n" .
-            Yii::t('app', 'กระบวนการ') . " : " . $model->ncrProcess->process_name . "\n" .
-            Yii::t('app', 'ชื่อสินค้า') . " : " . $model->product_name . "\n" .
-            Yii::t('app', 'สถานะ') . " : " . $model->ncrStatus->status_name . "\n" .
-            Yii::t('app', 'Link') . " : " . Url::to(['view', 'id' => $model->id], true);
+            '1) ' . Yii::t('app', 'NCR Number') .       " : " . $model->ncr_number . "\n" .
+            '2) ' . Yii::t('app', 'Created Date') .     " : " .  Yii::$app->formatter->asDate($model->created_date) . "\n" .
+            '3) ' . Yii::t('app', 'To Department') .    " : " . $model->toDepartment->name . "\n" .
+            '4) ' . Yii::t('app', 'Process') .          " : " . $model->process . "\n" .
+            '5) ' . Yii::t('app', 'Product Name') .     " : " . $model->product_name . "\n" .
+            '6) ' . Yii::t('app', 'Lot') .              " : " . $model->lot . "\n" .
+            '7) ' . Yii::t('app', 'Production Date') .  " : " . Yii::$app->formatter->asDate($model->production_date) . "\n" .
+            '8) ' . Yii::t('app', 'ชื่อลูกค้า') .           " : " . $model->customer_name . "\n" .
+            '9) ' . Yii::t('app', 'Reporter') .         " : " . $model->reporter->thai_name . "\n" .
+            '10) ' . Yii::t('app', 'สถานะ') .           " : " . $model->ncrStatus->name . "\n" .
+            '11) ' . Yii::t('app', 'URL Link') .        " : " . Url::to(['view', 'id' => $model->id], true);
 
         $mms = trim($massage);
 
@@ -285,5 +306,4 @@ class NcrController extends Controller
         }
         curl_close($chOne);
     }
-
 }

@@ -26,26 +26,28 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="card-body">
             <div class="row">
-                <?= $form->field($model, 'ncr_id')->widget(Select2::class, [
-                    'language' => 'th',
-                    'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
-                        return
-                            $dataValue->ncr_number
-                            . ' | ' . $dataValue->process
-                            . ' | ' . $dataValue->product_name
-                            . '  | Lot: ' . $dataValue->lot
-                            . '  | ' . Yii::$app->formatter->asDate($dataValue->production_date);
-                    }),
-                    'options' => [
-                        'class' => 'form-control',
-                        'placeholder' => Yii::t('app', 'Select...'),
-                        'disabled' => !$model->isNewRecord, // ถ้าไม่ใช่การเพิ่มข้อมูลใหม่ให้ disable
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]) ?>
-
+                <div class="col-md-12">
+                    <?= $form->field($model, 'ncr_id')->widget(Select2::class, [
+                        'language' => 'th',
+                        'data' => ArrayHelper::map(Ncr::find()->where(['ncr_status_id' => [1, 2]])->all(), 'id', function ($dataValue, $defaultValue) {
+                            return
+                                $dataValue->ncr_number
+                                . ' | ' . $dataValue->process
+                                . ' | ' . $dataValue->product_name
+                                . '  | Lot: ' . $dataValue->lot
+                                . '  | ' . Yii::$app->formatter->asDate($dataValue->production_date);
+                        }),
+                        'options' => [
+                            'class' => 'form-control',
+                            'placeholder' => Yii::t('app', 'Select...'),
+                            'disabled' => !$model->isNewRecord, // ถ้าไม่ใช่การเพิ่มข้อมูลใหม่ให้ disable
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]) ?>
+                </div>
+                
                 <div class="col-md-3">
                     <?= $form->field($model, 'reply_type_id')->widget(Select2::class, [
                         'data' => ArrayHelper::map(NcrReplyType::find()->where(['active' => 1])->all(), 'id', 'name'),
@@ -56,7 +58,7 @@ use yii\widgets\ActiveForm;
                     ]);
                     ?>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <?= $form->field($model, 'concession')->widget(Select2::class, [
                         'data' => ArrayHelper::map(NcrConcession::find()->where(['active' => 1])->all(), 'id', 'concession_name'),
                         'options' => ['placeholder' => Yii::t('app', 'Select...')],
@@ -75,7 +77,7 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'unit')->textInput(['maxlength' => true]) ?>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <?= $form->field($model, 'operation_name')->widget(Select2::class, [
                         'data' => ArrayHelper::map(User::find()->where(['status' => 10, 'role_id' => [3, 4, 5, 6, 10]])->all(), 'id', 'thai_name'),
                         // 'options' => ['placeholder' => Yii::t('app', 'Select...')],
@@ -102,11 +104,11 @@ use yii\widgets\ActiveForm;
                     ); ?>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <?= $form->field($model, 'method')->textarea(['rows' => 2]) ?>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <?= $form->field($model, 'cause')->textarea(['rows' => 2]) ?>
                 </div>
 
